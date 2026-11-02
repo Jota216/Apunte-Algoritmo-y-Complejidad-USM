@@ -1,0 +1,4096 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Compendio Completo de Ejercicios Resueltos - AlgoCo INF-221</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 10mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: Arial, sans-serif;
+        font-size: 7.5pt;
+      }
+    }
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 8.5pt;
+      line-height: 1.25;
+      color: #111;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Encabezado principal del documento */
+    .doc-header {
+      border-bottom: 2px solid #222;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+    }
+    .doc-header h1 {
+      font-size: 13pt;
+      font-weight: 800;
+      margin: 0 0 2px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #000;
+    }
+    .doc-header .subtitle {
+      font-size: 8.8pt;
+      font-weight: 600;
+      color: #333;
+      margin: 0 0 2px 0;
+    }
+    .doc-header .meta-bar {
+      font-size: 7.8pt;
+      color: #444;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Índice General Temático */
+    .toc-section {
+      background: #fafafa;
+      border: 1px solid #888;
+      padding: 6px 8px;
+      margin-bottom: 10px;
+      page-break-after: auto;
+    }
+    .toc-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid #555;
+      padding-bottom: 2px;
+      margin-bottom: 6px;
+      color: #000;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      font-size: 7.4pt;
+      line-height: 1.2;
+    }
+    .toc-group {
+      background: #fff;
+      border: 1px solid #bbb;
+      padding: 4px 6px;
+    }
+    .toc-group-title {
+      font-weight: 700;
+      font-size: 7.6pt;
+      border-bottom: 1px dashed #999;
+      padding-bottom: 1px;
+      margin-bottom: 3px;
+      color: #111;
+    }
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5px;
+    }
+    .toc-item-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-right: 4px;
+    }
+    .toc-item-origin {
+      font-family: monospace;
+      font-size: 7pt;
+      color: #444;
+      white-space: nowrap;
+    }
+
+    /* Contenedor en 2 columnas */
+    .two-columns {
+      column-count: 2;
+      column-gap: 8mm;
+    }
+
+    /* Separadores de Tema */
+    .theme-header {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      background: #111;
+      color: #fff;
+      padding: 4px 7px;
+      margin: 10px 0 6px 0;
+      border-radius: 2px;
+    }
+    .theme-header h2 {
+      font-size: 9.5pt;
+      font-weight: 700;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .theme-header .desc {
+      font-size: 7.3pt;
+      color: #e0e0e0;
+      margin-top: 1px;
+    }
+
+    /* Tarjeta de Ejercicio individual */
+    .exercise-card {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      border: 1px solid #777;
+      margin-bottom: 8px;
+      background: #fff;
+    }
+
+    /* Cabecera del Ejercicio */
+    .ex-header {
+      background: #ededed;
+      border-bottom: 1px solid #777;
+      padding: 3px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .ex-title-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+    .ex-num {
+      font-weight: 800;
+      font-size: 8.8pt;
+      color: #000;
+    }
+    .ex-title {
+      font-weight: 700;
+      font-size: 8.6pt;
+      color: #111;
+    }
+    .ex-badge {
+      font-size: 7.0pt;
+      font-weight: 600;
+      padding: 1px 4px;
+      border: 1px solid #555;
+      background: #e2e2e2;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .badge-agent {
+      background: #d0d0d0;
+      border-color: #222;
+      font-weight: 700;
+    }
+
+    /* Contexto y Técnica */
+    .ex-body {
+      padding: 5px 6px;
+    }
+    .ex-info {
+      font-size: 7.9pt;
+      line-height: 1.22;
+      margin-bottom: 4px;
+      color: #222;
+    }
+    .ex-info strong {
+      color: #000;
+    }
+    .ex-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.4pt;
+      color: #333;
+      background: #f8f8f8;
+      border: 1px solid #ddd;
+      padding: 2px 5px;
+      margin-bottom: 4px;
+    }
+
+    /* Bloque de Código C++ */
+    .ex-code {
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 7.2pt;
+      line-height: 1.16;
+      background: #f7f7f7;
+      border: 1px solid #bbb;
+      padding: 4px 5px;
+      margin: 0;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-break: break-all;
+      tab-size: 2;
+      color: #111;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO GENERAL -->
+  <div class="doc-header">
+    <h1>Compendio de Ejercicios Resueltos de Listados y Certámenes</h1>
+    <div class="subtitle">INF-221 Algoritmos y Complejidad | Universidad Técnica Federico Santa María</div>
+    <div class="meta-bar">
+      <span><strong>Contenido:</strong> 61 Problemas Completos (32 Listados 1-4 + 29 Certámenes 2024-02 a 2026-01)</span>
+      <span><strong>Edición Examen:</strong> Código C++ con Fast I/O, Análisis Asintótico y Soluciones Explicadas</span>
+    </div>
+  </div>
+
+  <!-- ÍNDICE GENERAL TEMÁTICO -->
+  <div class="toc-section">
+    <div class="toc-title">Índice General Temático (61 Problemas Resueltos)</div>
+    <div class="toc-grid">
+      <div class="toc-group">
+        <div class="toc-group-title">TEMA 1 (16 probs)</div>
+        <div class="toc-item">
+          <span class="toc-item-title">#1 Bungee Builder</span>
+          <span class="toc-item-origin">Listado 1 #1</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#2 Compound Words</span>
+          <span class="toc-item-origin">Listado 1 #2</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#3 Game of Throwns</span>
+          <span class="toc-item-origin">Listado 1 #3</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#4 Integer Lists</span>
+          <span class="toc-item-origin">Listado 1 #4</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#5 Saving Princess Peach</span>
+          <span class="toc-item-origin">Listado 1 #5</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#6 Sim</span>
+          <span class="toc-item-origin">Listado 1 #6</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#7 Srednji</span>
+          <span class="toc-item-origin">Listado 1 #7</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#8 Stock Prices</span>
+          <span class="toc-item-origin">Listado 1 #8</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#9 Juez de Gato</span>
+          <span class="toc-item-origin">Certamen 2024-02 #H*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#10 Plagio</span>
+          <span class="toc-item-origin">Certamen 2024-02 #I*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#11 Flujos Parametrizados en Grafos</span>
+          <span class="toc-item-origin">Certamen 2025-01 #A*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#12 ParenTalk</span>
+          <span class="toc-item-origin">Certamen 2025-01 #E*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#13 Slimes</span>
+          <span class="toc-item-origin">Certamen 2025-02 #A*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#14 Convolucional</span>
+          <span class="toc-item-origin">Certamen 2025-02 #G*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#15 SETeando Colores</span>
+          <span class="toc-item-origin">Certamen 2025-02 #H*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#16 El Registro Oficial</span>
+          <span class="toc-item-origin">Certamen 2026-01 #D*</span>
+        </div>
+      </div>
+      <div class="toc-group">
+        <div class="toc-group-title">TEMA 2 (10 probs)</div>
+        <div class="toc-item">
+          <span class="toc-item-title">#17 A Classy Problem</span>
+          <span class="toc-item-origin">Listado 2 #1</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#18 Firefly</span>
+          <span class="toc-item-origin">Listado 2 #2</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#19 Height Ordering</span>
+          <span class="toc-item-origin">Listado 2 #3</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#20 Mali</span>
+          <span class="toc-item-origin">Listado 2 #4</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#21 Music Your Way</span>
+          <span class="toc-item-origin">Listado 2 #5</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#22 Room Painting</span>
+          <span class="toc-item-origin">Listado 2 #6</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#23 Sort of Sorting</span>
+          <span class="toc-item-origin">Listado 2 #7</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#24 Synchronizing Lists</span>
+          <span class="toc-item-origin">Listado 2 #8</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#25 Sebastián Tramposo</span>
+          <span class="toc-item-origin">Certamen 2024-02 #C*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#26 Torneo de Tenis de Mesa UTFSM</span>
+          <span class="toc-item-origin">Certamen 2025-02 #D*</span>
+        </div>
+      </div>
+      <div class="toc-group">
+        <div class="toc-group-title">TEMA 3 (12 probs)</div>
+        <div class="toc-item">
+          <span class="toc-item-title">#27 Dobra</span>
+          <span class="toc-item-origin">Listado 3 #1</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#28 Fooling Around</span>
+          <span class="toc-item-origin">Listado 3 #2</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#29 Jumbled Communication</span>
+          <span class="toc-item-origin">Listado 3 #3</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#30 N-Puzzle</span>
+          <span class="toc-item-origin">Listado 3 #4</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#31 Paintings</span>
+          <span class="toc-item-origin">Listado 3 #5</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#32 Square Deal</span>
+          <span class="toc-item-origin">Listado 3 #6</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#33 Tautology</span>
+          <span class="toc-item-origin">Listado 3 #7</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#34 Veci</span>
+          <span class="toc-item-origin">Listado 3 #8</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#35 Anti-Hacking</span>
+          <span class="toc-item-origin">Certamen 2024-02 #D*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#36 Uno más</span>
+          <span class="toc-item-origin">Certamen 2024-02 #G*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#37 Championship</span>
+          <span class="toc-item-origin">Certamen 2025-02 #E*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#38 La Guardia de la Noche en Casa Central</span>
+          <span class="toc-item-origin">Certamen 2026-01 #B*</span>
+        </div>
+      </div>
+      <div class="toc-group">
+        <div class="toc-group-title">TEMA 4 (11 probs)</div>
+        <div class="toc-item">
+          <span class="toc-item-title">#39 Ants</span>
+          <span class="toc-item-origin">Listado 4 #1</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#40 Assigning Workstations</span>
+          <span class="toc-item-origin">Listado 4 #2</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#41 Birds on a Wire</span>
+          <span class="toc-item-origin">Listado 4 #3</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#42 Boiling Vegetables</span>
+          <span class="toc-item-origin">Listado 4 #4</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#43 Frosh Week</span>
+          <span class="toc-item-origin">Listado 4 #5</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#44 Shopaholic</span>
+          <span class="toc-item-origin">Listado 4 #7</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#45 Square Peg in a Round Hole</span>
+          <span class="toc-item-origin">Listado 4 #8</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#46 Viaje Intergaláctico</span>
+          <span class="toc-item-origin">Certamen 2024-02 #F*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#47 Programación de Hechizos en el Ministerio de Magia</span>
+          <span class="toc-item-origin">Certamen 2025-02 #B*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#48 Jaime vs Bastián</span>
+          <span class="toc-item-origin">Certamen 2026-01 #A*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#49 El Mandaloriano y las Operaciones de la Nueva República</span>
+          <span class="toc-item-origin">Certamen 2026-01 #E*</span>
+        </div>
+      </div>
+      <div class="toc-group">
+        <div class="toc-group-title">TEMA 5 (6 probs)</div>
+        <div class="toc-item">
+          <span class="toc-item-title">#50 El oso negro</span>
+          <span class="toc-item-origin">Certamen 2024-02 #A*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#51 Escaleras para salvar el ramo</span>
+          <span class="toc-item-origin">Certamen 2024-02 #B*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#52 Calle Mágica</span>
+          <span class="toc-item-origin">Certamen 2024-02 #J*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#53 Construyendo Antenas Telefónicas</span>
+          <span class="toc-item-origin">Certamen 2025-01 #D*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#54 Huevito Rey</span>
+          <span class="toc-item-origin">Certamen 2025-02 #F*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#55 Alquimia</span>
+          <span class="toc-item-origin">Certamen 2025-02 #I*</span>
+        </div>
+      </div>
+      <div class="toc-group">
+        <div class="toc-group-title">TEMA 6 (6 probs)</div>
+        <div class="toc-item">
+          <span class="toc-item-title">#56 Lost Map</span>
+          <span class="toc-item-origin">Listado 4 #6</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#57 Juego del Destino</span>
+          <span class="toc-item-origin">Certamen 2024-02 #E*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#58 Red de la Resistencia</span>
+          <span class="toc-item-origin">Certamen 2025-01 #B*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#59 Roberto El Mago</span>
+          <span class="toc-item-origin">Certamen 2025-01 #C*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#60 Log Pose</span>
+          <span class="toc-item-origin">Certamen 2025-02 #C*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#61 La Cadena de los Rumores</span>
+          <span class="toc-item-origin">Certamen 2026-01 #C*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL EN 2 COLUMNAS -->
+  <div class="two-columns">
+    <div class="theme-header">
+      <h2>TEMA 1: Simulación, Pilas, Colas, Deques, Listas y Tablas Hash</h2>
+      <div class="desc">Estructuras de datos elementales (pilas, colas, dobles colas, listas enlazadas, mapas y tablas hash) para simulación paso a paso y conteo eficiente.</div>
+    </div>
+    <div class="exercise-card" id="L1_1">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#1</span>
+          <span class="ex-title">Bungee Builder</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #1</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen n montañas alineadas con alturas h_i (1 &lt;= n &lt;= 10^6). Se instala un puente de bungee entre dos picos p y q (p &lt; q). La caída libre es min(h_p, h_q) - min_{p &lt; k &lt; q}(h_k). Si entremedio hay montañas tan altas o más que los extremos, o no hay valle, el salto no es viable. Calcular la máxima altura de salto en la cordillera.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Pila Monótona / Barrido por extremos. Se identifica el pico más alto absoluto y se procesa hacia la izquierda y derecha manteniendo una pila con alturas decrecientes y valles intermedios para maximizar la caída en O(N).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+// Pila de pares: (altura_montaña, salto_acumulado_desde_el_valle)
+int salto_max = 0;
+vector&lt;int&gt; cerros;
+stack&lt;pair&lt;int,int&gt;&gt; s;
+
+void calcularSalto(int i) {
+    int altura_salto_max = 0;
+    // Si la montaña actual es más alta que la del tope, calculamos el salto posible
+    while (!s.empty() &amp;&amp; cerros[i] &gt;= s.top().first) {
+        altura_salto_max = max(cerros[i] - s.top().first + s.top().second, altura_salto_max);
+        s.pop();
+    }
+    s.push({cerros[i], altura_salto_max});
+    salto_max = max(salto_max, altura_salto_max);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    cerros.resize(n);
+    int max_alt = -1, max_pos = 0;
+    for (int i = 0; i &lt; n; i++) {
+        cin &gt;&gt; cerros[i];
+        if (cerros[i] &gt; max_alt) {
+            max_alt = cerros[i];
+            max_pos = i;
+        }
+    }
+    // Barrido hacia la izquierda desde el pico global
+    s.push({max_alt, 0});
+    for (int i = max_pos - 1; i &gt;= 0; i--) calcularSalto(i);
+
+    // Vaciar y barrido hacia la derecha desde el pico global
+    while (!s.empty()) s.pop();
+    s.push({max_alt, 0});
+    for (int i = max_pos + 1; i &lt; n; i++) calcularSalto(i);
+
+    cout &lt;&lt; salto_max &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L1_2">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#2</span>
+          <span class="ex-title">Compound Words</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #2</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dada una lista de palabras en minúsculas en orden alfabético, encontrar todas las palabras compuestas únicas ordenadas alfabéticamente que puedan formarse concatenando exactamente dos palabras distintas de la lista.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Tablas Hash / std::set. Se almacenan todas las palabras leídas en un vector y en un std::set. Se prueban todos los pares i != j formando w_i + w_j, guardándolas en un set ordenado para eliminar duplicados y ordenar automáticamente.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N^2 * L)</span>
+          <span><strong>Espacio:</strong> O(N * L)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    set&lt;string&gt; cws;
+    vector&lt;string&gt; ws;
+    string w;
+    while (cin &gt;&gt; w) ws.push_back(w);
+
+    int n = ws.size();
+    // Probar todas las combinaciones de pares de palabras distintas
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; n; j++) {
+            if (i == j) continue;
+            cws.insert(ws[i] + ws[j]); // std::set garantiza unicidad y orden lexicográfico
+        }
+    }
+    for (const string&amp; s : cws) cout &lt;&lt; s &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L1_3">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#3</span>
+          <span class="ex-title">Game of Throwns</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #3</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> n niños (0 a n-1) en ronda se lanzan un huevo. Se dan k comandos: un entero d lanza el huevo d posiciones en la ronda (positivo horario, negativo antihorario); 'undo m' deshace los últimos m lanzamientos. Determinar la posición final del huevo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Simulación con Pila (std::vector). Cada lanzamiento exitoso empuja la posición absoluta a una pila. El comando 'undo m' hace m pops. El operador módulo `(pos % n + n) % n` maneja giros negativos.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(K)</span>
+          <span><strong>Espacio:</strong> O(K)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, k;
+    if (!(cin &gt;&gt; n &gt;&gt; k)) return 0;
+    vector&lt;int&gt; history;
+    history.push_back(0); // Posición inicial: niño 0
+
+    for (int i = 0; i &lt; k; i++) {
+        string s;
+        cin &gt;&gt; s;
+        if (s == "undo") {
+            int m;
+            cin &gt;&gt; m;
+            while (m-- &amp;&amp; history.size() &gt; 1) history.pop_back(); // Deshacer m pasos
+        } else {
+            int throw_dist = stoi(s);
+            int new_pos = (history.back() + throw_dist) % n;
+            if (new_pos &lt; 0) new_pos += n; // Corrección para residuos negativos
+            history.push_back(new_pos);
+        }
+    }
+    cout &lt;&lt; history.back() &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L1_4">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#4</span>
+          <span class="ex-title">Integer Lists</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #4</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Interpretar un programa en lenguaje BAPC sobre una lista de números. 'R' invierte el orden de la lista, 'D' descarta el primer elemento. Si se aplica 'D' sobre una lista vacía, se debe reportar 'error'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Doble Cola (std::deque) con bandera de reversa. Invertir la lista se simula alternando un booleano `rev` en O(1). 'D' hace `pop_front` si `!rev`, o `pop_back` si `rev`. Al final se imprime en la dirección correspondiente.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(|P| + N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+void solve() {
+    string p; cin &gt;&gt; p;
+    int n; cin &gt;&gt; n;
+    string arr_str; cin &gt;&gt; arr_str;
+
+    deque&lt;int&gt; dq;
+    stringstream ss(arr_str);
+    char ch;
+    int val;
+    ss &gt;&gt; ch; // descartar '['
+    for (int i = 0; i &lt; n; i++) {
+        ss &gt;&gt; val;
+        dq.push_back(val);
+        if (i &lt; n - 1) ss &gt;&gt; ch; // descartar ','
+    }
+
+    bool rev = false, error = false;
+    for (char c : p) {
+        if (c == 'R') {
+            rev = !rev; // O(1) en vez de invertir el arreglo
+        } else if (c == 'D') {
+            if (dq.empty()) { error = true; break; }
+            if (rev) dq.pop_back();
+            else dq.pop_front();
+        }
+    }
+
+    if (error) {
+        cout &lt;&lt; "error\n";
+    } else {
+        cout &lt;&lt; "[";
+        while (!dq.empty()) {
+            if (!rev) {
+                cout &lt;&lt; dq.front();
+                dq.pop_front();
+            } else {
+                cout &lt;&lt; dq.back();
+                dq.pop_back();
+            }
+            if (!dq.empty()) cout &lt;&lt; ",";
+        }
+        cout &lt;&lt; "]\n";
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    if (cin &gt;&gt; t) while (t--) solve();
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L1_5">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#5</span>
+          <span class="ex-title">Saving Princess Peach</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #5</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Mario debe rescatar a Peach y recordar los N obstáculos del camino (numerados 0 a N-1). Se le dan Y observaciones de obstáculos vistos (con posibles duplicados). Imprimir todos los obstáculos que Mario NO vio y el total de obstáculos distintos que sí vio.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Control de visitados con std::vector&lt;bool&gt; / std::set. Marcar en un arreglo booleano los índices observados. Recorrer de 0 a N-1 imprimiendo los índices no visitados.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N + Y)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, y;
+    if (!(cin &gt;&gt; n &gt;&gt; y)) return 0;
+    vector&lt;bool&gt; seen(n, false);
+    for (int i = 0; i &lt; y; i++) {
+        int obs;
+        cin &gt;&gt; obs;
+        if (obs &gt;= 0 &amp;&amp; obs &lt; n) seen[obs] = true;
+    }
+    int distinct_seen = 0;
+    for (int i = 0; i &lt; n; i++) {
+        if (seen[i]) distinct_seen++;
+        else cout &lt;&lt; i &lt;&lt; "\n"; // Obstáculos olvidados
+    }
+    cout &lt;&lt; "Mario got " &lt;&lt; distinct_seen &lt;&lt; " of the dangerous obstacles.\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L1_6">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#6</span>
+          <span class="ex-title">Sim</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #6</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Simulación de un editor de texto ante teclas especiales: '[' mueve el cursor al inicio del texto (Home), ']' lo mueve al final (End), '&lt;' elimina el carácter anterior al cursor (Backspace). Cadena de hasta 10^6 caracteres.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Lista Doblemente Enlazada (`std::list&lt;char&gt;`) con iterador de cursor. Insertar caracteres antes del cursor y borrar con `erase` toma O(1) tiempo por operación, evitando reubicaciones en memoria de std::string.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(|S|)</span>
+          <span><strong>Espacio:</strong> O(|S|)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;list&gt;
+using namespace std;
+
+void solve() {
+    string line;
+    if (!getline(cin, line)) return;
+    list&lt;char&gt; text;
+    auto it = text.end(); // El cursor comienza al final
+
+    for (char c : line) {
+        if (c == '[') {
+            it = text.begin(); // Home: cursor al inicio
+        } else if (c == ']') {
+            it = text.end();   // End: cursor al final
+        } else if (c == '&lt;') {
+            if (it != text.begin()) {
+                auto to_erase = prev(it);
+                text.erase(to_erase); // Backspace: borra carácter previo
+            }
+        } else {
+            text.insert(it, c); // Inserta carácter en la posición del cursor en O(1)
+        }
+    }
+    for (char c : text) cout &lt;&lt; c;
+    cout &lt;&lt; "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    if (cin &gt;&gt; t) {
+        string dummy;
+        getline(cin, dummy);
+        while (t--) solve();
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L1_7">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#7</span>
+          <span class="ex-title">Srednji</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #7</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se da una permutación de n enteros de 1 a n y un valor B. Contar la cantidad de subarreglos contiguos de longitud impar que tengan al número B como su mediana.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Prefix Sums Relativos + Hash Map / Vector de frecuencias. Reemplazar cada valor x: +1 si x &gt; B, -1 si x &lt; B, 0 si x == B. Se calculan las sumas acumuladas a la derecha de B y se cuenta cuántas veces cada suma ocurre. Luego se emparejan con sumas acumuladas a la izquierda para que sumen 0.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, b;
+    if (!(cin &gt;&gt; n &gt;&gt; b)) return 0;
+    vector&lt;int&gt; a(n);
+    int b_pos = -1;
+    for (int i = 0; i &lt; n; i++) {
+        cin &gt;&gt; a[i];
+        if (a[i] == b) b_pos = i;
+    }
+
+    // frequencies de balances hacia la derecha (offset n para evitar índices negativos)
+    vector&lt;int&gt; freq(2 * n + 1, 0);
+    int sum = 0;
+    freq[n]++; // Balance 0 inicial en la posición de b
+    for (int i = b_pos + 1; i &lt; n; i++) {
+        sum += (a[i] &gt; b) ? 1 : -1;
+        freq[sum + n]++;
+    }
+
+    long long count = 0;
+    sum = 0;
+    // Emparejar desde b hacia la izquierda
+    for (int i = b_pos; i &gt;= 0; i--) {
+        if (i &lt; b_pos) sum += (a[i] &gt; b) ? 1 : -1;
+        // Para que la mediana sea B, el balance total debe ser 0: sum_der == -sum_izq
+        count += freq[-sum + n];
+    }
+
+    cout &lt;&lt; count &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L1_8">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#8</span>
+          <span class="ex-title">Stock Prices</span>
+        </div>
+        <span class="ex-badge ">Listado 1 #8</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Libro de órdenes de bolsa. Se introducen órdenes 'buy' (compra) y 'sell' (venta) con precio y volumen. Si buy_price &gt;= sell_price, se ejecutan compras al sell_price. En cada evento imprimir: ask (menor precio de venta), bid (mayor precio de compra) y stock (último precio de transacción).
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Colas de Prioridad / std::map. Mantener las órdenes de compra en un max-heap (o map descendente) y las de venta en un min-heap (o map ascendente). Cruzar órdenes mientras el precio de compra sea mayor o igual al de venta.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+void solve() {
+    int n; cin &gt;&gt; n;
+    map&lt;int, int&gt; buy_orders;                 // Clave: precio (ascendente). rbegin() es el mayor
+    map&lt;int, int, greater&lt;int&gt;&gt; sell_orders;  // Clave: precio (descendente). rbegin() es el menor
+    int last_trade = -1;
+
+    for (int i = 0; i &lt; n; i++) {
+        string type, dummy;
+        int shares, price;
+        cin &gt;&gt; type &gt;&gt; shares &gt;&gt; dummy &gt;&gt; dummy &gt;&gt; price;
+
+        if (type == "buy") buy_orders[price] += shares;
+        else sell_orders[price] += shares;
+
+        // Ejecutar transacciones mientras la oferta de compra iguale o supere la de venta
+        while (!buy_orders.empty() &amp;&amp; !sell_orders.empty()) {
+            auto highest_buy = prev(buy_orders.end());
+            auto lowest_sell = prev(sell_orders.end());
+
+            if (highest_buy-&gt;first &gt;= lowest_sell-&gt;first) {
+                last_trade = lowest_sell-&gt;first; // Se ejecuta al precio de venta
+                int trade_shares = min(highest_buy-&gt;second, lowest_sell-&gt;second);
+                highest_buy-&gt;second -= trade_shares;
+                lowest_sell-&gt;second -= trade_shares;
+                if (highest_buy-&gt;second == 0) buy_orders.erase(highest_buy);
+                if (lowest_sell-&gt;second == 0) sell_orders.erase(lowest_sell);
+            } else break;
+        }
+
+        // Salida: ask (menor venta), bid (mayor compra), stock (último trade)
+        if (!sell_orders.empty()) cout &lt;&lt; prev(sell_orders.end())-&gt;first &lt;&lt; " ";
+        else cout &lt;&lt; "- ";
+        if (!buy_orders.empty()) cout &lt;&lt; prev(buy_orders.end())-&gt;first &lt;&lt; " ";
+        else cout &lt;&lt; "- ";
+        if (last_trade != -1) cout &lt;&lt; last_trade &lt;&lt; "\n";
+        else cout &lt;&lt; "-\n";
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    if (cin &gt;&gt; t) while (t--) solve();
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_H">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#9</span>
+          <span class="ex-title">Juez de Gato</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #H [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Tablero 3x3 de Tic-Tac-Toe (juego de Gato) terminado y válido. Determinar el ganador ('X', 'O') o si hubo empate ('-').
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Simulación y Verificación Directa. Comprobar las 8 posibles líneas de victoria (3 filas, 3 columnas, 2 diagonales). Si alguno tiene 3 en línea gana; si no, empate.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(1)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    vector&lt;string&gt; b(3);
+    for (int i = 0; i &lt; 3; i++) cin &gt;&gt; b[i];
+
+    auto wins = [&amp;](char c) {
+        for (int i = 0; i &lt; 3; i++) {
+            if (b[i][0] == c &amp;&amp; b[i][1] == c &amp;&amp; b[i][2] == c) return true; // Filas
+            if (b[0][i] == c &amp;&amp; b[1][i] == c &amp;&amp; b[2][i] == c) return true; // Columnas
+        }
+        if (b[0][0] == c &amp;&amp; b[1][1] == c &amp;&amp; b[2][2] == c) return true;     // Diag 1
+        if (b[0][2] == c &amp;&amp; b[1][1] == c &amp;&amp; b[2][0] == c) return true;     // Diag 2
+        return false;
+    };
+
+    if (wins('X')) cout &lt;&lt; "X\n";
+    else if (wins('O')) cout &lt;&lt; "O\n";
+    else cout &lt;&lt; "-\n";
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_I">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#10</span>
+          <span class="ex-title">Plagio</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #I [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Determinar si el texto de Vicente es un plagio del de José. Vicente pasa todo a minúsculas, reemplaza todas las apariciones de 'jose' por 'vicente', y altera mayúsculas/minúsculas. Si coinciden tras normalizar: 'Plagio', si no: 'Original'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Procesamiento de Cadenas / Normalización. Convertir ambas cadenas a minúsculas con `tolower`. Reemplazar cada ocurrencia de la subcadena 'jose' por 'vicente' en el texto de José y verificar igualdad.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(|S| + |T|)</span>
+          <span><strong>Espacio:</strong> O(|S| + |T|)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;cctype&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s_jose, s_vicente;
+    if (!getline(cin, s_jose)) return 0;
+    if (!getline(cin, s_vicente)) return 0;
+
+    // Normalizar a minúsculas
+    for (char &amp;c : s_jose) c = tolower(c);
+    for (char &amp;c : s_vicente) c = tolower(c);
+
+    // Reemplazar subcadenas "jose" por "vicente"
+    string transformed = "";
+    for (size_t i = 0; i &lt; s_jose.size(); ) {
+        if (i + 4 &lt;= s_jose.size() &amp;&amp; s_jose.substr(i, 4) == "jose") {
+            transformed += "vicente";
+            i += 4;
+        } else {
+            transformed += s_jose[i];
+            i++;
+        }
+    }
+
+    if (transformed == s_vicente) cout &lt;&lt; "Plagio\n";
+    else cout &lt;&lt; "Original\n";
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_1_A">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#11</span>
+          <span class="ex-title">Flujos Parametrizados en Grafos</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-01 #A [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen n nodos (1 &lt;= n &lt;= 10^6). Cada nodo tiene id y un valor crítico lambda (número real con hasta 6 decimales) donde transiciona. Agrupar los identificadores por valor de lambda y mostrarlos en orden ascendente de lambda: 'lambda: id1 id2 ...' con ids ordenados y formato de lambda eliminando ceros innecesarios (al menos 1 decimal).
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Tablas Hash / `std::map` ordenado con escala entera. Para evitar imprecisión de floats, escalar lambda multiplicando por 10^6 a `long long`. Formatear la cadena decimal podando ceros redundantes a la derecha pero conservando al menos un decimal si es entero.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n log n)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;map&gt;
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+
+    // Escalar lambda por 10^6 para usar enteros exactos como clave de ordenamiento
+    map&lt;long long, vector&lt;int&gt;&gt; groups;
+    for (int i = 0; i &lt; n; i++) {
+        int id;
+        double lambda;
+        cin &gt;&gt; id &gt;&gt; lambda;
+        long long key = llround(lambda * 1e6);
+        groups[key].push_back(id);
+    }
+
+    for (auto&amp; [key, ids] : groups) {
+        sort(ids.begin(), ids.end());
+
+        // Reconstruir string de lambda formateado
+        long long int_part = key / 1000000;
+        long long frac_part = key % 1000000;
+        string s_frac = to_string(frac_part);
+        while (s_frac.size() &lt; 6) s_frac = "0" + s_frac;
+        // Eliminar ceros sobrantes pero dejando al menos 1 dígito
+        while (s_frac.size() &gt; 1 &amp;&amp; s_frac.back() == '0') s_frac.pop_back();
+
+        cout &lt;&lt; int_part &lt;&lt; "." &lt;&lt; s_frac &lt;&lt; ":";
+        for (int id : ids) cout &lt;&lt; " " &lt;&lt; id;
+        cout &lt;&lt; "\n";
+    }
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_1_E">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#12</span>
+          <span class="ex-title">ParenTalk</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-01 #E [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dada una cadena de longitud n (&lt;= 10^5) compuesta exclusivamente por '(' y ')'. Detectar la longitud de la subcadena contigua más larga que sea una secuencia de paréntesis correctamente balanceada.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Simulación con Pila (Longest Valid Parentheses). Apilar inicialmente el índice base -1. Al leer '(', apilar su índice. Al leer ')', desapilar; si la pila queda vacía, apilar el índice actual como nuevo centinela; de lo contrario, `max_len = max(max_len, i - pila.top())`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;stack&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    string s;
+    if (!(cin &gt;&gt; n &gt;&gt; s)) return 0;
+
+    stack&lt;int&gt; st;
+    st.push(-1); // Centinela base
+    int max_len = 0;
+
+    for (int i = 0; i &lt; n; i++) {
+        if (s[i] == '(') {
+            st.push(i);
+        } else {
+            st.pop();
+            if (st.empty()) {
+                st.push(i); // Nuevo inicio de subcadena válida
+            } else {
+                max_len = max(max_len, i - st.top());
+            }
+        }
+    }
+
+    cout &lt;&lt; max_len &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_A">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#13</span>
+          <span class="ex-title">Slimes</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #A [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Kirby inicia con poder p1 en un pasillo de n slimes (2 &lt;= n &lt;= 10^5). No puede absorber dos slimes consecutivos debido al proceso de digestión. Maximizar el poder total alcanzable al final del pasillo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica / Maximum Weight Independent Set (MWIS). Para cada slime i: `dp[i] = max(dp[i-1], dp[i-2] + p[i])`. Se optimiza con `long long`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;long long&gt; p(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; p[i];
+
+    // DP: Conjunto independiente de peso máximo (no dos consecutivos)
+    long long prev2 = 0;
+    long long prev1 = p[0];
+
+    for (int i = 1; i &lt; n; i++) {
+        long long current = max(prev1, prev2 + p[i]);
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    cout &lt;&lt; prev1 &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_G">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#14</span>
+          <span class="ex-title">Convolucional</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #G [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dada una cadena s de longitud n (1 &lt;= n &lt;= 10^6) con letras mayúsculas, contar cuántas veces aparece la subcadena contigua 'FWHT'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Búsqueda Lineal O(N) / Sliding Window de tamaño 4. Recorrer la cadena verificando coincidencias en O(1) auxiliar.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n)</span>
+          <span><strong>Espacio:</strong> O(1) auxiliar</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    string s;
+    if (!(cin &gt;&gt; n &gt;&gt; s)) return 0;
+
+    long long count = 0;
+    for (size_t i = 0; i + 3 &lt; s.size(); i++) {
+        if (s[i] == 'F' &amp;&amp; s[i+1] == 'W' &amp;&amp; s[i+2] == 'H' &amp;&amp; s[i+3] == 'T') {
+            count++;
+        }
+    }
+
+    cout &lt;&lt; count &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_H">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#15</span>
+          <span class="ex-title">SETeando Colores</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #H [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Impresora solo puede realizar dos operaciones: (1) pintar fila i con color k; (2) pintar columna j con color k. Se quiere lograr un cuadro n x m. Determinar si es posible en &lt;= n + m operaciones y reportar la secuencia en orden de ejecución.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Proceso Inverso Voraz (Backward Simulation). La última operación aplicada en una fila o columna sobrescribe todo. Se simula al revés buscando filas o columnas monocromáticas, limpiándolas y apilando las operaciones. Al final se invierte el orden.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * m)</span>
+          <span><strong>Espacio:</strong> O(n * m)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+struct Op { int type, idx, color; };
+
+void solve() {
+    int n, m, c;
+    if (!(cin &gt;&gt; n &gt;&gt; m &gt;&gt; c)) return;
+    vector&lt;vector&lt;int&gt;&gt; g(n, vector&lt;int&gt;(m));
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; m; j++) cin &gt;&gt; g[i][j];
+    }
+
+    vector&lt;bool&gt; row_cleared(n, false), col_cleared(m, false);
+    vector&lt;Op&gt; ops;
+    int remaining = n * m;
+
+    while (remaining &gt; 0) {
+        bool found = false;
+        // Buscar fila monocromática
+        for (int i = 0; i &lt; n; i++) {
+            if (row_cleared[i]) continue;
+            int col = 0;
+            bool ok = true;
+            for (int j = 0; j &lt; m; j++) {
+                if (g[i][j] != 0) {
+                    if (col == 0) col = g[i][j];
+                    else if (col != g[i][j]) { ok = false; break; }
+                }
+            }
+            if (ok &amp;&amp; col != 0) {
+                ops.push_back({1, i + 1, col});
+                row_cleared[i] = true;
+                for (int j = 0; j &lt; m; j++) {
+                    if (g[i][j] != 0) { g[i][j] = 0; remaining--; }
+                }
+                found = true;
+                break;
+            }
+        }
+        if (found) continue;
+
+        // Buscar columna monocromática
+        for (int j = 0; j &lt; m; j++) {
+            if (col_cleared[j]) continue;
+            int col = 0;
+            bool ok = true;
+            for (int i = 0; i &lt; n; i++) {
+                if (g[i][j] != 0) {
+                    if (col == 0) col = g[i][j];
+                    else if (col != g[i][j]) { ok = false; break; }
+                }
+            }
+            if (ok &amp;&amp; col != 0) {
+                ops.push_back({2, j + 1, col});
+                col_cleared[j] = true;
+                for (int i = 0; i &lt; n; i++) {
+                    if (g[i][j] != 0) { g[i][j] = 0; remaining--; }
+                }
+                found = true;
+                break;
+            }
+        }
+        if (!found) break; // Bloqueado
+    }
+
+    if (remaining == 0) {
+        cout &lt;&lt; "YES\n" &lt;&lt; ops.size() &lt;&lt; "\n";
+        reverse(ops.begin(), ops.end()); // Invertir orden del proceso hacia adelante
+        for (const auto&amp; op : ops) {
+            cout &lt;&lt; op.type &lt;&lt; " " &lt;&lt; op.idx &lt;&lt; " " &lt;&lt; op.color &lt;&lt; "\n";
+        }
+    } else {
+        cout &lt;&lt; "NO\n";
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    if (cin &gt;&gt; t) while (t--) solve();
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C26_1_D">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#16</span>
+          <span class="ex-title">El Registro Oficial</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2026-01 #D [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> n eventos del VAR y m del árbitro. Omitir un evento cuesta 2. Emparejar: mismo código cuesta 0, alguno es UNK cuesta 1, códigos distintos cuesta 5. Encontrar el costo mínimo para combinar y alinear ambos registros.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica / Alineamiento Global de Secuencias (Needleman-Wunsch). `dp[i][j] = min({dp[i-1][j] + 2, dp[i][j-1] + 2, dp[i-1][j-1] + match(i, j)})`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * m)</span>
+          <span><strong>Espacio:</strong> O(n * m)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin &gt;&gt; n &gt;&gt; m)) return 0;
+    vector&lt;string&gt; var(n), ref(m);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; var[i];
+    for (int i = 0; i &lt; m; i++) cin &gt;&gt; ref[i];
+
+    auto match_cost = [](const string&amp; a, const string&amp; b) {
+        if (a == b) return 0;
+        if (a == "UNK" || b == "UNK") return 1;
+        return 5;
+    };
+
+    // dp[i][j] = costo de alinear var[0..i-1] con ref[0..j-1]
+    vector&lt;vector&lt;int&gt;&gt; dp(n + 1, vector&lt;int&gt;(m + 1, 0));
+    for (int i = 0; i &lt;= n; i++) dp[i][0] = 2 * i;
+    for (int j = 0; j &lt;= m; j++) dp[0][j] = 2 * j;
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            int c_del_var = dp[i - 1][j] + 2;
+            int c_del_ref = dp[i][j - 1] + 2;
+            int c_match   = dp[i - 1][j - 1] + match_cost(var[i - 1], ref[j - 1]);
+            dp[i][j] = min({c_del_var, c_del_ref, c_match});
+        }
+    }
+
+    cout &lt;&lt; dp[n][m] &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="theme-header">
+      <h2>TEMA 2: Ordenamiento, Búsqueda Binaria, Dos Punteros y Comparadores STL</h2>
+      <div class="desc">Técnicas de ordenamiento lineal y n-log-n, búsqueda binaria sobre respuestas y rangos, técnica de dos punteros y definición de comparadores custom.</div>
+    </div>
+    <div class="exercise-card" id="L2_1">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#17</span>
+          <span class="ex-title">A Classy Problem</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #1</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Ordenar personas según su clase social ('upper', 'middle', 'lower'). La jerarquía se lee de derecha a izquierda (la última palabra es la más significativa). Se normalizan todas las clases rellenando con 'middle' hasta 10 niveles. Si hay empate, ordenar alfabéticamente por nombre.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Comparador personalizado y padding con strings. Mapear 'upper'-&gt;3, 'middle'-&gt;2, 'lower'-&gt;1. Leer tokens invertidos y rellenar con 2 hasta longitud 10. Ordenar de mayor a menor y desempate por nombre.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N * L)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+struct Persona {
+    string nombre;
+    vector&lt;int&gt; clases; // Representación numérica normalizada a 10 niveles
+};
+
+bool compare(const Persona&amp; a, const Persona&amp; b) {
+    if (a.clases != b.clases) return a.clases &gt; b.clases; // Mayor clase primero
+    return a.nombre &lt; b.nombre; // Desempate alfabético
+}
+
+void solve() {
+    int n; cin &gt;&gt; n;
+    vector&lt;Persona&gt; personas(n);
+    for (int i = 0; i &lt; n; i++) {
+        string nom, cls, dummy;
+        cin &gt;&gt; nom &gt;&gt; cls &gt;&gt; dummy;
+        nom.pop_back(); // Eliminar dos puntos ':'
+        personas[i].nombre = nom;
+
+        stringstream ss(cls);
+        string token;
+        vector&lt;int&gt; temp;
+        while (getline(ss, token, '-')) {
+            if (token == "upper") temp.push_back(3);
+            else if (token == "middle") temp.push_back(2);
+            else if (token == "lower") temp.push_back(1);
+        }
+        reverse(temp.begin(), temp.end()); // La palabra final es la más representativa
+        while (temp.size() &lt; 10) temp.push_back(2); // Relleno con middle (2)
+        personas[i].clases = temp;
+    }
+    sort(personas.begin(), personas.end(), compare);
+    for (const auto&amp; p : personas) cout &lt;&lt; p.nombre &lt;&lt; "\n";
+    cout &lt;&lt; "==============================\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    if (cin &gt;&gt; t) while (t--) solve();
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L2_2">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#18</span>
+          <span class="ex-title">Firefly</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #2</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Una luciérnaga vuela en una cueva de altura H y longitud N con estalagmitas (suelo) y estalactitas (techo) alternadas. Determinar la mínima cantidad de obstáculos que choca al volar horizontalmente a una altura fija h, y cuántas alturas logran dicho mínimo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Búsqueda Binaria (`std::lower_bound`). Separar alturas de estalagmitas y estalactitas en dos vectores y ordenarlos. Para cada altura h de 1 a H, contar colisiones en O(log N) usando búsqueda binaria.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N + H log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, h;
+    if (!(cin &gt;&gt; n &gt;&gt; h)) return 0;
+    vector&lt;int&gt; bottom(n / 2), top(n / 2);
+    for (int i = 0; i &lt; n / 2; i++) cin &gt;&gt; bottom[i] &gt;&gt; top[i];
+
+    sort(bottom.begin(), bottom.end());
+    sort(top.begin(), top.end());
+
+    int min_obs = 1e9, ways = 0;
+    // Probar cada una de las H posibles alturas de vuelo
+    for (int lvl = 1; lvl &lt;= h; lvl++) {
+        // Estalagmitas con altura &gt;= lvl
+        int hits_bottom = bottom.end() - lower_bound(bottom.begin(), bottom.end(), lvl);
+        // Estalactitas con altura &gt;= h - lvl + 1
+        int hits_top = top.end() - lower_bound(top.begin(), top.end(), h - lvl + 1);
+
+        int total_hits = hits_bottom + hits_top;
+        if (total_hits &lt; min_obs) {
+            min_obs = total_hits;
+            ways = 1;
+        } else if (total_hits == min_obs) {
+            ways++;
+        }
+    }
+    cout &lt;&lt; min_obs &lt;&lt; " " &lt;&lt; ways &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L2_3">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#19</span>
+          <span class="ex-title">Height Ordering</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #3</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se alinean 20 niños de a uno según altura en orden creciente. Si un niño entra y es más bajo que algunos que ya están en la fila, los más altos dan un paso atrás para darle espacio. Contar la cantidad total de pasos dados atrás.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Simulación de Insertion Sort / Conteo de Inversiones. Por cada niño que ingresa, contar cuántos elementos ya presentes son estrictamente mayores que él e insertarlo en su lugar.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N^2) con N=20 -&gt; O(1)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+void solve() {
+    int k; cin &gt;&gt; k;
+    vector&lt;int&gt; a(20), line;
+    int steps = 0;
+    for (int i = 0; i &lt; 20; i++) {
+        cin &gt;&gt; a[i];
+        int pos = 0;
+        // Encontrar la primera persona más alta
+        while (pos &lt; (int)line.size() &amp;&amp; line[pos] &lt; a[i]) pos++;
+        steps += line.size() - pos; // Todas las personas detrás deben retroceder un paso
+        line.insert(line.begin() + pos, a[i]);
+    }
+    cout &lt;&lt; k &lt;&lt; " " &lt;&lt; steps &lt;&lt; "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int p;
+    if (cin &gt;&gt; p) while (p--) solve();
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L2_4">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#20</span>
+          <span class="ex-title">Mali</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #4</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> En cada una de N rondas se agrega un número a la lista A y otro a la lista B (valores entre 1 y 100). Tras cada ronda, se deben emparejar las listas para minimizar el valor máximo de A_i + B_i.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Two Pointers sobre Tablas de Frecuencias (rango [1..100]). Como los valores están acotados a 100, se mantienen conteos de frecuencias y en cada ronda se simula el matching voraz del menor de A con el mayor de B en O(100) = O(1) pasos.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N * 100)</span>
+          <span><strong>Espacio:</strong> O(1) auxiliar</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int countA[105], countB[105];
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    while (n--) {
+        int a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        countA[a]++;
+        countB[b]++;
+
+        // Copiar frecuencias para simular el emparejamiento voraz
+        int tempA[105], tempB[105];
+        memcpy(tempA, countA, sizeof(countA));
+        memcpy(tempB, countB, sizeof(countB));
+
+        int ptrA = 1, ptrB = 100;
+        int max_sum = 0;
+        while (ptrA &lt;= 100 &amp;&amp; ptrB &gt;= 1) {
+            while (ptrA &lt;= 100 &amp;&amp; tempA[ptrA] == 0) ptrA++;
+            while (ptrB &gt;= 1 &amp;&amp; tempB[ptrB] == 0) ptrB--;
+            if (ptrA &gt; 100 || ptrB &lt; 1) break;
+
+            max_sum = max(max_sum, ptrA + ptrB);
+            int take = min(tempA[ptrA], tempB[ptrB]);
+            tempA[ptrA] -= take;
+            tempB[ptrB] -= take;
+        }
+        cout &lt;&lt; max_sum &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L2_5">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#21</span>
+          <span class="ex-title">Music Your Way</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #5</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Base de datos de canciones con atributos definidos por columnas (título, artista, año, etc.). Se realizan Q consultas donde se ordena la lista de canciones según un atributo específico de forma estable.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> `std::stable_sort` con comparador dinámico. Identificar el índice de la columna solicitada y ordenar las canciones usando stable_sort para preservar el orden previo en empates.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(Q * N log N * L)</span>
+          <span><strong>Espacio:</strong> O(N * A)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    string header_line;
+    if (!getline(cin, header_line)) return 0;
+    stringstream ss(header_line);
+    vector&lt;string&gt; attributes;
+    string attr;
+    while (ss &gt;&gt; attr) attributes.push_back(attr);
+
+    int m; cin &gt;&gt; m;
+    vector&lt;vector&lt;string&gt;&gt; songs(m, vector&lt;string&gt;(attributes.size()));
+    for (int i = 0; i &lt; m; i++) {
+        for (size_t j = 0; j &lt; attributes.size(); j++) cin &gt;&gt; songs[i][j];
+    }
+
+    int q; cin &gt;&gt; q;
+    for (int k = 0; k &lt; q; k++) {
+        string sort_attr; cin &gt;&gt; sort_attr;
+        int idx = 0;
+        for (size_t j = 0; j &lt; attributes.size(); j++) {
+            if (attributes[j] == sort_attr) { idx = j; break; }
+        }
+
+        // stable_sort conserva el orden previo de registros equivalentes
+        stable_sort(songs.begin(), songs.end(), [idx](const vector&lt;string&gt;&amp; a, const vector&lt;string&gt;&amp; b) {
+            return a[idx] &lt; b[idx];
+        });
+
+        // Imprimir cabecera y canciones ordenadas
+        for (size_t j = 0; j &lt; attributes.size(); j++) {
+            cout &lt;&lt; attributes[j] &lt;&lt; (j + 1 == attributes.size() ? "" : " ");
+        }
+        cout &lt;&lt; "\n";
+        for (const auto&amp; song : songs) {
+            for (size_t j = 0; j &lt; song.size(); j++) {
+                cout &lt;&lt; song[j] &lt;&lt; (j + 1 == song.size() ? "" : " ");
+            }
+            cout &lt;&lt; "\n";
+        }
+        if (k + 1 &lt; q) cout &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L2_6">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#22</span>
+          <span class="ex-title">Room Painting</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #6</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen n tamaños de latas de pintura disponibles en la tienda. Joe necesita m cantidades específicas de pintura. Por cada requerimiento, compra la lata más pequeña de tamaño &gt;= requerido. Calcular la pintura total desperdiciada.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Búsqueda Binaria (`std::lower_bound`). Ordenar los tamaños de latas. Para cada requerimiento x, hallar el menor tamaño disponible con `lower_bound` y acumular la diferencia `lata - x` en un entero de 64 bits.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N + M log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, m;
+    if (!(cin &gt;&gt; n &gt;&gt; m)) return 0;
+    vector&lt;long long&gt; cans(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; cans[i];
+    sort(cans.begin(), cans.end());
+
+    long long wasted = 0;
+    for (int i = 0; i &lt; m; i++) {
+        long long need; cin &gt;&gt; need;
+        // Búsqueda binaria de la lata de tamaño óptimo
+        auto it = lower_bound(cans.begin(), cans.end(), need);
+        wasted += (*it - need);
+    }
+    cout &lt;&lt; wasted &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L2_7">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#23</span>
+          <span class="ex-title">Sort of Sorting</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #7</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Ordenar una lista de apellidos comparando únicamente sus primeros dos caracteres, preservando estrictamente el orden relativo original de los apellidos cuyos primeros dos caracteres coincidan.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> `std::stable_sort` con lambda comparando `a.substr(0, 2) &lt; b.substr(0, 2)`. El ordenamiento estable garantiza no alterar el orden de elementos con misma clave.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    bool first = true;
+    while (cin &gt;&gt; n &amp;&amp; n != 0) {
+        if (!first) cout &lt;&lt; "\n";
+        first = false;
+        vector&lt;string&gt; names(n);
+        for (int i = 0; i &lt; n; i++) cin &gt;&gt; names[i];
+
+        // stable_sort garantiza estabilidad temporal
+        stable_sort(names.begin(), names.end(), [](const string&amp; a, const string&amp; b) {
+            if (a[0] != b[0]) return a[0] &lt; b[0];
+            return a[1] &lt; b[1];
+        });
+
+        for (const string&amp; name : names) cout &lt;&lt; name &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L2_8">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#24</span>
+          <span class="ex-title">Synchronizing Lists</span>
+        </div>
+        <span class="ex-badge ">Listado 2 #8</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dos listas de n enteros estaban asociadas elemento a elemento por posición. La segunda lista fue desordenada. Se debe ordenar la segunda lista de tal modo que los elementos guarden la misma relación de orden relativa que en la primera lista original.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Mapeo posicional / Discretización. Ordenar copias de ambas listas. Crear un mapa asociando `sorted1[i] -&gt; sorted2[i]`. Imprimir para cada elemento de la lista 1 original su valor mapeado.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    bool first = true;
+    while (cin &gt;&gt; n &amp;&amp; n != 0) {
+        if (!first) cout &lt;&lt; "\n";
+        first = false;
+        vector&lt;int&gt; l1(n), l2(n);
+        for (int i = 0; i &lt; n; i++) cin &gt;&gt; l1[i];
+        for (int i = 0; i &lt; n; i++) cin &gt;&gt; l2[i];
+
+        vector&lt;int&gt; s1 = l1, s2 = l2;
+        sort(s1.begin(), s1.end());
+        sort(s2.begin(), s2.end());
+
+        // Mapear el elemento en rango i de la lista 1 al de la lista 2
+        map&lt;int, int&gt; mapping;
+        for (int i = 0; i &lt; n; i++) mapping[s1[i]] = s2[i];
+
+        for (int i = 0; i &lt; n; i++) cout &lt;&lt; mapping[l1[i]] &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_C">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#25</span>
+          <span class="ex-title">Sebastián Tramposo</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #C [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Carlos tiene la palabra A y Sebastián la palabra B (1 a 10^5 letras minúsculas). Sebastián puede reordenar las letras de B libremente. Ganará Sebastián si su palabra reordenada es estrictamente menor lexicográficamente que A. Imprimir 'Si' o 'No'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Algoritmo Voraz (Greedy) / Strings. La menor palabra lexicográfica que Sebastián puede formar se obtiene ordenando sus letras de forma ascendente: `sort(B.begin(), B.end())`. Sebastián gana si y solo si `B_ordenada &lt; A`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(|B| log |B| + min(|A|, |B|))</span>
+          <span><strong>Espacio:</strong> O(1) auxiliar</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string A, B;
+    if (!(cin &gt;&gt; A &gt;&gt; B)) return 0;
+
+    // Ordenar B produce la permutación mínima lexicográfica
+    sort(B.begin(), B.end());
+
+    if (B &lt; A) cout &lt;&lt; "Si\n";
+    else cout &lt;&lt; "No\n";
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_D">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#26</span>
+          <span class="ex-title">Torneo de Tenis de Mesa UTFSM</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #D [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> N jugadores con habilidades esperadas a_i (1 &lt;= N &lt;= 10^5). Se deben formar grupos para la fase de grupos. Dentro de cada grupo, la diferencia entre cualquier par de jugadores no puede superar D. Minimizar la cantidad total de grupos requeridos.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Algoritmo Voraz (Greedy) con Ordenamiento. Ordenar el arreglo de habilidades ascendentemente. Abrir un grupo con el primer elemento libre `a[i]` y extenderlo vorazmente mientras `a[j] &lt;= a[i] + D`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(1) auxiliar</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long D;
+    if (!(cin &gt;&gt; n &gt;&gt; D)) return 0;
+    vector&lt;long long&gt; a(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; a[i];
+
+    sort(a.begin(), a.end());
+
+    int groups = 0;
+    int i = 0;
+    while (i &lt; n) {
+        groups++;
+        long long max_allowed = a[i] + D;
+        while (i &lt; n &amp;&amp; a[i] &lt;= max_allowed) i++;
+    }
+
+    cout &lt;&lt; groups &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="theme-header">
+      <h2>TEMA 3: Backtracking, Búsqueda Exhaustiva y Manipulación de Bits</h2>
+      <div class="desc">Búsqueda en espacio de estados, backtracking recursivo con podas por viabilidad/optimalidad, generación de permutaciones/subconjuntos y bitmasks.</div>
+    </div>
+    <div class="exercise-card" id="L3_1">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#27</span>
+          <span class="ex-title">Dobra</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #1</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Calcular cuántas palabras válidas ('placenteras') se pueden formar reemplazando los guiones bajos '_' de una cadena. Una palabra es placentera si: (1) contiene al menos una 'L', y (2) no contiene 3 vocales seguidas ni 3 consonantes seguidas.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Backtracking con Podas. En cada '_' se prueba colocar una vocal (5 formas), una consonante distinta de L (20 formas) o una 'L' (1 forma). Se poda si se forman 3 vocales o consonantes consecutivas.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(3^K) con K &lt;= 10 guiones bajos</span>
+          <span><strong>Espacio:</strong> O(|S|)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+using ll = long long;
+
+string s;
+bool is_vowel(char c) {
+    return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
+}
+
+ll backtrack(int idx, int vowels, int consonants, bool has_l) {
+    // Poda: si hay 3 vocales o 3 consonantes seguidas, la rama es inválida
+    if (vowels &gt;= 3 || consonants &gt;= 3) return 0;
+    if (idx == (int)s.size()) return has_l ? 1 : 0;
+
+    ll total = 0;
+    if (s[idx] != '_') {
+        if (is_vowel(s[idx])) total += backtrack(idx + 1, vowels + 1, 0, has_l);
+        else total += backtrack(idx + 1, 0, consonants + 1, has_l || (s[idx] == 'L'));
+    } else {
+        // Opción 1: Colocar vocal (A, E, I, O, U -&gt; 5 opciones)
+        total += 5 * backtrack(idx + 1, vowels + 1, 0, has_l);
+        // Opción 2: Colocar 'L' (1 opción)
+        total += 1 * backtrack(idx + 1, 0, consonants + 1, true);
+        // Opción 3: Colocar otra consonante (20 opciones)
+        total += 20 * backtrack(idx + 1, 0, consonants + 1, has_l);
+    }
+    return total;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    if (cin &gt;&gt; s) cout &lt;&lt; backtrack(0, 0, 0, false) &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L3_2">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#28</span>
+          <span class="ex-title">Fooling Around</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #2</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Juego de Nim sustractivo: en un montón de n monedas, un jugador puede retirar p - 1 monedas, donde p es un número primo. Pierde quien no puede realizar un movimiento válido. Determinar si para n monedas la posición inicial es ganadora (Alice) o perdedora (Bob).
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Teoría de Juegos Imparciales / Programación Dinámica. Precalcular números primos y estados ganadores/perdedores: un estado n es ganador si existe algún movimiento a un estado perdedor `!win[n - (p - 1)]`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N * pi(N)) precomputado</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int MAXN = 100000;
+bool is_prime[MAXN + 5];
+vector&lt;int&gt; primes;
+bool win[MAXN + 5];
+
+void sieve() {
+    fill(is_prime, is_prime + MAXN + 5, true);
+    is_prime[0] = is_prime[1] = false;
+    for (int p = 2; p * p &lt;= MAXN; p++) {
+        if (is_prime[p]) {
+            for (int i = p * p; i &lt;= MAXN; i += p) is_prime[i] = false;
+        }
+    }
+    for (int p = 2; p &lt;= MAXN; p++) if (is_prime[p]) primes.push_back(p);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    sieve();
+    win[0] = false; // Sin movimientos = perdedor
+    for (int i = 1; i &lt;= MAXN; i++) {
+        win[i] = false;
+        for (int p : primes) {
+            int take = p - 1;
+            if (take &gt; i) break;
+            if (!win[i - take]) { win[i] = true; break; } // Transición a estado perdedor
+        }
+    }
+    int n;
+    if (cin &gt;&gt; n) cout &lt;&lt; (win[n] ? "Alice\n" : "Bob\n");
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L3_3">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#29</span>
+          <span class="ex-title">Jumbled Communication</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #3</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Un byte x se codifica como `y = (x ^ (x &lt;&lt; 1)) &amp; 0xFF`. Dado un flujo de bytes codificados y, recuperar los bytes originales x.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Manipulación de Bits / Tabla de Consulta Precalculada. Como los valores están en [0..255], se precalcula la función directa para los 256 bytes y se invierte en O(256), respondiendo cada decodificación en O(1).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N + 256)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int decode_table[256];
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    // Precomputar la codificación para todos los valores de 8 bits
+    for (int x = 0; x &lt; 256; x++) {
+        int y = (x ^ (x &lt;&lt; 1)) &amp; 0xFF;
+        decode_table[y] = x;
+    }
+    int n;
+    if (cin &gt;&gt; n) {
+        for (int i = 0; i &lt; n; i++) {
+            int y; cin &gt;&gt; y;
+            cout &lt;&lt; decode_table[y] &lt;&lt; (i + 1 == n ? "" : " ");
+        }
+        cout &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L3_4">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#30</span>
+          <span class="ex-title">N-Puzzle</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #4</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se da una configuración de un tablero de 15-puzzle (4x4) con letras 'A'..'O' y un espacio vacío '.'. Calcular el 'desorden' total del tablero, definido como la suma de las distancias Manhattan de cada letra hacia su posición objetivo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Búsqueda Exhaustiva / Geometría Manhattan. Para cada letra c en la celda (r, col), su posición objetivo es `(c - 'A') / 4` y `(c - 'A') % 4`. Sumar `|r - target_r| + |col - target_c|`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(1) (tablero 4x4)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    char board[4][4];
+    int total_scatter = 0;
+    for (int r = 0; r &lt; 4; r++) {
+        for (int c = 0; c &lt; 4; c++) {
+            cin &gt;&gt; board[r][c];
+            if (board[r][c] != '.') {
+                int target_r = (board[r][c] - 'A') / 4;
+                int target_c = (board[r][c] - 'A') % 4;
+                total_scatter += abs(r - target_r) + abs(c - target_c);
+            }
+        }
+    }
+    cout &lt;&lt; total_scatter &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L3_5">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#31</span>
+          <span class="ex-title">Paintings</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #5</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Un pintor tiene N colores favoritos en orden de preferencia y M pares de colores incompatibles que no pueden colocarse adyacentes. Encontrar el total de cuadros válidos posibles y la primera pintura lexicográficamente según las preferencias.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Backtracking con Podas. Construir permutaciones manteniendo una matriz de adyacencia de pares prohibidos. Almacenar la primera solución encontrada y continuar el conteo total.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N!) con podas</span>
+          <span><strong>Espacio:</strong> O(N^2)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int N;
+vector&lt;string&gt; color_names;
+map&lt;string, int&gt; color_id;
+bool forbidden[15][15];
+bool used[15];
+long long total_valid = 0;
+vector&lt;int&gt; best_sol, current_sol;
+
+void backtrack(int pos, int last) {
+    if (pos == N) {
+        total_valid++;
+        if (best_sol.empty()) best_sol = current_sol; // Primera solución lexicográfica
+        return;
+    }
+    for (int i = 0; i &lt; N; i++) {
+        if (!used[i]) {
+            if (last != -1 &amp;&amp; forbidden[last][i]) continue; // Poda de colores incompatibles
+            used[i] = true;
+            current_sol.push_back(i);
+            backtrack(pos + 1, i);
+            current_sol.pop_back();
+            used[i] = false;
+        }
+    }
+}
+
+void solve() {
+    cin &gt;&gt; N;
+    color_names.resize(N);
+    color_id.clear();
+    memset(forbidden, 0, sizeof(forbidden));
+    memset(used, 0, sizeof(used));
+    best_sol.clear();
+    total_valid = 0;
+
+    for (int i = 0; i &lt; N; i++) {
+        cin &gt;&gt; color_names[i];
+        color_id[color_names[i]] = i;
+    }
+    int m; cin &gt;&gt; m;
+    for (int i = 0; i &lt; m; i++) {
+        string u, v; cin &gt;&gt; u &gt;&gt; v;
+        int id_u = color_id[u], id_v = color_id[v];
+        forbidden[id_u][id_v] = forbidden[id_v][id_u] = true;
+    }
+    backtrack(0, -1);
+    cout &lt;&lt; total_valid &lt;&lt; "\n";
+    for (size_t i = 0; i &lt; best_sol.size(); i++) {
+        cout &lt;&lt; color_names[best_sol[i]] &lt;&lt; (i + 1 == best_sol.size() ? "" : " ");
+    }
+    cout &lt;&lt; "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    if (cin &gt;&gt; t) while (t--) solve();
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L3_6">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#32</span>
+          <span class="ex-title">Square Deal</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #6</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dados 3 rectángulos con dimensiones (h1, w1), (h2, w2), (h3, w3), determinar si es posible rotarlos y empaquetarlos para formar un cuadrado perfecto.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Búsqueda Exhaustiva Geométrica. Verificar si la suma de áreas es un cuadrado perfecto L x L. Probar todas las 3! permutaciones y 2^3 rotaciones en las 2 disposiciones geométricas posibles: 3 tiras paralelas o 1 tira larga con 2 rectángulos apilados.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(1) (3! * 8 configuraciones fijas)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+struct Rect { int h, w; };
+
+bool check3Horizontal(Rect r1, Rect r2, Rect r3, int L) {
+    return (r1.w == L &amp;&amp; r2.w == L &amp;&amp; r3.w == L &amp;&amp; r1.h + r2.h + r3.h == L);
+}
+
+bool check1and2Stacked(Rect r1, Rect r2, Rect r3, int L) {
+    if (r1.w != L) return false;
+    int rem_h = L - r1.h;
+    if (rem_h &lt;= 0) return false;
+    return (r2.h == rem_h &amp;&amp; r3.h == rem_h &amp;&amp; r2.w + r3.w == L);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    vector&lt;Rect&gt; R(3);
+    int total_area = 0;
+    for (int i = 0; i &lt; 3; i++) {
+        cin &gt;&gt; R[i].h &gt;&gt; R[i].w;
+        total_area += R[i].h * R[i].w;
+    }
+    int L = round(sqrt(total_area));
+    if (L * L != total_area) { cout &lt;&lt; "NO\n"; return 0; }
+
+    vector&lt;int&gt; p = {0, 1, 2};
+    bool ok = false;
+    do {
+        for (int mask = 0; mask &lt; 8; mask++) {
+            Rect r1 = (mask &amp; 1) ? Rect{R[p[0]].w, R[p[0]].h} : R[p[0]];
+            Rect r2 = (mask &amp; 2) ? Rect{R[p[1]].w, R[p[1]].h} : R[p[1]];
+            Rect r3 = (mask &amp; 4) ? Rect{R[p[2]].w, R[p[2]].h} : R[p[2]];
+
+            if (check3Horizontal(r1, r2, r3, L) || check1and2Stacked(r1, r2, r3, L)) {
+                ok = true; break;
+            }
+        }
+        if (ok) break;
+    } while (next_permutation(p.begin(), p.end()));
+
+    cout &lt;&lt; (ok ? "YES\n" : "NO\n");
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L3_7">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#33</span>
+          <span class="ex-title">Tautology</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #7</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dada una fórmula booleana bien formada (WFF) en notación prefija con operadores C (implicación), D (disyunción), E (equivalencia), K (conjunción), N (negación) y variables p, q, r, s, t. Determinar si es una tautología (verdadera bajo todas las 32 asignaciones posibles).
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Parser Recursivo + Fuerza Bruta sobre Bitmask de 5 bits. Evaluar el árbol sintáctico prefijo para cada una de las 2^5 = 32 combinaciones de valores booleanos de las variables.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(2^5 * |WFF|)</span>
+          <span><strong>Espacio:</strong> O(|WFF|)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+string wff;
+int pos_idx;
+bool val_map[256];
+
+bool eval_wff() {
+    char c = wff[pos_idx++];
+    if (c &gt;= 'p' &amp;&amp; c &lt;= 't') return val_map[(int)c];
+    if (c == 'N') return !eval_wff();
+    bool left = eval_wff();
+    bool right = eval_wff();
+    if (c == 'K') return left &amp;&amp; right;           // Conjunción
+    if (c == 'D') return left || right;           // Disyunción
+    if (c == 'C') return (!left) || right;         // Implicación
+    if (c == 'E') return left == right;           // Equivalencia
+    return false;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    while (cin &gt;&gt; wff &amp;&amp; wff != "0") {
+        bool is_taut = true;
+        // Probar todas las 32 asignaciones de verdad para p, q, r, s, t
+        for (int mask = 0; mask &lt; 32; mask++) {
+            val_map['p'] = (mask &gt;&gt; 0) &amp; 1;
+            val_map['q'] = (mask &gt;&gt; 1) &amp; 1;
+            val_map['r'] = (mask &gt;&gt; 2) &amp; 1;
+            val_map['s'] = (mask &gt;&gt; 3) &amp; 1;
+            val_map['t'] = (mask &gt;&gt; 4) &amp; 1;
+            pos_idx = 0;
+            if (!eval_wff()) { is_taut = false; break; }
+        }
+        cout &lt;&lt; (is_taut ? "tautology\n" : "not\n");
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L3_8">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#34</span>
+          <span class="ex-title">Veci</span>
+        </div>
+        <span class="ex-badge ">Listado 3 #8</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dado un número entero X (hasta 6 dígitos), encontrar el menor número estrictamente mayor que X formado por exactamente los mismos dígitos. Si no existe tal número, imprimir 0.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Permutación Lexicográfica con `std::next_permutation`. Si `next_permutation` sobre la cadena de dígitos retorna true, se imprime el nuevo número; caso contrario, 0.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(D) donde D &lt;= 6 dígitos</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    string X;
+    if (cin &gt;&gt; X) {
+        if (next_permutation(X.begin(), X.end())) cout &lt;&lt; X &lt;&lt; "\n";
+        else cout &lt;&lt; 0 &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_D">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#35</span>
+          <span class="ex-title">Anti-Hacking</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #D [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tiene un multiconjunto de n letras (1 &lt;= n &lt;= 10). Generar y contar todas las contraseñas fuertes distintas formadas por las n letras tales que: (1) no tengan dos letras repetidas de forma consecutiva, (2) no comiencen por el carácter lexicográficamente menor del conjunto.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Backtracking / Permutaciones únicas con `std::next_permutation`. Ordenar el multiconjunto inicial y descartar de inmediato las permutaciones que inicien con la menor letra o que tengan caracteres adyacentes iguales.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n! * n / repeticiones)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;char&gt; letters(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; letters[i];
+
+    sort(letters.begin(), letters.end());
+    char min_char = letters[0]; // Carácter mínimo prohibido al inicio
+
+    long long count = 0;
+    do {
+        // Poda 1: No debe comenzar con la letra menor
+        if (letters[0] == min_char) continue;
+
+        // Poda 2: No debe tener letras adyacentes iguales
+        bool valid = true;
+        for (int i = 0; i &lt; n - 1; i++) {
+            if (letters[i] == letters[i + 1]) { valid = false; break; }
+        }
+        if (valid) count++;
+    } while (next_permutation(letters.begin(), letters.end()));
+
+    cout &lt;&lt; count &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_G">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#36</span>
+          <span class="ex-title">Uno más</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #G [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen n instrucciones binarias de longitud n (1 &lt;= n &lt;= 1000). Falta una instrucción, y se debe generar una nueva cadena binaria de longitud n que sea estrictamente DIFERENTE a todas las n cadenas dadas.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Argumento de Diagonalización de Cantor. Construir `ans[i] = (s[i][i] == '0' ? '1' : '0')` para todo 0 &lt;= i &lt; n. Esto garantiza que la respuesta difiere de la cadena i-ésima al menos en la posición i.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;string&gt; s(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; s[i];
+
+    string ans = "";
+    // Diagonalización de Cantor: invertir el bit (i, i)
+    for (int i = 0; i &lt; n; i++) {
+        ans += (s[i][i] == '0' ? '1' : '0');
+    }
+
+    cout &lt;&lt; ans &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_E">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#37</span>
+          <span class="ex-title">Championship</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #E [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> N problemas disponibles (&lt;= 15), resolver exactamente K. Categorías {A, B, C, D}, dificultades d_i. Fatiga en posición p es d_i * p. Restricciones: (1) no dos problemas consecutivos de la misma categoría; (2) fatiga total divisible por M; (3) si inicia con 'A', no puede terminar con 'D'. Contar estrategias válidas.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Backtracking con Podas y Arreglo de Usados. Explorar recursivamente permutaciones de tamaño K rastreando categoría previa, categoría inicial y suma de fatiga.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N! / (N-K)!) con podas</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+struct Problem { int d; char c; };
+
+int N, K, M;
+vector&lt;Problem&gt; p;
+vector&lt;bool&gt; used;
+long long valid_strategies = 0;
+
+void backtrack(int pos, char last_c, char first_c, int current_fatigue) {
+    if (pos == K) {
+        if (current_fatigue % M == 0) {
+            // Maldición: no empezar con A y terminar con D
+            if (!(first_c == 'A' &amp;&amp; last_c == 'D')) {
+                valid_strategies++;
+            }
+        }
+        return;
+    }
+
+    for (int i = 0; i &lt; N; i++) {
+        if (!used[i] &amp;&amp; p[i].c != last_c) {
+            used[i] = true;
+            char next_first = (pos == 0) ? p[i].c : first_c;
+            backtrack(pos + 1, p[i].c, next_first, current_fatigue + p[i].d * (pos + 1));
+            used[i] = false;
+        }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    if (!(cin &gt;&gt; N &gt;&gt; K &gt;&gt; M)) return 0;
+    p.resize(N);
+    used.assign(N, false);
+    for (int i = 0; i &lt; N; i++) cin &gt;&gt; p[i].d &gt;&gt; p[i].c;
+
+    backtrack(0, ' ', ' ', 0);
+    cout &lt;&lt; valid_strategies &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C26_1_B">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#38</span>
+          <span class="ex-title">La Guardia de la Noche en Casa Central</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2026-01 #B [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> M voluntarios (&lt;= 25), formar escuadrón de K guerreros. Requisitos: pertenecer a campus válido ({CasaCentral, SanJoaquin, Vitacura, VinaDelMar, Concepcion}) y portar arma válida ({Vidriagon, AceroValyrio}). Facción: Stark, Lannister o Neutral. Restricción: NO pueden coexistir Stark y Lannister en el mismo escuadrón. Contar escuadrones válidos.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Combinatoria / Principio de Inclusión-Exclusión. Contar voluntarios válidos: S (Stark), L (Lannister), N (Neutral). Total de formas: `C(S + N, K) + C(L + N, K) - C(N, K)` calculadas en O(K).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(M + K)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;set&gt;
+using namespace std;
+
+long long C(int n, int k) {
+    if (k &lt; 0 || k &gt; n) return 0;
+    long long res = 1;
+    for (int i = 1; i &lt;= k; i++) {
+        res = res * (n - i + 1) / i;
+    }
+    return res;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int M, K;
+    if (!(cin &gt;&gt; M &gt;&gt; K)) return 0;
+
+    set&lt;string&gt; valid_campuses = {"CasaCentral", "SanJoaquin", "Vitacura", "VinaDelMar", "Concepcion"};
+    set&lt;string&gt; valid_weapons = {"Vidriagon", "AceroValyrio"};
+
+    int S = 0, L = 0, N = 0;
+    for (int i = 0; i &lt; M; i++) {
+        string name, campus, weapon, faction;
+        cin &gt;&gt; name &gt;&gt; campus &gt;&gt; weapon &gt;&gt; faction;
+        if (valid_campuses.count(campus) &amp;&amp; valid_weapons.count(weapon)) {
+            if (faction == "Stark") S++;
+            else if (faction == "Lannister") L++;
+            else if (faction == "Neutral") N++;
+        }
+    }
+
+    // Inclusión-Exclusión: (Stark + Neutral) + (Lannister + Neutral) - (Solo Neutral)
+    long long ans = C(S + N, K) + C(L + N, K) - C(N, K);
+    cout &lt;&lt; ans &lt;&lt; "\n";
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="theme-header">
+      <h2>TEMA 4: Algoritmos Greedy, Heaps y Divide &amp; Conquer</h2>
+      <div class="desc">Estrategias voraces (greedy choice property y subestructura óptima), planificación (Smith's rule), heaps de prioridad y divide &amp; conquer.</div>
+    </div>
+    <div class="exercise-card" id="L4_1">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#39</span>
+          <span class="ex-title">Ants</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #1</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> n hormigas caminan sobre una barra de madera de largo l a 1 cm/s. Al chocar rebotan instantáneamente. Encontrar el tiempo mínimo y máximo para que todas caigan.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Equivalencia Cinemática / Algoritmo Voraz. El choque entre dos hormigas es equivalente a que se crucen sin interactuar. Tiempo min = max_i(min(x, l-x)), Tiempo max = max_i(max(x, l-x)).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+void solve() {
+    int l, n;
+    cin &gt;&gt; l &gt;&gt; n;
+    int min_time = 0, max_time = 0;
+    for (int i = 0; i &lt; n; i++) {
+        int x; cin &gt;&gt; x;
+        min_time = max(min_time, min(x, l - x)); // Cada hormiga camina al extremo más cercano
+        max_time = max(max_time, max(x, l - x)); // Cada hormiga camina al extremo más lejano
+    }
+    cout &lt;&lt; min_time &lt;&lt; " " &lt;&lt; max_time &lt;&lt; "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    if (cin &gt;&gt; t) while (t--) solve();
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L4_2">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#40</span>
+          <span class="ex-title">Assigning Workstations</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #2</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> n investigadores llegan en el instante a_i y usan una estación durante s_i minutos. Una estación se bloquea tras m minutos de inactividad. Desbloquearla requiere una tarjeta. Maximizar los desbloqueos ahorrados reutilizando estaciones.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Interval Scheduling Greedy con Min-Heap (`std::priority_queue`). Ordenar llegadas. Mantener en el min-heap los tiempos de liberación de estaciones y emparejar vorazmente en la ventana `[liberación, liberación + m]`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+struct User { int a, s; };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, m;
+    if (!(cin &gt;&gt; n &gt;&gt; m)) return 0;
+    vector&lt;User&gt; users(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; users[i].a &gt;&gt; users[i].s;
+
+    sort(users.begin(), users.end(), [](const User&amp; x, const User&amp; y){ return x.a &lt; y.a; });
+
+    priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; workstations; // Min-heap de tiempos de liberación
+    int saved_unlocks = 0;
+
+    for (const auto&amp; u : users) {
+        // Descartar estaciones que ya se bloquearon antes de la llegada del usuario
+        while (!workstations.empty() &amp;&amp; workstations.top() + m &lt; u.a) workstations.pop();
+
+        if (!workstations.empty() &amp;&amp; workstations.top() &lt;= u.a) {
+            // Estación disponible y activa: se ahorra un desbloqueo
+            saved_unlocks++;
+            workstations.pop();
+        }
+        workstations.push(u.a + u.s); // La estación queda ocupada hasta u.a + u.s
+    }
+    cout &lt;&lt; saved_unlocks &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L4_3">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#41</span>
+          <span class="ex-title">Birds on a Wire</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #3</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> En un cable de largo l hay postes en 0 y l. Ninguna ave puede posarse a menos de 6 cm de los postes. Las aves deben mantener al menos d cm de distancia entre sí. Calcular cuántas aves adicionales pueden posarse de forma voraz.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Colocación Voraz Unidimensional. Ordenar las aves presentes. Calcular vorazmente cuántas aves caben en cada hueco entre aves consecutivas y en los extremos respetando el margen de 6 cm.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    long long l, d, n;
+    if (!(cin &gt;&gt; l &gt;&gt; d &gt;&gt; n)) return 0;
+    vector&lt;long long&gt; birds(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; birds[i];
+    sort(birds.begin(), birds.end());
+
+    long long first_pos = 6, last_pos = l - 6;
+    if (first_pos &gt; last_pos) { cout &lt;&lt; 0 &lt;&lt; "\n"; return 0; }
+    if (n == 0) { cout &lt;&lt; (last_pos - first_pos) / d + 1 &lt;&lt; "\n"; return 0; }
+
+    long long extra = 0;
+    // Margen izquierdo
+    if (birds[0] &gt; first_pos) extra += (birds[0] - first_pos) / d;
+    // Espacios entre aves consecutivas
+    for (int i = 1; i &lt; n; i++) {
+        extra += (birds[i] - birds[i - 1] - d) / d;
+    }
+    // Margen derecho
+    if (last_pos &gt; birds.back()) extra += (last_pos - birds.back()) / d;
+
+    cout &lt;&lt; extra &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L4_4">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#42</span>
+          <span class="ex-title">Boiling Vegetables</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #4</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen n vegetales de pesos w_i. Se pueden realizar cortes dividiendo cada vegetal en partes iguales. Se busca que la razón entre el pedazo más chico y el más grande sea &gt;= T. Minimizar el número total de cortes.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Greedy con Cola de Prioridad Máxima. Mantener el pedazo más grande actual y el menor global. En cada paso, incrementar en 1 los cortes del vegetal que contiene el pedazo más grande hasta satisfacer la razón T.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(cortes * log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+struct Veggie {
+    double orig_w;
+    int cuts;
+    double current_w() const { return orig_w / (cuts + 1); }
+    bool operator&lt;(const Veggie&amp; o) const { return current_w() &lt; o.current_w(); }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    double T;
+    int n;
+    if (!(cin &gt;&gt; T &gt;&gt; n)) return 0;
+    priority_queue&lt;Veggie&gt; pq;
+    double min_piece = 1e18;
+
+    for (int i = 0; i &lt; n; i++) {
+        double w; cin &gt;&gt; w;
+        pq.push({w, 0});
+        min_piece = min(min_piece, w);
+    }
+
+    int total_cuts = 0;
+    while ((min_piece / pq.top().current_w()) &lt; T) {
+        Veggie top = pq.top();
+        pq.pop();
+        top.cuts++;
+        total_cuts++;
+        min_piece = min(min_piece, top.current_w());
+        pq.push(top);
+    }
+    cout &lt;&lt; total_cuts &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L4_5">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#43</span>
+          <span class="ex-title">Frosh Week</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #5</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tiene un arreglo desordenado de estudiantes. La única operación permitida es intercambiar estudiantes adyacentes. Encontrar la cantidad mínima de intercambios requeridos para ordenar el arreglo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Conteo de Inversiones con Divide &amp; Conquer (MergeSort). Cada vez que en la mezcla un elemento del subarreglo derecho se ubica antes que los del izquierdo, se acumulan las inversiones restantes.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+long long merge_and_count(vector&lt;int&gt;&amp; arr, int l, int m, int r) {
+    vector&lt;int&gt; left(arr.begin() + l, arr.begin() + m + 1);
+    vector&lt;int&gt; right(arr.begin() + m + 1, arr.begin() + r + 1);
+    int i = 0, j = 0, k = l;
+    long long inv_count = 0;
+
+    while (i &lt; (int)left.size() &amp;&amp; j &lt; (int)right.size()) {
+        if (left[i] &lt;= right[j]) {
+            arr[k++] = left[i++];
+        } else {
+            arr[k++] = right[j++];
+            inv_count += (left.size() - i); // Todos los elementos restantes en left son inversiones
+        }
+    }
+    while (i &lt; (int)left.size()) arr[k++] = left[i++];
+    while (j &lt; (int)right.size()) arr[k++] = right[j++];
+    return inv_count;
+}
+
+long long mergesort_count(vector&lt;int&gt;&amp; arr, int l, int r) {
+    long long count = 0;
+    if (l &lt; r) {
+        int m = l + (r - l) / 2;
+        count += mergesort_count(arr, l, m);
+        count += mergesort_count(arr, m + 1, r);
+        count += merge_and_count(arr, l, m, r);
+    }
+    return count;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (cin &gt;&gt; n) {
+        vector&lt;int&gt; a(n);
+        for (int i = 0; i &lt; n; i++) cin &gt;&gt; a[i];
+        cout &lt;&lt; mergesort_count(a, 0, n - 1) &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L4_7">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#44</span>
+          <span class="ex-title">Shopaholic</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #7</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Por cada 3 artículos comprados en una tienda, el más barato de los 3 es gratis. Dados los precios de n artículos, determinar el descuento máximo total que se puede obtener.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Algoritmo Voraz (Greedy). Ordenar precios descendentemente. Agrupar de a 3 elementos y sumar el tercer artículo de cada terna (`p[2], p[5], p[8], ...`).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N log N)</span>
+          <span><strong>Espacio:</strong> O(1) auxiliar</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;long long&gt; p(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; p[i];
+    sort(p.rbegin(), p.rend()); // Ordenar descendente
+
+    long long discount = 0;
+    for (int i = 2; i &lt; n; i += 3) {
+        discount += p[i]; // El 3er ítem de cada tripleta es gratuito
+    }
+    cout &lt;&lt; discount &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L4_8">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#45</span>
+          <span class="ex-title">Square Peg in a Round Hole</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #8</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen n parcelas circulares de radio r_i, m casas circulares de radio c_j y k casas cuadradas de lado s_l. Una casa cabe en una parcela si su radio (o radio circunscrito `s / sqrt(2)`) es estrictamente menor al de la parcela. Maximizar parcelas ocupadas.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Greedy Matching con Two Pointers. Convertir todas las casas a su radio circunscrito efectivo, ordenar parcelas y casas ascendentemente, y asignar la menor parcela válida a cada casa.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O((M + K) log(M + K) + N log N)</span>
+          <span><strong>Espacio:</strong> O(M + K + N)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, m, k;
+    if (!(cin &gt;&gt; n &gt;&gt; m &gt;&gt; k)) return 0;
+    vector&lt;double&gt; plots(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; plots[i];
+
+    vector&lt;double&gt; houses;
+    for (int i = 0; i &lt; m; i++) {
+        double r; cin &gt;&gt; r;
+        houses.push_back(r);
+    }
+    for (int i = 0; i &lt; k; i++) {
+        double s; cin &gt;&gt; s;
+        houses.push_back(s / sqrt(2.0)); // Radio del círculo circunscrito del cuadrado
+    }
+
+    sort(plots.begin(), plots.end());
+    sort(houses.begin(), houses.end());
+
+    int ans = 0, p_idx = 0;
+    for (double h : houses) {
+        while (p_idx &lt; n &amp;&amp; plots[p_idx] &lt;= h) p_idx++; // Parcela insuficiente
+        if (p_idx &lt; n) {
+            ans++;
+            p_idx++;
+        } else break;
+    }
+    cout &lt;&lt; ans &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_F">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#46</span>
+          <span class="ex-title">Viaje Intergaláctico</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #F [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Una nave viaja en línea recta a lo largo de n estaciones (1 &lt;= n &lt;= 10^5) a distancia 1. Capacidad del estanque k (1 &lt;= k &lt;= 10^5). Consumo 1 por unidad de distancia. Viaje de IDA Y VUELTA (0 a n y regreso n a 0, recorrido 2n). Inicia con tanque lleno (k unidades gratis). Precios de combustible p_i en cada estación; penalización p_renta por combustible faltante al final en 0. Minimizar costo total.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Algoritmo Voraz (Greedy) con Min-Heap / Monotonic Queue. En cada uno de los 2n pasos unitarios, se puede recargar combustible en la estación visitada, el cual tiene un horizonte de validez de k pasos. Mantener en una cola de prioridad el combustible disponible de menor precio.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n log n)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, k;
+    if (!(cin &gt;&gt; n &gt;&gt; k)) return 0;
+    long long p_renta;
+    cin &gt;&gt; p_renta;
+    vector&lt;long long&gt; p(n + 1);
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; p[i];
+
+    // Priority queue con par: (precio_por_unidad, paso_limite_de_expiracion)
+    priority_queue&lt;pair&lt;long long, int&gt;, vector&lt;pair&lt;long long, int&gt;&gt;, greater&lt;pair&lt;long long, int&gt;&gt;&gt; pq;
+    // El combustible inicial gratis dura k pasos
+    pq.push({0, k});
+
+    long long total_cost = 0;
+    // Total de pasos del viaje ida y vuelta = 2n
+    for (int step = 0; step &lt; 2 * n; step++) {
+        // Identificar en qué estación se encuentra la nave en este paso
+        int station = (step &lt; n) ? (step + 1) : (2 * n - step);
+        if (station &gt;= 1 &amp;&amp; station &lt;= n) {
+            pq.push({p[station], step + k}); // Puede abastecer hasta step + k
+        }
+
+        // Descartar combustible cuyo alcance ya expiró
+        while (!pq.empty() &amp;&amp; pq.top().second &lt;= step) pq.pop();
+
+        if (!pq.empty()) {
+            total_cost += pq.top().first; // Comprar del más barato activo
+        } else {
+            total_cost += p_renta;        // Penalización por falta de combustible
+        }
+    }
+
+    cout &lt;&lt; total_cost &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_B">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#47</span>
+          <span class="ex-title">Programación de Hechizos en el Ministerio de Magia</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #B [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Hermione procesa n hechizos (1 &lt;= n &lt;= 10^5) de Conjuración (C) y Defensa (D). La máquina solo opera un tipo a la vez; si cambia de tipo, requiere S segundos de recalibración y debe terminar todos los hechizos restantes en ese nuevo tipo. Cada hechizo i con tiempo p_i y peso w_i aporta w_i * T_i al costo total al finalizar en T_i. Minimizar el costo total.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Regla de Smith (Greedy) + Evaluación de Órdenes Globales. Dentro de un mismo tipo, el costo se minimiza ordenando por `w_i / p_i` descendente (`a.w * b.p &gt; b.w * a.p`). Dado que solo se permite a lo más una recalibración, se calculan y comparan las dos secuencias: (Todo C, switch S, Todo D) vs (Todo D, switch S, Todo C).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n log n)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+struct Spell { long long p, w; };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long S;
+    if (!(cin &gt;&gt; n &gt;&gt; S)) return 0;
+
+    vector&lt;Spell&gt; C, D;
+    for (int i = 0; i &lt; n; i++) {
+        long long p, w;
+        char m;
+        cin &gt;&gt; p &gt;&gt; w &gt;&gt; m;
+        if (m == 'C') C.push_back({p, w});
+        else D.push_back({p, w});
+    }
+
+    // Regla de Smith: mayor ratio w/p primero
+    auto cmp = [](const Spell&amp; a, const Spell&amp; b) {
+        return a.w * b.p &gt; b.w * a.p;
+    };
+    sort(C.begin(), C.end(), cmp);
+    sort(D.begin(), D.end(), cmp);
+
+    auto simulate = [&amp;](const vector&lt;Spell&gt;&amp; s1, const vector&lt;Spell&gt;&amp; s2) {
+        long long time = 0, total_cost = 0;
+        for (const auto&amp; sp : s1) {
+            time += sp.p;
+            total_cost += sp.w * time;
+        }
+        if (!s1.empty() &amp;&amp; !s2.empty()) time += S; // Tiempo de recalibración
+        for (const auto&amp; sp : s2) {
+            time += sp.p;
+            total_cost += sp.w * time;
+        }
+        return total_cost;
+    };
+
+    long long ans = min(simulate(C, D), simulate(D, C));
+    cout &lt;&lt; ans &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C26_1_A">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#48</span>
+          <span class="ex-title">Jaime vs Bastián</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2026-01 #A [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Juego con n frascos con a_i canicas. Jaime y Bastián juegan alternadamente. En cada turno, se elige un frasco y se retira una cantidad IMPAR de canicas (1, 3, 5, ...). Gana el último en mover. Jaime empieza. Determinar quién gana bajo juego óptimo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Teoría de Juegos Imparciales / Teorema de Sprague-Grundy. El valor de Grundy de una pila de tamaño x es `G(x) = x % 2` (1 si impar, 0 si par). La suma Nim es el XOR de los Grundy, lo que equivale a la paridad de la cantidad de frascos con número impar de canicas. Si la cantidad de frascos impares es impar -&gt; gana Jaime; si no -&gt; gana Bastián.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+
+    int odd_jars = 0;
+    for (int i = 0; i &lt; n; i++) {
+        long long a;
+        cin &gt;&gt; a;
+        if (a % 2 != 0) odd_jars++;
+    }
+
+    // Si el conteo de frascos impares es impar, XOR sum != 0 -&gt; Victoria para el primer jugador
+    if (odd_jars % 2 != 0) cout &lt;&lt; "Jaime\n";
+    else cout &lt;&lt; "Bastian\n";
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C26_1_E">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#49</span>
+          <span class="ex-title">El Mandaloriano y las Operaciones de la Nueva República</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2026-01 #E [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> n misiones asignadas independientemente al Mandaloriano ('M') o Bo-Katan ('B'). Duración d_i, peso w_i. Finalización F_i. Minimizar sum(w_i * F_i). Ambos líderes operan en paralelo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Planificación de Procesos (Greedy / Regla de Smith). Como operan en máquinas independientes, el problema se desacopla en dos instancias independientes de single-machine scheduling. Para cada líder, ordenar misiones por ratio `w_i / d_i` descendente (`a.w * b.d &gt; b.w * a.d`).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n log n)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+struct Mission { long long d, w; };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;Mission&gt; M, B;
+
+    for (int i = 0; i &lt; n; i++) {
+        long long d, w;
+        char leader;
+        cin &gt;&gt; d &gt;&gt; w &gt;&gt; leader;
+        if (leader == 'M' || leader == 'D') M.push_back({d, w});
+        else B.push_back({d, w});
+    }
+
+    // Regla de Smith para ordenar por w / d descendente
+    auto cmp = [](const Mission&amp; a, const Mission&amp; b) {
+        return a.w * b.d &gt; b.w * a.d;
+    };
+    sort(M.begin(), M.end(), cmp);
+    sort(B.begin(), B.end(), cmp);
+
+    auto calc = [](const vector&lt;Mission&gt;&amp; list) {
+        long long current_day = 0, total_cost = 0;
+        for (const auto&amp; m : list) {
+            current_day += m.d;
+            total_cost += m.w * current_day;
+        }
+        return total_cost;
+    };
+
+    cout &lt;&lt; (calc(M) + calc(B)) &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="theme-header">
+      <h2>TEMA 5: Programación Dinámica</h2>
+      <div class="desc">Subproblemas superpuestos y memoria: funciones de valor, transiciones de estado, optimizaciones de espacio y reconstrucción de soluciones óptimas.</div>
+    </div>
+    <div class="exercise-card" id="C24_A">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#50</span>
+          <span class="ex-title">El oso negro</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #A [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Campistas deben preparar una ofrenda de alimentos para un oso. Se tiene un límite máximo de calorías diarias C (1 &lt;= C &lt;= 10000) y n alimentos disponibles (1 &lt;= n &lt;= 1000). Cada alimento i tiene un nombre (string con letras y espacios), valor calórico VC_i (0 &lt;= VC_i &lt;= 10000) y sabrosidad ISO_i (0 &lt;= ISO_i &lt;= 10000). A lo más una unidad por alimento. Maximizar la sabrosidad total con calorías &lt;= C.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica / Mochila 0/1 (0/1 Knapsack) con optimización de memoria 1D. Se recorre la capacidad en reversa desde C hasta VC_i para no reutilizar el mismo alimento. Se parsean los dos enteros finales de la línea ignorando espacios en el nombre.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * C)</span>
+          <span><strong>Espacio:</strong> O(C)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    // Fast I/O obligatorio para certámenes
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, C;
+    if (!(cin &gt;&gt; n &gt;&gt; C)) return 0;
+    string dummy;
+    getline(cin, dummy); // Consumir salto de línea
+
+    // dp[w] = máxima sabrosidad acumulada con exactamente/a lo más w calorías
+    vector&lt;long long&gt; dp(C + 1, 0);
+
+    for (int i = 0; i &lt; n; i++) {
+        string line;
+        if (!getline(cin, line)) break;
+        stringstream ss(line);
+        vector&lt;string&gt; tokens;
+        string t;
+        while (ss &gt;&gt; t) tokens.push_back(t);
+        if (tokens.size() &lt; 2) continue;
+
+        // Los dos últimos tokens corresponden a las calorías y sabrosidad
+        int m = tokens.size();
+        int vc = stoi(tokens[m - 2]);
+        int iso = stoi(tokens[m - 1]);
+
+        // Mochila 0/1: iteración descendente para evitar usar el ítem varias veces
+        for (int w = C; w &gt;= vc; w--) {
+            dp[w] = max(dp[w], dp[w - vc] + iso);
+        }
+    }
+
+    long long max_sabrosidad = 0;
+    for (int w = 0; w &lt;= C; w++) max_sabrosidad = max(max_sabrosidad, dp[w]);
+
+    cout &lt;&lt; max_sabrosidad &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_B">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#51</span>
+          <span class="ex-title">Escaleras para salvar el ramo</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #B [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Un estudiante comienza con 1000 puntos y debe subir una escalera de n peldaños (1 &lt;= n &lt;= 10^5). Al pisar el peldaño i sufre una penalización p_i (0 &lt;= p_i &lt;= 500). Desde un peldaño se puede avanzar 1, 2 o 3 peldaños a la vez. Iniciar obligatoriamente pisando el peldaño 1 y terminar pisando el n. Minimizar penalizaciones acumuladas; puntaje final = 1000 - penalización.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica 1D / Camino Mínimo en DAG. Recurrencia: `dp[i] = p[i] + min({dp[i-1], dp[i-2], dp[i-3]})` para i &gt;= 2 con caso base `dp[1] = p[1]`. El puntaje final es `1000 - dp[n]`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n)</span>
+          <span><strong>Espacio:</strong> O(n) u O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;long long&gt; p(n + 1);
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; p[i];
+
+    const long long INF = 1e18;
+    vector&lt;long long&gt; dp(n + 1, INF);
+    dp[1] = p[1]; // Inicio obligatorio en peldaño 1
+
+    for (int i = 2; i &lt;= n; i++) {
+        // Evaluar saltos posibles desde 1, 2 o 3 peldaños atrás
+        if (i - 1 &gt;= 1) dp[i] = min(dp[i], dp[i - 1] + p[i]);
+        if (i - 2 &gt;= 1) dp[i] = min(dp[i], dp[i - 2] + p[i]);
+        if (i - 3 &gt;= 1) dp[i] = min(dp[i], dp[i - 3] + p[i]);
+    }
+
+    cout &lt;&lt; (1000 - dp[n]) &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_J">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#52</span>
+          <span class="ex-title">Calle Mágica</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #J [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Calle con n baldosas (1 &lt;= n &lt;= 10^5) con caracteres en minúsculas. Iniciar en baldosa 1 y llegar a n. Desde i: (1) avanzar a i+1 con costo 1; (2) teletransportarse a j &gt; i con costo 0 si comparten un substring de largo k &gt;= 1 (es decir, S[i] == S[j]). Calcular el costo mínimo para llegar a n.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> 0-1 BFS con Deque / Dijkstra. Moverse a i+1 tiene arista de peso 1 (se agrega al final del deque). Teletransportarse a cualquier posición con el mismo carácter tiene arista de peso 0 (se agrega al frente). Se marca cada carácter visitado para procesar cada letra una única vez.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n + 26) = O(n)</span>
+          <span><strong>Espacio:</strong> O(n)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;deque&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (!(cin &gt;&gt; s)) return 0;
+    int n = s.size();
+
+    // Guardar posiciones de cada carácter para teletransporte gratuito
+    vector&lt;vector&lt;int&gt;&gt; positions(26);
+    for (int i = 0; i &lt; n; i++) positions[s[i] - 'a'].push_back(i);
+
+    vector&lt;int&gt; dist(n, 1e9);
+    vector&lt;bool&gt; char_expanded(26, false);
+    deque&lt;int&gt; dq;
+
+    dist[0] = 0;
+    dq.push_back(0);
+
+    while (!dq.empty()) {
+        int u = dq.front();
+        dq.pop_front();
+        if (u == n - 1) break;
+
+        // Arista de costo 1: avanzar al siguiente
+        if (u + 1 &lt; n &amp;&amp; dist[u] + 1 &lt; dist[u + 1]) {
+            dist[u + 1] = dist[u] + 1;
+            dq.push_back(u + 1);
+        }
+
+        // Aristas de costo 0: teletransporte a posiciones con el mismo carácter
+        int c = s[u] - 'a';
+        if (!char_expanded[c]) {
+            char_expanded[c] = true;
+            for (int v : positions[c]) {
+                if (v &gt; u &amp;&amp; dist[u] &lt; dist[v]) {
+                    dist[v] = dist[u];
+                    dq.push_front(v); // Costo 0 prioritario
+                }
+            }
+        }
+    }
+
+    cout &lt;&lt; dist[n - 1] &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_1_D">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#53</span>
+          <span class="ex-title">Construyendo Antenas Telefónicas</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-01 #D [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen n ciudades en línea (1 &lt;= n &lt;= 10^5) con poblaciones p_i (1 &lt;= p_i &lt;= 10^7). No se pueden construir antenas en ciudades adyacentes. Cada antena comunica a la población de su ciudad. Determinar la máxima cantidad de personas que se pueden comunicar.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Maximum Weight Independent Set (MWIS) en Grafo Camino / House Robber DP. En cada ciudad: `incl = excl_prev + p[i]`, `excl = max(incl_prev, excl_prev)`. Se implementa en O(N) tiempo y O(1) memoria con `long long`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n)</span>
+          <span><strong>Espacio:</strong> O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;long long&gt; p(n);
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; p[i];
+
+    // Estados DP: incluir la antena actual o excluirla
+    long long incl = p[0];
+    long long excl = 0;
+
+    for (int i = 1; i &lt; n; i++) {
+        long long new_incl = excl + p[i];
+        long long new_excl = max(incl, excl);
+        incl = new_incl;
+        excl = new_excl;
+    }
+
+    cout &lt;&lt; max(incl, excl) &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_F">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#54</span>
+          <span class="ex-title">Huevito Rey</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #F [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Jaime recorre una cuadrícula n x m (&lt;= 1000) desde (1,1) hasta (n,m) moviéndose solo hacia abajo o hacia la derecha. Debe pasar obligatoriamente por una casilla intermedia (x, y). Cada celda tiene un huevo ('0') o está vacía ('.'). Maximizar los huevos recolectados.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica 2D en Cuadrícula en Dos Etapas. DP1: recolectar de (1,1) a (y, x). DP2: recolectar de (y, x) a (n, m). La suma `dp1[y][x] + dp2[n][m]` da el óptimo.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * m)</span>
+          <span><strong>Espacio:</strong> O(n * m)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m, x, y;
+    if (!(cin &gt;&gt; n &gt;&gt; m &gt;&gt; x &gt;&gt; y)) return 0;
+    int target_r = y, target_c = x; // 1-based: fila y, columna x
+
+    vector&lt;string&gt; grid(n + 1);
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; grid[i];
+        grid[i] = " " + grid[i];
+    }
+
+    // DP 1: De (1, 1) a (target_r, target_c)
+    vector&lt;vector&lt;int&gt;&gt; dp1(n + 1, vector&lt;int&gt;(m + 1, -1));
+    dp1[1][1] = (grid[1][1] == '0' ? 1 : 0);
+    for (int r = 1; r &lt;= target_r; r++) {
+        for (int c = 1; c &lt;= target_c; c++) {
+            if (dp1[r][c] == -1) continue;
+            int cur = dp1[r][c];
+            if (r + 1 &lt;= target_r) dp1[r + 1][c] = max(dp1[r + 1][c], cur + (grid[r + 1][c] == '0' ? 1 : 0));
+            if (c + 1 &lt;= target_c) dp1[r][c + 1] = max(dp1[r][c + 1], cur + (grid[r][c + 1] == '0' ? 1 : 0));
+        }
+    }
+
+    // DP 2: De (target_r, target_c) a (n, m)
+    vector&lt;vector&lt;int&gt;&gt; dp2(n + 1, vector&lt;int&gt;(m + 1, -1));
+    dp2[target_r][target_c] = 0; // El huevo en target ya fue contado en dp1
+    for (int r = target_r; r &lt;= n; r++) {
+        for (int c = target_c; c &lt;= m; c++) {
+            if (dp2[r][c] == -1) continue;
+            int cur = dp2[r][c];
+            if (r + 1 &lt;= n) dp2[r + 1][c] = max(dp2[r + 1][c], cur + (grid[r + 1][c] == '0' ? 1 : 0));
+            if (c + 1 &lt;= m) dp2[r][c + 1] = max(dp2[r][c + 1], cur + (grid[r][c + 1] == '0' ? 1 : 0));
+        }
+    }
+
+    cout &lt;&lt; (dp1[target_r][target_c] + dp2[n][m]) &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_I">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#55</span>
+          <span class="ex-title">Alquimia</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #I [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se tienen cadenas S y T (|S| = |T| &lt;= 10^4). K transmutaciones directas entre letras minúsculas: a -&gt; b con costo c. Se pueden encadenar transmutaciones. Hallar el costo mínimo para convertir cada S[i] en T[i], o imprimir -1 si es imposible.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> All-Pairs Shortest Path con Floyd-Warshall sobre las 26 letras del alfabeto. Precalcular en O(26^3) las distancias mínimas entre cualquier par de caracteres y luego acumular en O(|S|).
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(26^3 + |S|)</span>
+          <span><strong>Espacio:</strong> O(26^2) = O(1)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string S, T;
+    if (!(cin &gt;&gt; S &gt;&gt; T)) return 0;
+    int K;
+    if (!(cin &gt;&gt; K)) return 0;
+
+    const long long INF = 1e18;
+    vector&lt;vector&lt;long long&gt;&gt; dist(26, vector&lt;long long&gt;(26, INF));
+    for (int i = 0; i &lt; 26; i++) dist[i][i] = 0;
+
+    for (int i = 0; i &lt; K; i++) {
+        char u, v;
+        long long c;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; c;
+        dist[u - 'a'][v - 'a'] = min(dist[u - 'a'][v - 'a'], c);
+    }
+
+    // Floyd-Warshall sobre las 26 letras
+    for (int k = 0; k &lt; 26; k++) {
+        for (int i = 0; i &lt; 26; i++) {
+            for (int j = 0; j &lt; 26; j++) {
+                if (dist[i][k] &lt; INF &amp;&amp; dist[k][j] &lt; INF) {
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
+        }
+    }
+
+    long long total = 0;
+    for (size_t i = 0; i &lt; S.size(); i++) {
+        long long d = dist[S[i] - 'a'][T[i] - 'a'];
+        if (d &gt;= INF) {
+            cout &lt;&lt; -1 &lt;&lt; "\n";
+            return 0;
+        }
+        total += d;
+    }
+
+    cout &lt;&lt; total &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="theme-header">
+      <h2>TEMA 6: Grafos, Árboles Recubridores (MST) y Conectividad</h2>
+      <div class="desc">Representación de grafos, recorridos (BFS/DFS), caminos más cortos (Bellman-Ford, Floyd-Warshall) y árboles recubridores mínimos/máximos (Kruskal/Prim).</div>
+    </div>
+    <div class="exercise-card" id="L4_6">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#56</span>
+          <span class="ex-title">Lost Map</span>
+        </div>
+        <span class="ex-badge ">Listado 4 #6</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> n aldeas estaban conectadas por una red que formaba un árbol. Se perdió el mapa, pero se conserva la matriz completa de distancias de n x n entre todos los pares. Reconstruir las n-1 carreteras originales del árbol.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Árbol Recubridor Mínimo (MST) con Kruskal y DSU. En un árbol de distancias más cortas, el MST sobre la matriz completa de distancias recupera exactamente las aristas originales.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(N^2 log N)</span>
+          <span><strong>Espacio:</strong> O(N^2)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+using namespace std;
+
+struct Edge { int u, v, w; };
+
+struct DSU {
+    vector&lt;int&gt; parent;
+    DSU(int n) : parent(n + 1) { iota(parent.begin(), parent.end(), 0); }
+    int find(int i) { return (parent[i] == i) ? i : (parent[i] = find(parent[i])); }
+    bool unite(int i, int j) {
+        int root_i = find(i), root_j = find(j);
+        if (root_i != root_j) { parent[root_i] = root_j; return true; }
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;Edge&gt; edges;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            int w; cin &gt;&gt; w;
+            if (i &lt; j) edges.push_back({i, j, w});
+        }
+    }
+    sort(edges.begin(), edges.end(), [](const Edge&amp; a, const Edge&amp; b){ return a.w &lt; b.w; });
+
+    DSU dsu(n);
+    int edge_count = 0;
+    for (const auto&amp; e : edges) {
+        if (dsu.unite(e.u, e.v)) {
+            cout &lt;&lt; e.u &lt;&lt; " " &lt;&lt; e.v &lt;&lt; "\n";
+            if (++edge_count == n - 1) break;
+        }
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C24_E">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#57</span>
+          <span class="ex-title">Juego del Destino</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2024-02 #E [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Grafo conexo no dirigido con n puntos (&lt;= 10^5) y m calles (&lt;= 2*10^5) con f fichas (1 &lt;= f &lt;= 10^9). Robert y Rachele eligen caminos que conectan todos los nodos sin ciclos redundantes (Árboles Recubridores / Spanning Trees). Maximizar la diferencia de puntaje: Max Spanning Tree - Min Spanning Tree.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Árbol Recubridor Mínimo y Máximo (Kruskal MST / MaxST con DSU). Ejecutar Kruskal dos veces: primero ordenando aristas de menor a mayor peso (MinST) y luego de mayor a menor (MaxST). La respuesta es `peso(MaxST) - peso(MinST)`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(m log m)</span>
+          <span><strong>Espacio:</strong> O(n + m)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+using namespace std;
+
+struct Edge { int u, v; long long w; };
+
+struct DSU {
+    vector&lt;int&gt; p;
+    DSU(int n) : p(n + 1) { iota(p.begin(), p.end(), 0); }
+    int find(int x) { return (p[x] == x) ? x : (p[x] = find(p[x])); }
+    bool unite(int x, int y) {
+        int rx = find(x), ry = find(y);
+        if (rx != ry) { p[rx] = ry; return true; }
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin &gt;&gt; n &gt;&gt; m)) return 0;
+    vector&lt;Edge&gt; edges(m);
+    for (int i = 0; i &lt; m; i++) cin &gt;&gt; edges[i].u &gt;&gt; edges[i].v &gt;&gt; edges[i].w;
+
+    // 1. MinST: Orden ascendente
+    sort(edges.begin(), edges.end(), [](const Edge&amp; a, const Edge&amp; b){ return a.w &lt; b.w; });
+    DSU dsu_min(n);
+    long long min_cost = 0;
+    for (const auto&amp; e : edges) {
+        if (dsu_min.unite(e.u, e.v)) min_cost += e.w;
+    }
+
+    // 2. MaxST: Orden descendente
+    sort(edges.begin(), edges.end(), [](const Edge&amp; a, const Edge&amp; b){ return a.w &gt; b.w; });
+    DSU dsu_max(n);
+    long long max_cost = 0;
+    for (const auto&amp; e : edges) {
+        if (dsu_max.unite(e.u, e.v)) max_cost += e.w;
+    }
+
+    cout &lt;&lt; (max_cost - min_cost) &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_1_B">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#58</span>
+          <span class="ex-title">Red de la Resistencia</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-01 #B [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Ellie y Joel restauran la Red Silenciosa para conectar N zonas seguras (1 &lt;= N &lt;= 10^5) usando rutas con costo de baterías b (1 &lt;= b &lt;= 10^4). Se debe evitar cualquier ciclo que active alarmas de infectados y conectar todas las zonas con la menor cantidad total de baterías.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Árbol Recubridor Mínimo (Kruskal MST). Ordenar las rutas de menor a mayor requerimiento de baterías y usar un Disjoint Set Union (DSU) con compresión de caminos y unión por rango.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(M log M)</span>
+          <span><strong>Espacio:</strong> O(N + M)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+using namespace std;
+
+struct Edge { int u, v, b; };
+
+struct DSU {
+    vector&lt;int&gt; p;
+    DSU(int n) : p(n + 1) { iota(p.begin(), p.end(), 0); }
+    int find(int x) { return (p[x] == x) ? x : (p[x] = find(p[x])); }
+    bool unite(int x, int y) {
+        int rx = find(x), ry = find(y);
+        if (rx != ry) { p[rx] = ry; return true; }
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin &gt;&gt; n &gt;&gt; m)) return 0;
+    vector&lt;Edge&gt; edges(m);
+    for (int i = 0; i &lt; m; i++) cin &gt;&gt; edges[i].u &gt;&gt; edges[i].v &gt;&gt; edges[i].b;
+
+    // Ordenar aristas por costo de baterías ascendente
+    sort(edges.begin(), edges.end(), [](const Edge&amp; x, const Edge&amp; y){ return x.b &lt; y.b; });
+
+    DSU dsu(n);
+    long long total_batteries = 0;
+    int edges_used = 0;
+
+    for (const auto&amp; e : edges) {
+        if (dsu.unite(e.u, e.v)) {
+            total_batteries += e.b;
+            if (++edges_used == n - 1) break;
+        }
+    }
+
+    cout &lt;&lt; total_batteries &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_1_C">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#59</span>
+          <span class="ex-title">Roberto El Mago</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-01 #C [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> n criaturas (1 &lt;= n &lt;= 100), experimento de x años (1 &lt;= x &lt;= 100). Cada año se administra una poción que transforma una criatura en otra. potencial(a, b, x) = número de maneras de transformar la criatura a en b en exactamente x años. Encontrar la pareja (a, b) con el mayor potencial. Empates: menor a, luego menor b.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Potencia de Matrices / Caminos de longitud x en Grafo Dirigido. Construir la matriz de adyacencia A donde A[u][v] es el número de pociones que transforman u en v. Calcular A^x mediante exponenciación binaria de matrices en O(n^3 log x) o DP iterativa.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n^3 log x)</span>
+          <span><strong>Espacio:</strong> O(n^2)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+using ull = unsigned long long;
+
+vector&lt;vector&lt;ull&gt;&gt; multiply(const vector&lt;vector&lt;ull&gt;&gt;&amp; A, const vector&lt;vector&lt;ull&gt;&gt;&amp; B, int n) {
+    vector&lt;vector&lt;ull&gt;&gt; C(n, vector&lt;ull&gt;(n, 0));
+    for (int i = 0; i &lt; n; i++) {
+        for (int k = 0; k &lt; n; k++) {
+            if (!A[i][k]) continue;
+            for (int j = 0; j &lt; n; j++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    return C;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, x;
+    if (!(cin &gt;&gt; n &gt;&gt; x)) return 0;
+
+    // adj[u][v] = cantidad de pociones para pasar de u a v
+    vector&lt;vector&lt;ull&gt;&gt; adj(n, vector&lt;ull&gt;(n, 0));
+    for (int i = 0; i &lt; n; i++) {
+        int s; cin &gt;&gt; s;
+        for (int k = 0; k &lt; s; k++) {
+            int src; cin &gt;&gt; src;
+            adj[src][i]++; // De src se transforma en i
+        }
+    }
+
+    // Exponenciación binaria de matriz: res = adj^x
+    vector&lt;vector&lt;ull&gt;&gt; res(n, vector&lt;ull&gt;(n, 0));
+    for (int i = 0; i &lt; n; i++) res[i][i] = 1;
+    vector&lt;vector&lt;ull&gt;&gt; base = adj;
+    int p = x;
+    while (p &gt; 0) {
+        if (p &amp; 1) res = multiply(res, base, n);
+        base = multiply(base, base, n);
+        p &gt;&gt;= 1;
+    }
+
+    // Buscar el par (a, b) con el máximo potencial
+    ull max_pot = 0;
+    int best_a = 0, best_b = 0;
+    for (int a = 0; a &lt; n; a++) {
+        for (int b = 0; b &lt; n; b++) {
+            if (res[a][b] &gt; max_pot) {
+                max_pot = res[a][b];
+                best_a = a;
+                best_b = b;
+            }
+        }
+    }
+
+    cout &lt;&lt; best_a &lt;&lt; " " &lt;&lt; best_b &lt;&lt; " " &lt;&lt; max_pot &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C25_2_C">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#60</span>
+          <span class="ex-title">Log Pose</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2025-02 #C [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Archipiélago con n islas y m rutas dirigidas (1 &lt;= n, m &lt;= 1000) con tiempos w (pueden ser negativos). Partiendo de la isla 1, calcular el tiempo mínimo de viaje a las islas 2, 3, ..., n. Si existe un ciclo temporal negativo alcanzable desde 1, imprimir 'Bucle temporal.'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Algoritmo de Bellman-Ford. Relajar todas las aristas n-1 veces. En la n-ésima pasada, si alguna arista se puede relajar sobre un nodo alcanzable, se detecta un ciclo negativo ('Bucle temporal.').
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * m)</span>
+          <span><strong>Espacio:</strong> O(n + m)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+struct Edge { int u, v; long long w; };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin &gt;&gt; n &gt;&gt; m)) return 0;
+    vector&lt;Edge&gt; edges(m);
+    for (int i = 0; i &lt; m; i++) cin &gt;&gt; edges[i].u &gt;&gt; edges[i].v &gt;&gt; edges[i].w;
+
+    const long long INF = 1e18;
+    vector&lt;long long&gt; dist(n + 1, INF);
+    dist[1] = 0;
+
+    // Relajar n - 1 veces
+    for (int i = 1; i &lt;= n - 1; i++) {
+        for (const auto&amp; e : edges) {
+            if (dist[e.u] != INF &amp;&amp; dist[e.u] + e.w &lt; dist[e.v]) {
+                dist[e.v] = dist[e.u] + e.w;
+            }
+        }
+    }
+
+    // Comprobación de ciclo negativo alcanzable
+    bool neg_cycle = false;
+    for (const auto&amp; e : edges) {
+        if (dist[e.u] != INF &amp;&amp; dist[e.u] + e.w &lt; dist[e.v]) {
+            neg_cycle = true;
+            break;
+        }
+    }
+
+    if (neg_cycle) {
+        cout &lt;&lt; "Bucle temporal.\n";
+    } else {
+        for (int i = 2; i &lt;= n; i++) {
+            cout &lt;&lt; dist[i] &lt;&lt; (i == n ? "" : " ");
+        }
+        cout &lt;&lt; "\n";
+    }
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="C26_1_C">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#61</span>
+          <span class="ex-title">La Cadena de los Rumores</span>
+        </div>
+        <span class="ex-badge badge-agent">Certamen 2026-01 #C [resuelto por el agente]</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Red con n usuarios y m aristas dirigidas (2 &lt;= n, m &lt;= 1000) con cambios de credibilidad w (-1000 &lt;= w &lt;= 1000). Desde usuario 1, hallar la variación mínima de credibilidad hacia 2, 3, ..., n. Si hay ciclo de retroalimentación negativa alcanzable, imprimir 'Negative feedback'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Algoritmo de Bellman-Ford con Detección de Ciclos Negativos. Relajar aristas n-1 veces y verificar si en la n-ésima pasada existe reducción de distancia.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * m)</span>
+          <span><strong>Espacio:</strong> O(n + m)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+struct Edge { int u, v; long long w; };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin &gt;&gt; n &gt;&gt; m)) return 0;
+    vector&lt;Edge&gt; edges(m);
+    for (int i = 0; i &lt; m; i++) cin &gt;&gt; edges[i].u &gt;&gt; edges[i].v &gt;&gt; edges[i].w;
+
+    const long long INF = 1e18;
+    vector&lt;long long&gt; dist(n + 1, INF);
+    dist[1] = 0;
+
+    for (int i = 1; i &lt;= n - 1; i++) {
+        for (const auto&amp; e : edges) {
+            if (dist[e.u] != INF &amp;&amp; dist[e.u] + e.w &lt; dist[e.v]) {
+                dist[e.v] = dist[e.u] + e.w;
+            }
+        }
+    }
+
+    bool neg_cycle = false;
+    for (const auto&amp; e : edges) {
+        if (dist[e.u] != INF &amp;&amp; dist[e.u] + e.w &lt; dist[e.v]) {
+            neg_cycle = true;
+            break;
+        }
+    }
+
+    if (neg_cycle) {
+        cout &lt;&lt; "Negative feedback\n";
+    } else {
+        for (int i = 2; i &lt;= n; i++) {
+            cout &lt;&lt; dist[i] &lt;&lt; (i == n ? "" : " ");
+        }
+        cout &lt;&lt; "\n";
+    }
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

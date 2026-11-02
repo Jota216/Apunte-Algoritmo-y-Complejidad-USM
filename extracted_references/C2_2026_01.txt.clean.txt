@@ -1,0 +1,164 @@
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+Sa´bado 27 de junio de 2026
+Campus Casa Central Campus Santiago San Joaqu´in
+
+
+---PAGE---
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+
+Problema A
+Jaime vs Basti´an
+autor: Carlos Lagos Tiempo l´imite: 1 s Memoria l´imite: 256 MB
+Jaime es una persona adicta a las apuestas. Arriesga todo su dinero todos los d´ias y, cuando pierde, se desespera. Debido a su comportamiento, fue vetado de todos los casinos que frecuentaba. Sin embargo, decidido a seguir jugando, le propuso a su amigo Basti´an disputar un juego.
+A Basti´an le gusta la teor´ia de juegos, por lo que acept´o, pero antes quiere determinar si el juego propuesto tiene un ganador definido suponiendo que ambos jugadores actu´an de manera ´optima.
+El juego consiste en lo siguiente. Hay n frascos con canicas, donde el frasco i-´esimo contiene ai canicas. Los jugadores juegan de forma alternada, comenzando Jaime. En cada turno, el jugador correspondiente debe elegir un frasco no vac´io y retirar de ´el una cantidad impar de canicas (es decir, retirar 1, 3, 5, . . . canicas, siempre y cuando esa cantidad sea menor o igual al nu´mero de canicas que hay actualmente en ese frasco). Pierde el jugador que no puede realizar un movimiento v´alido, o equivalentemente, gana el jugador que logra efectuar el u´ltimo movimiento posible.
+Suponiendo que ambos juegan de forma ´optima, es decir, que en cada estado del juego eligen siempre una jugada que los conduce a la victoria si es posible, ¿qui´en gana el juego?
+Entrada
+La primera l´inea contiene un entero n (1  n  105), la cantidad de frascos.
+La segunda l´inea contiene n enteros a1, a2, . . . , an (1  ai  109), donde ai representa la cantidad de canicas en el frasco i.
+Salida
+Imprime
+"Jaime" si Jaime gana el juego.
+"Bastian" en caso contrario.
+
+Ejemplos
+Ejemplo de entrada 1 3 225
+Ejemplo de entrada 2 3 123
+
+Ejemplo de salida 1 Jaime
+Ejemplo de salida 2 Bastian
+
+
+---PAGE---
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+Problema B
+La Guardia de la Noche en Casa Central
+autor: Roberto As´in Tiempo l´imite: 1 s Memoria l´imite: 256 MB
+El Rey de la Noche y su temido ej´ercito de Caminantes Blancos han cruzado el Canal de Chacao y avanzan implacablemente hacia la Casa Central de la UTFSM en Valpara´iso. Casa Central, erigida como una imponente fortaleza Tudor sobre los acantilados del Oc´eano Pac´ifico, representa el u´ltimo basti´on del conocimiento cient´ifico y la resistencia en el reino de Chile.
+Jon Stark-Mina, Lord Comandante de la Guardia de la Noche en Casa Central, se prepara para el inminente asedio del ej´ercito de Caminantes Blancos. Para la defensa t´actica de la fortaleza, Jon Stark-Mina ha recibido una lista con la informaci´on de M voluntarios dispuestos a marchar al combate. Sin embargo, no cualquier voluntario podr´a resistir la dureza de la incursi´on m´as all´a de las murallas de Casa Central.
+Para que un guerrero sea de utilidad t´actica, debe cumplir obligatoriamente con pertenecer a un campus oficial de la universidad (los campus v´alidos registrados en los mapas son CasaCentral, SanJoaquin, Vitacura, VinaDelMar y Concepcion), y adem´as portar un arma que pueda dan~ar a los Caminantes Blancos, hecha de Vidriagon o AceroValyrio. Cualquier voluntario proveniente de otras tierras o que porte armas ineficaces (como AceroComun o Ninguno) no podr´a formar parte del contingente defensivo.
+Adicionalmente, para asegurar la cohesi´on del escuadr´on, Jon Stark-Mina ha impuesto una restricci´on de compatibilidad muy estricta: el grupo a ser desplegado no debe albergar rivalidades internas insalvables. Cada voluntario posee una afinidad o facci´on declarada en los registros, la cual puede ser Stark, Lannister o Neutral. Jon sabe que la misi´on fracasar´a si en el mismo grupo marcha al menos un partidario de la facci´on Stark y al menos un partidario de la facci´on Lannister. Los miembros de facci´on Neutral pueden marchar junto a cualquiera, pero Stark y Lannister no pueden coexistir en la misma expedici´on t´actica.
+Jon Stark-Mina desea organizar patrullas especiales de reconocimiento compuestas por exactamente K guerreros. Con el fin de calcular la log´istica y las raciones necesarias para el viaje, el Lord Comandante necesita saber de cu´antas maneras distintas se puede estructurar un escuadr´on defensivo con estas restricciones, utilizando a los voluntarios que realmente est´an en condiciones de marchar y son compatibles entre s´i.
+Para esto, construye un c´odigo que le ayude a Jon Stark-Mina a resolver su problema determinando la cantidad de escuadrones v´alidos posibles que puede conformar.
+
+
+---PAGE---
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+
+Entrada
+La primera l´inea contiene dos enteros: M (1  M  25), el nu´mero total de voluntarios en la lista original, y K (1  K  25), la cantidad exacta de guerreros requerida para conformar el escuadr´on defensivo.
+A continuaci´on, siguen M l´ineas. La i-´esima l´inea contiene cuatro strings separados por espacios: el nombre del voluntario, su campus o casa de origen, su tipo de arma y su facci´on (Stark, Lannister o Neutral). Cada string est´a compuesto por un m´aximo de 30 caracteres alfanum´ericos sin espacios.
+Salida
+Imprime un u´nico nu´mero entero: la cantidad total de formas diferentes en las que se puede elegir un escuadr´on de exactamente K campeones bajo las condiciones del problema. Si es imposible formar un escuadr´on v´alido (por ejemplo, si no existen suficientes guerreros compatibles para alcanzar el taman~o K), la salida debe ser 0.
+
+Ejemplos
+
+Ejemplo de entrada 1 62 JonNieve Stark AceroValyrio Stark SansanoA CasaCentral Vidriagon Stark SansanoB SanJoaquin AceroValyrio Lannister SansanoC Vitacura Vidriagon Neutral SansanoD VinaDelMar AceroComun Stark SansanoE Concepcion Vidriagon Stark
+
+Ejemplo de salida 1 4
+
+Ejemplo de entrada 2 63 AryaStark CasaCentral Vidriagon Stark SansanoA Vitacura AceroValyrio Lannister SansanoB Concepcion AceroValyrio Lannister SansanoC SanJoaquin Vidriagon Neutral JaimeLannister Lannister AceroValyrio Lannister Tyrion Lannister Ninguno Neutral
+
+Ejemplo de salida 2 1
+
+Ejemplo de entrada 3 41 JonNieve Stark AceroValyrio Stark Cersei Lannister AceroComun Lannister EstudianteMecanica SanJoaquin AceroComun Neutral SamwellTarly CasaCentral AceroComun Neutral
+
+Ejemplo de salida 3 0
+
+
+---PAGE---
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+Problema C
+La Cadena de los Rumores
+autor: Maximiliano Ojeda Tiempo l´imite: 1 s Memoria l´imite: 256 MB
+En una red social hay n usuarios, numerados de 1 a n. Cuando un usuario u comparte contenido directamente con un usuario v, la credibilidad percibida del mensaje cambia en w puntos a lo largo de ese reenv´io espec´ifico: w puede ser positivo (si v conf´ia m´as en u y el mensaje gana credibilidad), negativo (si v tiende a desconfiar de lo que comparte u, y la credibilidad del mensaje se degrada) o cero. Esta relaci´on de reenv´io es unidireccional: que u comparta contenido con v no implica que v comparta contenido con u.
+Un mensaje puede viajar por una cadena de varios reenv´ios, y su variaci´on total de credibilidad es la suma de las variaciones w de cada reenv´io en la cadena.
+El equipo de moderaci´on quiere analizar, partiendo de un usuario influyente conocido (el usuario 1), cu´al es la variaci´on m´inima de credibilidad que puede sufrir un mensaje al llegar a cada uno de los dem´as usuarios, siguiendo la cadena de reenv´ios m´as perjudicial posible.
+Sin embargo, existe un fen´omeno preocupante: si en la red hay un ciclo de retroalimentaci´on negativa o negative feedback (un grupo de usuarios que se reenv´ian contenido entre s´i de forma que la credibilidad total cae cada vez que el mensaje completa el ciclo) y ese ciclo es alcanzable desde el usuario 1, entonces la credibilidad de un mensaje podr´ia degradarse indefinidamente con solo seguir reenvi´andolo dentro de ese grupo, y el an´alisis de variaci´on m´inima dejar´ia de tener sentido.
+Se te pide escribir un programa que determine si existe un ciclo de retroalimentaci´on negativa alcanzable desde el usuario 1, y en caso de que no exista, calcule la variaci´on m´inima de credibilidad desde el usuario 1 hacia cada uno de los dem´as usuarios.
+Entrada
+La primera l´inea contiene dos enteros n y m (2  n  103, 1  m  103): la cantidad de usuarios y la cantidad de relaciones de reenv´io directo registradas.
+Las siguientes m l´ineas contienen, cada una, tres enteros u, v y w (1  u, v  n, -103  w  103), indicando que existe una relaci´on de reenv´io directo desde el usuario u hacia el usuario v que modifica la credibilidad del mensaje en w puntos. Se garantiza que todos los usuarios son alcanzables desde el usuario 1.
+Salida
+Si no existe ningu´n ciclo de retroalimentaci´on negativa alcanzable desde el usuario 1, imprime, separados por espacios, la variaci´on m´inima de credibilidad desde el usuario 1 hacia los usuarios 2, 3, . . . , n, en ese orden. En caso contrario, imprime u´nicamente la cadena ``Negative feedback''.
+Ejemplos
+
+
+---PAGE---
+Ejemplo de entrada 1 56 125 132 2 4 -1 344 3 2 -2 453
+Ejemplo de entrada 2 55 124 2 3 -3 3 4 -2 4 2 -1 1 5 20
+Ejemplo de entrada 3 44 123 131 242 345
+
+Certamen Algoritmos y Complejidad (INF221) 2026-1 Ejemplo de salida 1 0 2 -1 2
+Ejemplo de salida 2 Negative feedback
+Ejemplo de salida 3 315
+
+
+---PAGE---
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+Problema D
+El Registro Oficial
+autor: Raquel Pezoa Tiempo l´imite: 1 s Memoria l´imite: 256 MB
+El esperado partido entre Colombia y Portugal por la Copa Mundial de Fu´tbol 2026 ha captado la atenci´on de millones de aficionados alrededor del mundo. Muchos esperan ver si Cristiano Ronaldo logra liderar a Portugal en uno de los encuentros m´as atractivos de la fase de grupos. Debido a la importancia del partido, la FIFA ha decidido evaluar un nuevo sistema autom´atico de asistencia al VAR en un escenario de alta exigencia. Durante el encuentro, tanto el ´arbitro principal como el sistema VAR generan, en orden cronol´ogico, un registro de los eventos m´as importantes del partido. Cada evento se representa mediante uno de los siguientes c´odigos:
+GOL = gol, FAL = falta, COR = c´orner, AMA = tarjeta amarilla, ROJ = tarjeta roja, PEN = penal.
+Como se espera un partido intenso, con posibles jugadas pol´emicas protagonizadas por figuras como Luis D´iaz, ambos registros deben analizarse cuidadosamente. Sin embargo, como el ´arbitro y el sistema autom´atico funcionan de manera independiente, pueden existir diferencias entre ellos: alguno puede omitir un evento, registrar un evento adicional o clasificar incorrectamente una jugada. Adem´as, el sistema autom´atico au´n se encuentra en fase de pruebas. En algunas ocasiones detecta que ocurri´o un evento, pero no logra clasificarlo antes de que la jugada continu´e. En ese caso registra el c´odigo UNK (Unknown), indicando que ocurri´o un evento, pero su tipo es desconocido. Por lo tanto, UNK puede corresponder a cualquiera de los c´odigos anteriores. Para generar el registro oficial del partido, la FIFA necesita combinar la informaci´on proveniente del ´arbitro y del VAR. Antes de hacerlo, requiere medir el costo m´inimo necesario para comparar ambos registros utilizando las siguientes reglas:
+ignorar un evento de cualquiera de los dos registros tiene costo 2; emparejar un evento del registro del VAR con un evento del registro del ´arbitro:
+· tiene costo 0, si ambos poseen el mismo c´odigo; · tiene costo 1, si alguno de los dos c´odigos es UNK; · tiene costo 5, si poseen c´odigos distintos.
+La FIFA requiere su ayuda para generar un u´nico registro oficial de este gran partido. Su tarea consiste en determinar el costo m´inimo necesario para combinar los registros del ´arbitro y del VAR.
+Entrada
+La primera l´inea contiene dos enteros n y m (1  n, m  103), correspondientes a la cantidad de eventos registrados por el VAR y por el ´arbitro, respectivamente.
+
+
+---PAGE---
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+La segunda l´inea contiene n c´odigos separados por espacios, correspondientes al registro cronol´ogico generado por el sistema VAR. La tercera l´inea contiene m c´odigos separados por espacios, correspondientes al registro cronol´ogico generado por el ´arbitro. Cada c´odigo pertenece al conjunto
+
+{GOL, FAL, COR, AMA, ROJ, PEN, UNK}.
+Salida
+Imprima un u´nico entero correspondiente al costo m´inimo necesario para fusionar los registros del ´arbitro y del VAR.
+
+Ejemplos
+Ejemplo de entrada 1 65 GOL FAL COR UNK PEN ROJ GOL COR AMA PEN ROJ
+Ejemplo de entrada 2 55 GOL UNK PEN AMA ROJ GOL FAL PEN AMA ROJ
+Ejemplo de entrada 3 43 GOL FAL PEN ROJ GOL PEN ROJ
+Ejemplo de entrada 4 33 GOL FAL COR ROJ AMA PEN
+
+Ejemplo de salida 1 3
+Ejemplo de salida 2 1
+Ejemplo de salida 3 2
+Ejemplo de salida 4 12
+
+
+---PAGE---
+Certamen Algoritmos y Complejidad (INF221) 2026-1
+
+Problema E
+El Mandaloriano y las Operaciones de la Nueva Repu´blica
+autor: Raquel Pezoa Tiempo l´imite: 1 s Memoria l´imite: 256 MB
+Tras la ca´ida del Imperio, la Nueva Repu´blica enfrenta numerosos conflictos en sistemas alejados del nu´cleo gal´actico. Para responder r´apidamente a estas amenazas, ha solicitado la ayuda de dos de sus aliados m´as experimentados: el Mandaloriano y Bo-Katan Kryze.
+Durante las pr´oximas semanas, ambos deber´an liderar una serie de misiones independientes distribuidas por toda la galaxia. Cada misi´on i requiere di d´ias para completarse y posee una importancia estrat´egica wi, determinada por el Alto Mando. Adem´as, cada misi´on ha sido asignada previamente a uno de los dos l´ideres: el Mandarloriano (M) o Bo-Katan (B).
+Tanto el Mandaloriano como Bo-Katan pueden realizar misiones simult´aneamente en sistemas distintos. Sin embargo, cada uno de ellos solo puede liderar una misi´on a la vez, y adem´as cada l´ider no puede iniciar una nueva hasta completar la anterior.
+Sea Fi el d´ia en que finaliza la misi´on i. El Alto Mando de la Nueva Repu´blica considera que retrasar una misi´on cr´itica puede tener consecuencias significativas para la estabilidad de la galaxia. Por ello, cada misi´on genera un costo estrat´egico proporcional tanto a su importancia wi como al d´ia en que se completa, es decir, wi · Fi. El costo total de la campan~a corresponde a la suma de los costos de todas las misiones. La Nueva Repu´blica desea planificar el orden de ejecuci´on de las misiones de modo que el costo total de la campan~a sea m´inimo.
+Entrada
+La primera l´inea contiene un entero n (1  n  105): la cantidad de misiones.
+Cada una de las siguientes n l´ineas contiene tres valores di, wi y mi (1  di, wi  104), donde di es la duraci´on en d´ias de la misi´on, wi es su importancia estrat´egica, y mi  D, B indica si la misi´on fue asignada al Mandaloriano (D) o a Bo-Katan (B).
+Salida
+Imprime un u´nico entero: el menor costo total posible de la campan~a.
+
+Ejemplos
+Ejemplo de entrada 1 6 38M 25B 46M 14B 27M 33B
+
+Ejemplo de salida 1 145
+
+
+---PAGE---
+Ejemplo de entrada 2 4 5 10 M 21M 34M 12M
+Ejemplo de entrada 3 3 4 10 B 1 10 M 21M
+Ejemplo de entrada 4 5 44M 2 100 M 36B 11B 23B
+
+Certamen Algoritmos y Complejidad (INF221) 2026-1 Ejemplo de salida 2 145
+Ejemplo de salida 3 53
+Ejemplo de salida 4 263
+
+
+---PAGE---

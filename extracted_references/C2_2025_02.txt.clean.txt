@@ -1,0 +1,274 @@
+Torneo de Programacio´n Competitiva USM 2025
+Sa´bado 22 de noviembre de 2025
+Campus Casa Central Campus Santiago San Joaqu´in
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+Problema A
+Slimes
+autor: Roberto As´in nivel: Intermedio
+V´alido para Certamen de AlgoCo: S´i
+En el Reino de Algoritmia, los slimes han desarrollado una habilidad especial: absorber a otro slime. Kirby se encuentra en un pasillo con n slimes ordenados en l´inea. Kirby comienza es el primer slime con poder p1, y debe recorrer el pasillo de izquierda a derecha, encontr´andose con los slimes 2, 3, . . . , n en ese orden exacto. Cada slime i tiene un poder pi > 0. Cuando Kirby (con poder actual P ) se encuentra con el slime i:
+Si P  pi, Kirby puede elegir absorber al slime, aumentando su poder a P + pi Si P < pi, Kirby no puede absorber al slime Kirby puede elegir no absorber un slime incluso si puede hacerlo
+Debido al proceso de digesti´on, Kirby no puede absorber dos slimes consecutivos. Es decir, si Kirby absorbe el slime i, no podr´a absorber el slime i + 1 (aunque tenga suficiente poder), pero s´i podr´ia absorber el slime i + 2. El objetivo es determinar el m´aximo poder que Kirby puede alcanzar al final del pasillo.
+Entrada
+La primera l´inea contiene un entero n (2  n  105), el nu´mero de slimes La segunda l´inea contiene n enteros p1, p2, . . . , pn (1  pi  106), los poderes de cada slime
+Salida
+Un u´nico entero: el m´aximo poder que Kirby puede obtener al final del pasillo.
+
+
+---PAGE---
+Ejemplos
+Ejemplo de entrada 4 10 5 15 8
+5 20 5 30 10 50
+6 15 8 10 25 5 12
+
+Torneo de Programaci´on Competitiva USM 2025
+Ejemplo de salida 25 100 52
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+Problema B
+Programaci´on de Hechizos en el Ministerio de Magia
+autor: Raquel Pezoa nivel: Intermedio
+V´alido para Certamen de AlgoCo: S´i
+El Departamento de Control de Artefactos M´agicos del Ministerio de Magia, dirigido por Hermione Granger, debe procesar una lista de n hechizos registrados durante el d´ia. Los hechizos provienen de diversas oficinas del Ministerio, incluyendo el Cuartel de los Aurores, donde trabajan magos como Harry Potter y Kingsley Shacklebolt. Cada hechizo i est´a descrito por: (i) un tiempo de conjuraci´on pi, (ii) un peso m´agico (nivel de importancia) wi, y (iii) un tipo de magia mi  {C, D}, donde:
+C: hechizos de Conjuraci´on, D: hechizos de Defensa.
+El artefacto regulador utilizado por el Ministerio, una compleja m´aquina encantada disen~ada por Arthur Weasley, solo puede operar en un tipo de magia a la vez. Si en algu´n momento debe cambiar entre los tipos C y D, es necesaria una recalibraci´on m´agica que toma exactamente S segundos adicionales, los cuales se suman al tiempo transcurrido antes de poder continuar con la ejecuci´on del siguiente hechizo. Observe que si el artefacto cambia de un tipo de magia al otro, debe continuar operando en ese nuevo tipo hasta terminar todos los hechizos restantes. Cada hechizo aporta un costo m´agico acumulado que depende de su importancia y del instante exacto en que finaliza su ejecuci´on. En particular, si un hechizo i termina de ejecutarse en el tiempo Ti, entonces su aporte al costo total es wi × Ti, es decir, su peso m´agico multiplicado por el tiempo en que finaliza. El objetivo del Ministerio es determinar un orden de ejecuci´on que produzca el menor costo m´agico posible. Notar que el artefacto no puede ejecutar hechizos de tipos distintos simult´aneamente y todos los hechizos deben ser ejecutados.
+Entrada
+La entrada consiste en:
+Una l´inea con dos enteros n y S, donde 1  n  105 y 1  S  104. Luego siguen n l´ineas, cada una con tres elementos pi, wi y mi:
+· pi (1  pi  104): tiempo de conjuraci´on del hechizo. · wi (1  wi  104): peso m´agico (importancia). · mi  {C, D}: tipo de magia (Conjuraci´on o Defensa).
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+Salida
+Imprima un u´nico entero: el costo m´agico m´inimo posible.
+
+Ejemplos
+Ejemplo de entrada 45 1 10 C 11D 1 10 C 11D
+45 34C 22D 13C 41D
+5 10 83D 25C 32C 64D 11C
+57 5 10 D 21D 34C 12C 43D
+
+Ejemplo de salida 47 56 203
+214
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+Problema C
+Log Pose
+autor: Carlos Lagos nivel: Intermedio
+V´alido para Certamen de AlgoCo: S´i
+Los Mugiwaras se encuentran navegando por un archipi´elago. Nami encuentra un Log Pose muy particular, dentro de ´el hay n minibrujulas, cada una asociada a una isla distinta del archipi´elago. Cuando la tripulaci´on est´a en una isla u, cada minibrujula intenta apuntar hacia las islas vecinas a las que se puede navegar directamente desde u. Si una minibrujula no marca ninguna direcci´on, significa que no existe una ruta directa desde u hacia esa isla, o bien que corresponde a la isla en la que ya se encuentran.
+Junto al Log Pose, Nami descubre un mapa antiguo e impreciso que muestra un archipi´elago con n islas numeradas del 1 al n. El mapa no sirve para orientarse directamente, porque sus dibujos est´an distorsionados y muchas referencias geogr´aficas ya no coinciden con la realidad, pero s´i registra correctamente qu´e rutas existen y el tiempo que toma recorrer cada una. La tripulaci´on parte desde la isla 1. Por culpa de corrientes inestables y zonas peligrosas, solo algunas rutas son navegables y todas son unidireccionales. Puede existir una ruta u  v con cierto tiempo w, y tambi´en podr´ia existir una ruta v  u con un tiempo distinto, pero eso no es obligatorio: que exista una ruta en un sentido no garantiza que exista en el otro. El mapa tambi´en revela una anomal´ia temporal. Cada ruta tiene un tiempo de viaje w, que puede ser positivo, cero o incluso negativo. Un tiempo negativo representa un fen´omeno extran~o en el que el barco llega antes de haber partido. La tripulaci´on quiere planificar su ruta con seguridad, as´i que te encargan calcular, para cada isla i, el tiempo m´inimo necesario para llegar desde la isla 1. Adem´as, el mapa asegura que todas las islas del archipi´elago son alcanzables desde la isla 1 mediante alguna secuencia de rutas. Sin embargo, podr´ia existir un bucle temporal: un ciclo formado por varias rutas donde la suma de sus tiempos de viaje es negativa. Si un ciclo as´i es alcanzable desde la isla 1, entonces es posible reducir el tiempo indefinidamente viajando alrededor de ´el. Dado que nadie en la tripulaci´on sabe programar, te piden a ti que escribas un programa capaz de resolver lo siguiente:
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+El tiempo m´inimo para llegar desde la isla 1 a cada isla. O advertir si existe un ciclo temporal negativo alcanzable desde la isla 1.
+Se garantiza que el mapa muestra todas las rutas navegables; el Log Pose solo indica qu´e islas est´an conectadas directamente con la isla actual, pero las decisiones de navegaci´on dependen por completo de tu c´alculo.
+
+Entrada
+La entrada comienza con dos enteros positivos n y m, con 1  n, m  103. Luego siguen m l´ineas, cada una con tres enteros u, v y w, con 1  u, v  n y 1  w  103 y , que describen un camino dirigido desde u hasta v con costo w. Se garantiza que desde la isla 1 es posible alcanzar cualquier otra.
+
+Salida
+Si no existe ningu´n ciclo temporal negativo alcanzable desde la isla 1, se deben imprimir, separados por espacios, los tiempos m´inimos para llegar desde la isla 1 a las islas 2, 3, . . . , n, en ese orden. En caso contrario, se debe imprimir u´nicamente la cadena "Bucle temporal.".
+
+Ejemplos
+Ejemplo de entrada 45 1 2 -3 241 132 3 4 -7 1 4 -4
+55 124 2 3 -3 2 4 -10 4 5 -10 5 2 -4
+
+Ejemplo de salida -3 2 -5
+Bucle temporal.
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+Problema D
+Torneo de Tenis de Mesa UTFSM
+autor: Carlos Lagos nivel: Intermedio
+V´alido para Certamen de AlgoCo: S´i
+La Universidad T´ecnica Federico Santa Mar´ia (UTFSM) organizar´a un prestigioso torneo internacional de tenis de mesa. Entre los participantes confirmados se encuentran Lin Shidong, Wang Chuqin, Liang Jingkun, Hugo Calderano, Truls M¨oreg°ardh, Ma Long, Nicol´as Burgos (Chileno), Sun Yingsha, Chen Meng, Wang Manyu, Mima Ito, Sofia Polcanova, etc. El torneo consta de dos fases:
+1. Fase de grupos: Los jugadores se dividen en grupos donde cada uno juega contra todos los dem´as en su grupo (todos contra todos). Los dos mejores de cada grupo avanzan.
+2. Fase eliminatoria: Sistema de llaves de eliminaci´on directa hasta determinar al campe´on.
+El problema que enfrenta la universidad es la organizaci´on de la fase de grupos. La universidad debe asignar un u´nico ´arbitro a cada grupo, quien se encargar´a de supervisar todos los partidos dentro de ese grupo. Los ´arbitros tienen una tarifa fija por grupo completo, independientemente del nu´mero de partidos a disputar. Por esta raz´on, para minimizar los costos de arbitraje, la universidad busca formar la menor cantidad de grupos posible. La organizaci´on ha realizado un an´alisis estad´istico del historial de cada jugador para determinar su habilidad esperada. Para evitar diferencias excesivas de habilidad, dentro de un mismo grupo la diferencia entre las habilidades esperadas de cualquier par de jugadores no puede exceder D. La universidad requiere tu ayuda para crear un programa que calcule el nu´mero m´inimo de grupos requeridos para distribuir a todos los jugadores en grupos, de forma que cada jugador pertenezca a exactamente un grupo, garantizando que en cada grupo la diferencia m´axima de habilidad entre cualquier par de jugadores no supere D.
+Entrada
+La primera l´inea contiene dos enteros N y D (1  N  105, 0  D  109), donde N es la cantidad de jugadores y D es la diferencia m´axima permitida entre habilidades en un mismo grupo. La segunda l´inea contiene N enteros a1, a2, · · · , an (1  ai  109), representando la habilidad esperada de cada jugador.
+Salida
+Imprime un u´nico entero: la cantidad m´inima de grupos necesarios.
+
+
+---PAGE---
+Ejemplos
+Ejemplo de entrada 73 12 2 20 5 4 10 9
+
+Torneo de Programaci´on Competitiva USM 2025
+Ejemplo de salida 3
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+Problema E
+Championship
+autor: Roberto As´in nivel: Intermedio
+V´alido para Certamen de AlgoCo: S´i
+
+Abner, Carlos y Sebasti´an representar´an a la UTFSM en el pr´oximo Programadores de A´ merica de la ICPC a realizarse en marzo de 2026 en la Universidad T´ecnica Federico Santa Mar´ia. Como cada competencia, ellos se han propuesto resolver exactamente k de los n problemas de la competencia. El ´exito de esta tarea depende del orden en el que resuelvan los problemas y de la resonancia competitiva que ese orden alcance.
+Durante sus entrenamientos, el equipo ha descubierto que cada problema tiene un valor de dificultad y una categor´ia tem´atica:
+A: Algoritmos B: Estructuras de datos C: Matem´aticas D: Grafos
+La experiencia les ha ensen~ado que el orden de resoluci´on afecta dram´aticamente su desempen~o segu´n las siguientes reglas:
+
+1. Fatiga acumulativa: El impacto de resolver un problema aumenta con el tiempo. Un problema de dificultad d resuelto en la posici´on p aporta d × p puntos de fatiga.
+2. Cambio de contexto: No pueden resolver dos problemas consecutivos de la misma categor´ia, ya que necesitan tiempo para adaptar el mismo enfoque a un problema distinto.
+3. Sincronizaci´on del equipo: Para mantener la coordinaci´on, la fatiga total acumulada debe ser divisible por M (su nu´mero de sincronizaci´on). La fatiga total se calcula como:
+
+k
+
+fatiga total = dificultad[i] × posici´on[i]
+
+(1)
+
+i=1
+
+donde posici´on[i] es 1 para el primer problema resuelto, 2 para el segundo, etc.
+4. La maldici´on del primer problema: Si empiezan con un problema de Algoritmos (A), no pueden terminar con uno de Grafos (D), debido a una superstici´on del equipo basada en competencias anteriores donde esta combinaci´on les trajo mala suerte.
+
+El equipo te pide que los ayudes realizando un programa que, dados los datos de una competencia, identifique cu´antas secuencias de resoluci´on de problemas v´alidas existen.
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+Entrada
+La primera l´inea de la entrada consiste en tres enteros separados por un espacio: N (1  N  15), K (1  K  N ) y M (1  M  100), correspondientes al nu´mero de problemas disponibles, nu´mero de problemas a resolver y factor de sincronizaci´on, respectivamente.
+A esta l´inea, le siguen N l´ineas, donde la i-´esima l´inea (1  i  N ) se compone de un entero di y una letra ci separados por un espacio. di (1  di  100) corresponde a la dificultad del problema i y ci (ci  {A, B, C, D}) corresponde a la categor´ia del problema i.
+
+Salida
+Un u´nico entero: el nu´mero de estrategias v´alidas que puede usar el equipo.
+
+Ejemplos
+Ejemplo de entrada 5 3 12 4A 6B 3C 8A 2D
+423 3A 3B 3C 3D
+
+Ejemplo de salida 8
+10
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+Problema F
+Huevito Rey
+autor: Sebasti´an Torrealba nivel: Intermedio
+V´alido para Certamen de AlgoCo: S´i
+Jaime es un huevo que suen~a con convertirse en el "Huevito Rey". En su camino hacia este t´itulo, se enfrenta al desaf´io de recolectar huevos en una cuadr´icula de taman~o n × m Para lograr su objetivo, debe seguir estas reglas:
+Debe comenzar en la casila (1, 1) Debe pasar obligatoriamente por la casilla (x, y) Solo puedes moverse hacia abajo o hacia la derecha Debes tener la mayor cantidad de huevos posibles dadas las restricciones
+Cada casilla de la cuadr´icula puede contener un huevo (representado por "0") o estar vac´ia (representado por "."). Debes responder cuantos huevos deber´ia recolectar Jaime para convertirse en Huevito rey
+Entrada
+La primera linea consiste en dos enteros n, m (1  n, m  1000), las dimensiones de la cuadricula. La segunda linea consiste en dos enteros x (1  x  n) e y (1  y  m), donde define la casilla (x, y) donde x es la x-´esima columna e y la y-´esima fila, donde es la cual es la casilla obligatoria. Las siguientes n lineas, contiene n strings de taman~o m las cuales definen la cuadr´icula, donde cada caracter puede ser un cero ("0") si es un huevo o un punto (".") si no lo es.
+Salida
+Un u´nico entero: la cantidad de huevos necesaria para que Jaime sea "Huevito rey"
+
+
+---PAGE---
+Ejemplos
+Ejemplo de entrada 55 15 00000 0...0 0...0 0...0 0....
+
+Torneo de Programaci´on Competitiva USM 2025
+Ejemplo de salida 5
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+Problema G
+Convolucional
+autor: Abner Vidal y Carlos Lagos nivel: B´asico
+V´alido para Certamen de AlgoCo: No
+En el equipo de programaci´on competitiva todos conocen la convoluci´on cl´asica: la multiplicaci´on de polinomios de toda la vida, que puede realizarse en O(n log n) mediante la Transformada R´apida de Fourier. Para quienes no est´an familiarizados, una convoluci´on es una operaci´on que combina dos secuencias para producir una tercera. Cada posici´on del resultado se obtiene como la suma de productos entre elementos de ambas secuencias cuyo ´indice cumple cierta relaci´on. En la convoluci´on cl´asica esa relaci´on es i + j = k, lo que corresponde a "superponer" una secuencia sobre la otra y acumular multiplicaciones. Pero Abner, u´ltimamente obsesionado con las convoluciones, descubri´o que existen otros tipos donde la relaci´on entre ´indices no es la suma, sino operaciones como OR, XOR y AND. Estas variantes permiten definir nuevas formas de combinar secuencias y pueden resolverse eficientemente mediante la Transformada R´apida de Walsh-Hadamard (FWHT). Intentando comprender c´omo funcionan estas transformadas, Abner termin´o perdiendo un poco la cordura: empez´o a ver las siglas FWHT por todas partes y a escribir cadenas de texto interminables en las paredes. Para ayudarlo a recuperar la calma, Carlos decidi´o investigar el origen de esta fijaci´on. Su primer paso es descifrar los mensajes que dej´o Abner: necesita contar cu´antas veces aparece el string FWHT en las cadenas que escribi´o en las paredes.
+Entrada
+La primera l´inea contiene un entero 1  n  106, que indica la longitud de la cadena. La segunda l´inea contiene una cadena s de longitud n, compuesta u´nicamente por letras mayu´sculas del alfabeto ingl´es.
+Salida
+Para cada caso, imprime un u´nico entero: el nu´mero de veces que aparece el substring FWHT en la cadena s.
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+Ejemplos
+
+Ejemplo de entrada 10 FWHTFWHTFW
+
+Ejemplo de salida 2
+
+En este caso, FWHT aparece en las posiciones 1-4 y 5-8.
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+Problema H
+SETeando Colores
+autor: Abner Vidal nivel: Avanzado
+V´alido para Certamen de AlgoCo: No
+Vicente y Marcelo estaban compitiendo en un torneo del popular videojuego League of Giants. Debido al cansancio, Marcelo dej´o su computador sin supervisi´on mientras iba a comer algo. Durante ese intervalo, Vicente aprovech´o la oportunidad para acceder al computador de Marcelo e instalarle un virus, el cual imped´ia que Marcelo utilizara a su personaje favorito, Gepeto. Como resultado, Marcelo termin´o perdiendo la competencia al no poder jugar con su personaje habitual. M´as tarde, de camino a casa, necesitaba imprimir varios cuadros para su clase de arte. Sin saber que su computador segu´ia infectado, lo conect´o directamente a la impresora, provocando que esta tambi´en quedara comprometida. Sin embargo, como el virus no estaba disen~ado para impresoras, comenz´o a comportarse de manera inusual. Tras infectarse, la impresora u´nicamente puede realizar dos tipos de operaciones:
+1. Pintar la fila i con el color k. 2. Pintar la columna j con el color k.
+Debido a estas limitaciones, imprimir los cuadros de forma normal ya no es posible. Marcelo tendr´ia que ingresar manualmente cada una de las operaciones necesarias, pero est´a demasiado exhausto tras la competencia, por lo que te pide ayuda para completar esta tarea.
+Entrada
+La primera l´inea contiene un entero t, que indica el nu´mero de cuadros que Marcelo necesita imprimir. A continuaci´on, siguen los t casos. En cada caso:
+La primera l´inea contiene los enteros 1  n, m, c  2500, donde n es el nu´mero de filas del cuadro, m es el nu´mero de columnas, y c es la cantidad de colores disponibles para la impresora. Luego se entregan n l´ineas, cada una con m enteros, describiendo el cuadro que se desea imprimir.
+Se asegura que la suma n · m a trav´es de los cuadros no excede 6,25 · 106.
+Salida
+Para cada caso, primero imprime YES si es posible imprimir el cuadro, o NO en caso contrario.
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+En caso de que la respuesta sea YES, imprime el nu´mero de operaciones necesarias (no es necesario minimizar la cantidad de operaciones), pero este nu´mero debe ser a lo m´as n + m. Luego, muestra las operaciones en el orden en que deben ejecutarse.
+Ten en cuenta que al pintar una fila o columna, los colores anteriores se sobrescriben. El formato de cada operaci´on debe ser:
+op, i, k donde:
+op es 1 o 2, indicando si se pinta una fila o una columna, respectivamente, i es la fila o columna correspondiente, k es el color seleccionado.
+
+Ejemplos
+Ejemplo de entrada 2 334 114 224 334 334 112 412 433
+
+Ejemplo de salida YES 4 111 122 133 234 NO
+
+En el primer caso, la soluci´on consiste en pintar la fila 1 con el color 1, la fila 2 con el color 2, la fila 3 con el color 3 y finalmente la columna 3 con el color 4. Esto produce exactamente el cuadro solicitado mediante un total de cuatro operaciones.
+
+
+---PAGE---
+Torneo de Programaci´on Competitiva USM 2025
+
+Problema I
+Alquimia
+autor: Sebasti´an Torrealba nivel: Avanzado
+V´alido para Certamen de AlgoCo: No
+
+Basti´an es un alquimista que necesita transmutar una secuencia de elementos en otra. Cada transmutaci´on directa entre dos elementos tiene un costo de energ´ia espec´ifico.
+Lo importante es que puede encadenar transmutaciones: si `a'  `b' cuesta 3 y `b'  `c' cuesta 2, entonces `a'  `c' cuesta 5.
+Debes transmutar cada elemento en la posici´on i de S en el elemento en la posici´on i de T , minimizando el costo total.
+
+Entrada
+La primera l´inea contiene dos strings S y T (1  |S| = |T |  104), ambas con solo letras minu´sculas. La segunda l´inea contiene un entero K (0  K  262), el nu´mero de transmutaciones directas. Las siguientes K l´ineas contienen dos caracteres a, b y un entero c (1  c  106), indicando que transmutar a en b cuesta c.
+
+Salida
+El costo m´inimo total para transmutar S en T . Si es imposible, imprime -1.
+
+Ejemplos
+Ejemplo de entrada abc xyz 6 ax5 by3 cz2 a y 10 yz1 x z 100
+
+Ejemplo de salida 10
+
+
+---PAGE---

@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>INF221 - Guía Práctica C++ STL y Patrones de Examen</title>
+<style>
+  @page {
+    size: A4;
+    margin: 8mm 8mm 8mm 8mm;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 7.85pt;
+    line-height: 1.17;
+    color: #111;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Encabezado Principal */
+  .header {
+    border-bottom: 2px solid #111;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .header-left h1 {
+    font-size: 11pt;
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: -0.2px;
+    text-transform: uppercase;
+  }
+  .header-left p {
+    font-size: 6.9pt;
+    margin: 1px 0 0 0;
+    color: #333;
+    font-weight: 600;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 6.7pt;
+    color: #333;
+    font-weight: 500;
+  }
+
+  /* Multi-columna */
+  .columns {
+    column-count: 2;
+    column-gap: 5.5mm;
+    column-rule: 0.5px solid #bbb;
+  }
+
+  /* Títulos de Sección */
+  .section-banner {
+    background: #111;
+    color: #fff;
+    font-size: 8.1pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+    padding: 2px 5px;
+    margin-top: 4px;
+    margin-bottom: 3px;
+    border-radius: 2px;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Tarjetas de Contenido */
+  .card {
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    padding: 2.8px 4.2px;
+    margin-bottom: 3.2px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    background: #fff;
+  }
+  .card-title {
+    font-size: 7.9pt;
+    font-weight: 800;
+    color: #000;
+    border-bottom: 0.8px solid #ddd;
+    padding-bottom: 1px;
+    margin-bottom: 1.8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Badges */
+  .badge {
+    font-family: Consolas, monospace;
+    font-size: 6.2pt;
+    font-weight: 700;
+    background: #eee;
+    color: #000;
+    border: 0.5px solid #555;
+    border-radius: 2px;
+    padding: 0.5px 3px;
+  }
+  .badge-fast {
+    background: #e6f4ea;
+    border-color: #137333;
+    color: #137333;
+  }
+  .badge-warn {
+    background: #fce8e6;
+    border-color: #c5221f;
+    color: #c5221f;
+  }
+
+  /* Bloques de Código */
+  pre.code, code.inline-code {
+    font-family: Consolas, "Courier New", monospace;
+  }
+  pre.code {
+    font-size: 6.7pt;
+    line-height: 1.13;
+    background: #f8f8f9;
+    border: 0.5px solid #bbb;
+    border-left: 2.5px solid #222;
+    border-radius: 2px;
+    padding: 2px 4px;
+    margin: 1.8px 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: #000;
+  }
+  code.inline-code {
+    font-size: 6.9pt;
+    background: #f0f0f0;
+    padding: 0.5px 2px;
+    border-radius: 2px;
+    border: 0.5px solid #ccc;
+    font-weight: 600;
+  }
+
+  /* Tablas Compactas */
+  table.ctable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 6.6pt;
+    margin: 1.8px 0;
+  }
+  table.ctable th, table.ctable td {
+    border: 0.5px solid #bbb;
+    padding: 1.2px 3px;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.ctable tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  table.ctable th {
+    background: #eaeaea;
+    font-weight: 700;
+    color: #111;
+  }
+  table.ctable tr:nth-child(even) td {
+    background: #fbfbfb;
+  }
+
+  /* Textos y Listas */
+  p.desc {
+    font-size: 7.1pt;
+    margin: 0.8px 0;
+    color: #111;
+  }
+  ul.compact-list {
+    margin: 0.8px 0 1.8px 12px;
+    padding: 0;
+    font-size: 6.9pt;
+  }
+  ul.compact-list li {
+    margin-bottom: 0.6px;
+  }
+
+  /* Alertas / Tips */
+  .tip {
+    background: #f4f4f4;
+    border-left: 2.5px solid #333;
+    padding: 1.3px 3.5px;
+    font-size: 6.8pt;
+    margin: 1.3px 0;
+  }
+  .danger {
+    background: #fff2f2;
+    border-left: 2.5px solid #900;
+    padding: 1.3px 3.5px;
+    font-size: 6.8pt;
+    margin: 1.3px 0;
+  }
+  .highlight {
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>INF221 Algoritmos y Complejidad &bull; Cheat-Sheet Práctico C++ STL y Patrones</h1>
+    <p>Manual Integral de Métodos, Sintaxis, Complejidades y Snippets Listos para el Certamen 2 &bull; UTFSM</p>
+  </div>
+  <div class="header-right">
+    <strong>A4 Compacto</strong><br>C++17 / C++20 Compatible
+  </div>
+</div>
+
+<div class="columns">
+
+  <!-- ========================================== -->
+  <!-- TABLA DE LÍMITES Y COMPLEJIDADES           -->
+  <!-- ========================================== -->
+  <div class="card">
+    <div class="card-title">
+      <span>Referencia Rápida: Límites de $N$ para 1 Segundo (~$10^8$ ops)</span>
+      <span class="badge">Tiempo</span>
+    </div>
+    <table class="ctable">
+      <tr><th>Límite $N$</th><th>Complejidad Máxima</th><th>Técnica Sugerida</th></tr>
+      <tr><td>$N le 10$</td><td>$O(N!), O(N^2 cdot 2^N)$</td><td>Permutaciones (next_permutation), TSP exacto</td></tr>
+      <tr><td>$N le 20$</td><td>$O(2^N cdot N), O(3^N)$</td><td>Bitmask DP, Búsqueda Exhaustiva con Podas</td></tr>
+      <tr><td>$N le 40$</td><td>$O(2^{N/2} cdot N)$</td><td>Meet-in-the-Middle (Dividir en dos mitades)</td></tr>
+      <tr><td>$N le 500$</td><td>$O(N^3)$</td><td>Floyd-Warshall, DP con 3 bucles anidados</td></tr>
+      <tr><td>$N le 5000$</td><td>$O(N^2)$</td><td>DP 2D cuadrática, Two Pointers naive</td></tr>
+      <tr><td>$N le 2 cdot 10^5$</td><td>$O(N log N), O(N log^2 N)$</td><td>Sort, Binary Search, DSU, Fenwick, SegTree</td></tr>
+      <tr><td>$N le 10^7$</td><td>$O(N)$ o $O(N log log N)$</td><td>Criba Eratóstenes, Two Pointers, BFS/DFS</td></tr>
+    </table>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN 0: ESQUELETO Y FAST I/O            -->
+  <!-- ========================================== -->
+  <div class="section-banner">0. Esqueleto Base, Fast I/O y Entrada/Salida</div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>0.1 Plantilla Canónica de Competencia / Examen</span>
+      <span class="badge">Plantilla</span>
+    </div>
+    <p class="desc">Encabezado estándar con librerías completas, aliases y constantes seguras:</p>
+<pre class="code">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+// Aliases de tipos esenciales:
+using ll  = long long;
+using pii = pair&lt;int, int&gt;;
+using pli = pair&lt;long long, int&gt;;
+using vi  = vector&lt;int&gt;;
+using vll = vector&lt;long long&gt;;
+
+// Constantes seguras (no desbordan al sumar un peso <= 1e9):
+const int INF    = 1e9 + 7;
+const ll  INF64  = 2e18;
+const int MOD    = 1e9 + 7;
+
+int main() {
+    // Fast I/O obligatorio:
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    // Tu solución aquí
+    return 0;
+}</pre>
+    <div class="tip">
+      <span class="highlight">¿Por qué Fast I/O?</span> <code>ios::sync_with_stdio(false)</code> desvincula los buffers de C++ (<code>cin/cout</code>) de los de C (<code>scanf/printf</code>). <code>cin.tie(nullptr)</code> evita que <code>cin</code> vacíe <code>cout</code> antes de cada lectura. En $10^6$ enteros, reduce tiempo de ~1.4s a ~0.08s.
+    </div>
+    <div class="danger">
+      <span class="highlight">&iexcl;REGLA DE ORO!</span> Al usar Fast I/O, <span class="highlight">NUNCA</span> mezcles <code>cin/cout</code> con <code>scanf/printf/getchar</code>. Usar <code>'
+'</code> en vez de <code>endl</code> (pues <code>endl</code> fuerza flush innecesario).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>0.2 Lectura de Líneas Completas y el "Newline Bug"</span>
+      <span class="badge">getline</span>
+    </div>
+    <p class="desc">Lectura de strings con espacios. Si lees un número antes con <code>cin &gt;&gt; n</code>, queda un <code>'
+'</code> flotando en el buffer:</p>
+<pre class="code">int n;
+cin >> n;
+cin.ignore(); // &iexcl;OBLIGATORIO! Consume el '\n' pendiente tras 'cin >>'
+
+for (int i = 0; i < n; ++i) {
+    string line;
+    getline(cin, line);
+    // Procesar linea completa con espacios
+}</pre>
+    <p class="desc"><span class="highlight">Lectura hasta Fin de Archivo (EOF) línea a línea:</span></p>
+<pre class="code">string line;
+while (getline(cin, line)) {
+    if (line.empty()) continue; // Omitir líneas vacías
+    // Procesar line
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>0.3 Parseo Avanzado con stringstream</span>
+      <span class="badge">&lt;sstream&gt;</span>
+    </div>
+    <p class="desc">Permite tratar una cadena como flujo de entrada de tipos mixtos:</p>
+<pre class="code">// Caso 1: Descomponer línea en palabras:
+string line = "algoritmos y complejidad 2026";
+stringstream ss(line);
+string word;
+while (ss >> word) {
+    // Procesa cada token 'word'
+}
+
+// Caso 2: Patrón C2_2024_02 "El Oso Negro" (Nombre con espacios + 2 enteros)
+// Entrada ej: "Manzana Verde Del Bosque 15 250"
+string line;
+while (getline(cin, line)) {
+    if (line.empty()) continue;
+    stringstream ss(line);
+    vector&lt;string&gt; toks;
+    string t;
+    while (ss >> t) toks.push_back(t);
+    int m = toks.size();
+    long long iso = stoll(toks[m - 1]); // Último token: entero
+    long long vc  = stoll(toks[m - 2]); // Penúltimo token: entero
+    string name = "";
+    for (int i = 0; i < m - 2; ++i) {
+        if (i > 0) name += " ";
+        name += toks[i]; // Reconstruye nombre con espacios
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>0.4 Tokenización con Delimitador Personalizado</span>
+      <span class="badge">CSV / Split</span>
+    </div>
+    <p class="desc">Dividir una cadena por un carácter delimitador (ej. coma o guion):</p>
+<pre class="code">string s = "Santiago,Valparaiso,Concepcion,Temuco";
+stringstream ss(s);
+string token;
+vector&lt;string&gt; ciudades;
+while (getline(ss, token, ',')) { // 3er argumento: delimitador
+    ciudades.push_back(token);
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>0.5 Formas Canónicas de Bucles de Entrada</span>
+      <span class="badge">Patrones Entrada</span>
+    </div>
+    <table class="ctable">
+      <tr><th>Caso de Prueba</th><th>Patrón en C++</th></tr>
+      <tr>
+        <td><strong>$T$ casos de prueba</strong></td>
+        <td><pre class="code" style="margin:0;">int t; cin >> t;
+while (t--) { solve(); }</pre></td>
+      </tr>
+      <tr>
+        <td><strong>Hasta Fin de Archivo (EOF)</strong></td>
+        <td><pre class="code" style="margin:0;">int n, m;
+while (cin >> n >> m) { ... }</pre></td>
+      </tr>
+      <tr>
+        <td><strong>Centinela de término (ej. $0 0$)</strong></td>
+        <td><pre class="code" style="margin:0;">int n, m;
+while (cin >> n >> m && (n != 0 || m != 0)) {
+    // Procesar
+}</pre></td>
+      </tr>
+      <tr>
+        <td><strong>Centinela de 1 variable (ej. $N = 0$)</strong></td>
+        <td><pre class="code" style="margin:0;">int n;
+while (cin >> n && n) { ... }</pre></td>
+      </tr>
+      <tr>
+        <td><strong>Vector completo de tamaño $N$</strong></td>
+        <td><pre class="code" style="margin:0;">vector&lt;int&gt; a(n);
+for (auto& x : a) cin >> x;</pre></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>0.6 Formateo de Salida Flotante</span>
+      <span class="badge">&lt;iomanip&gt;</span>
+    </div>
+    <p class="desc">Control estricto de precisión decimal (imprescindible en geometría y física):</p>
+<pre class="code">#include &lt;iomanip&gt;
+double pi = 3.14159265358979;
+cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; pi &lt;&lt; '
+'; // 3.14
+cout &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; pi &lt;&lt; '
+'; // 3.141593
+
+// Relleno con ceros a la izquierda (ej. formato hora 08:05):
+int h = 8, m = 5;
+cout &lt;&lt; setfill('0') &lt;&lt; setw(2) &lt;&lt; h &lt;&lt; ":" 
+     &lt;&lt; setfill('0') &lt;&lt; setw(2) &lt;&lt; m &lt;&lt; '
+'; // 08:05</pre>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN 1: CONTENEDORES STL                -->
+  <!-- ========================================== -->
+  <div class="section-banner">1. Contenedores STL (Sintaxis, Métodos y Complejidades)</div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.1 std::vector&lt;T&gt; (Arreglo Dinámico Contiguo)</span>
+      <span class="badge">O(1) Acceso</span>
+    </div>
+    <p class="desc">Memoria contigua en caché. Contenedor por defecto en C++.</p>
+<pre class="code">// Inicializaciones 1D, 2D y 3D:
+vector&lt;int&gt; a;                          // Vacío
+vector&lt;int&gt; b(n, 0);                    // Tamaño n con ceros
+vector&lt;int&gt; c = {1, 2, 3, 4, 5};        // Lista inicializadora
+// Matriz 2D de R filas y C columnas inicializada con val:
+vector&lt;vector&lt;int&gt;&gt; grid(R, vector&lt;int&gt;(C, val));
+// Cubo 3D de dimensiones [N][M][K]:
+vector&lt;vector&lt;vector&lt;int&gt;&gt;&gt; dp(N, vector&lt;vector&lt;int&gt;&gt;(M, vector&lt;int&gt;(K, 0)));</pre>
+    <table class="ctable">
+      <tr><th>Método</th><th>Complejidad</th><th>Descripción y Ejemplo</th></tr>
+      <tr><td><code>v.push_back(x)</code></td><td>$O(1)$ amort.</td><td>Agrega $x$ al final del vector</td></tr>
+      <tr><td><code>v.emplace_back(args)</code></td><td>$O(1)$ amort.</td><td>Construye in-place: <code>v.emplace_back(1, 2)</code></td></tr>
+      <tr><td><code>v.pop_back()</code></td><td>$O(1)$</td><td>Elimina el último elemento</td></tr>
+      <tr><td><code>v.front() / v.back()</code></td><td>$O(1)$</td><td>Referencia al primer / último elemento</td></tr>
+      <tr><td><code>v[i]</code></td><td>$O(1)$</td><td>Acceso aleatorio directo sin chequeo</td></tr>
+      <tr><td><code>v.size() / v.empty()</code></td><td>$O(1)$</td><td>Cantidad de elementos / si está vacío</td></tr>
+      <tr><td><code>v.reserve(N)</code></td><td>$O(N)$</td><td>Preasigna capacidad (evita realocaciones)</td></tr>
+      <tr><td><code>v.resize(N, val)</code></td><td>$O(N)$</td><td>Cambia tamaño a $N$, rellenando con <code>val</code></td></tr>
+      <tr><td><code>v.clear()</code></td><td>$O(N)$</td><td>Borra elementos (mantiene capacidad)</td></tr>
+      <tr><td><code>v.assign(N, val)</code></td><td>$O(N)$</td><td>Reemplaza todo con $N$ copias de <code>val</code></td></tr>
+      <tr><td><code>v.erase(it)</code></td><td>$O(N)$</td><td>Borra elemento en iterador y desplaza</td></tr>
+    </table>
+    <p class="desc"><span class="highlight">Eliminación O(1) si el orden no importa (Swap-Pop):</span></p>
+<pre class="code">// Borrar el elemento en el índice 'idx' en O(1) sin desplazar:
+swap(v[idx], v.back());
+v.pop_back();</pre>
+    <div class="danger">
+      <span class="highlight">&iexcl;Cuidado con vector&lt;bool&gt;!</span> Está implementado como un proxy de bits empaquetados. <code>bool& b = v[0];</code> <strong>no compila</strong>. Si requieres referencias o punteros directos, usa <code>vector&lt;char&gt;</code> o <code>vector&lt;int&gt;</code>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.2 std::pair y std::tuple</span>
+      <span class="badge">&lt;utility&gt; / &lt;tuple&gt;</span>
+    </div>
+    <p class="desc">Agrupación heterogénea de datos. Poseen operador <code>&lt;</code> lexicográfico por defecto.</p>
+<pre class="code">// 1. std::pair (2 elementos):
+pair&lt;int, string&gt; p = {10, "diamante"};
+cout &lt;&lt; p.first &lt;&lt; " " &lt;&lt; p.second;
+
+// 2. std::tuple (3 o más elementos):
+tuple&lt;int, double, string&gt; t = {101, 3.14, "activo"};
+cout &lt;&lt; get&lt;0&gt;(t) &lt;&lt; " " &lt;&lt; get&lt;1&gt;(t) &lt;&lt; " " &lt;&lt; get&lt;2&gt;(t);
+
+// 3. Structured Binding (C++17) - RECOMENDADO:
+auto [id, peso, desc] = t;
+for (auto& [u, v] : aristas) { ... }
+
+// 4. std::tie (desempacar a variables ya existentes ignorando valores):
+int x; string s;
+tie(x, ignore, s) = t; // ignora el 2do elemento</pre>
+    <div class="tip">
+      <span class="highlight">Orden lexicográfico natural:</span> <code>pair</code> y <code>tuple</code> comparan primero el 1er campo; ante empate, el 2do; etc. Ideal para ordenar vectores o usarlos como llaves en <code>set/map</code> sin comparador manual.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.3 std::string</span>
+      <span class="badge">Manipulación Texto</span>
+    </div>
+    <p class="desc">Secuencia contigua dinámica de caracteres con semántica de valor.</p>
+    <table class="ctable">
+      <tr><th>Método</th><th>Complejidad</th><th>Descripción</th></tr>
+      <tr><td><code>s.substr(pos, len)</code></td><td>$O(	ext{len})$</td><td>Subcadena desde <code>pos</code> de largo <code>len</code> (<strong>no fin</strong>)</td></tr>
+      <tr><td><code>s.find(sub, pos=0)</code></td><td>$O(|s| cdot |sub|)$</td><td>Primer índice de <code>sub</code> o <code>string::npos</code></td></tr>
+      <tr><td><code>s.rfind(sub)</code></td><td>$O(|s| cdot |sub|)$</td><td>Último índice de <code>sub</code> o <code>string::npos</code></td></tr>
+      <tr><td><code>s.replace(pos, len, str)</code></td><td>$O(|s|)$</td><td>Reemplaza <code>len</code> caracteres desde <code>pos</code></td></tr>
+      <tr><td><code>s.pop_back()</code></td><td>$O(1)$</td><td>Elimina el último carácter</td></tr>
+      <tr><td><code>s.push_back('c')</code></td><td>$O(1)$ amort.</td><td>Añade un carácter al final</td></tr>
+      <tr><td><code>stoi(s) / stoll(s)</code></td><td>$O(|s|)$</td><td>Convierte a <code>int</code> o a <code>long long</code></td></tr>
+      <tr><td><code>to_string(num)</code></td><td>$O(log_{10} N)$</td><td>Convierte número a <code>string</code></td></tr>
+    </table>
+<pre class="code">// Buscar y reemplazar todas las ocurrencias (Plagio C2_2024_02):
+size_t p = 0;
+while ((p = s.find("jose", p)) != string::npos) {
+    s.replace(p, 4, "marina");
+    p += 6; // longitud de "marina"
+}
+
+// Aritmética de caracteres y mayúsculas/minúsculas:
+char c = '7';
+int digito = c - '0'; // 7
+char letra = 'c';
+int id_alfabeto = letra - 'a'; // 2 (a=0, b=1, c=2...)
+
+for (char& ch : s) ch = tolower(ch); // Convierte string a minúsculas</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.4 std::deque&lt;T&gt; (Doble Cola)</span>
+      <span class="badge">O(1) Extremos</span>
+    </div>
+    <p class="desc">Buffer de bloques continuos. Inserción y borrado en ambos extremos en $O(1)$, con acceso aleatorio <code>dq[i]</code> en $O(1)$.</p>
+<pre class="code">deque&lt;int&gt; dq;
+dq.push_back(10);  // Inserta atrás O(1)
+dq.push_front(20); // Inserta al frente O(1)
+dq.pop_back();     // Borra atrás O(1)
+dq.pop_front();    // Borra al frente O(1)
+int elem = dq[0];  // Acceso aleatorio O(1)</pre>
+    <div class="tip">
+      <span class="highlight">Patrón 1: 0-1 BFS con Deque (Calle Mágica C2_2024_02):</span>
+      Para grafos con aristas de peso 0 y 1. Si peso es 0 &rarr; <code>push_front</code>; si es 1 &rarr; <code>push_back</code>. Encuentra caminos mínimos en $O(V + E)$ sin Dijkstra.
+<pre class="code">vector&lt;int&gt; dist(n, INF);
+deque&lt;int&gt; dq;
+dist[src] = 0;
+dq.push_back(src);
+while (!dq.empty()) {
+    int u = dq.front(); dq.pop_front();
+    for (auto& [v, w] : adj[u]) {
+        if (dist[u] + w < dist[v]) {
+            dist[v] = dist[u] + w;
+            if (w == 0) dq.push_front(v);
+            else        dq.push_back(v);
+        }
+    }
+}</pre>
+    </div>
+    <div class="tip">
+      <span class="highlight">Patrón 2: Cola Monótona para Mínimo en Ventana Deslizante (O(N) total):</span>
+      Mantiene índices en un <code>deque</code> con valores estrictamente crecientes:
+<pre class="code">deque&lt;int&gt; dq; // Guarda índices
+vector&lt;int&gt; min_window;
+for (int i = 0; i < n; ++i) {
+    if (!dq.empty() && dq.front() <= i - k) dq.pop_front(); // Fuera de ventana
+    while (!dq.empty() && a[dq.back()] >= a[i]) dq.pop_back(); // Mantener monotonía
+    dq.push_back(i);
+    if (i >= k - 1) min_window.push_back(a[dq.front()]); // Mínimo actual
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.5 std::queue&lt;T&gt; y std::stack&lt;T&gt;</span>
+      <span class="badge">FIFO / LIFO</span>
+    </div>
+    <p class="desc">Adaptadores de contenedor con acceso restringido en $O(1)$:</p>
+    <table class="ctable">
+      <tr><th>Operación</th><th><code>std::queue&lt;T&gt;</code> (Cola FIFO)</th><th><code>std::stack&lt;T&gt;</code> (Pila LIFO)</th></tr>
+      <tr><td>Inserción $O(1)$</td><td><code>q.push(x)</code></td><td><code>st.push(x)</code></td></tr>
+      <tr><td>Extracción $O(1)$</td><td><code>q.pop()</code> (elimina frente)</td><td><code>st.pop()</code> (elimina tope)</td></tr>
+      <tr><td>Consulta $O(1)$</td><td><code>q.front()</code> (primer) / <code>q.back()</code></td><td><code>st.top()</code> (último agregado)</td></tr>
+      <tr><td>Estado $O(1)$</td><td><code>q.empty()</code>, <code>q.size()</code></td><td><code>st.empty()</code>, <code>st.size()</code></td></tr>
+    </table>
+    <div class="tip">
+      <span class="highlight">Patrón de Examen: Pila Monótona para Siguiente Mayor (O(N) total):</span>
+<pre class="code">// Encuentra el índice del siguiente elemento mayor a la derecha:
+vector&lt;int&gt; next_greater(n, -1);
+stack&lt;int&gt; st; // Almacena índices de elementos
+for (int i = 0; i < n; ++i) {
+    while (!st.empty() && a[i] > a[st.top()]) {
+        next_greater[st.top()] = i;
+        st.pop();
+    }
+    st.push(i);
+}</pre>
+    </div>
+    <div class="danger">
+      &iexcl;PELIGRO! Invocar <code>front()</code>, <code>top()</code> o <code>pop()</code> en una cola o pila vacía genera fallo de segmentación (RTE). Chequear siempre <code>if (!st.empty())</code>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.6 std::priority_queue&lt;T&gt; (Heap Binario)</span>
+      <span class="badge">O(log N)</span>
+    </div>
+    <p class="desc">Cola de prioridad basada en montículo binario. Acceso al elemento óptimo en $O(1)$, inserción y extracción en $O(log N)$.</p>
+<pre class="code">// 1. Max-Heap (por defecto, mayor al tope):
+priority_queue&lt;int&gt; max_pq;
+max_pq.push(30); max_pq.push(10); max_pq.push(50);
+cout &lt;&lt; max_pq.top(); // 50
+max_pq.pop();         // Elimina 50
+
+// 2. Min-Heap (menor al tope):
+priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; min_pq;
+min_pq.push(30); min_pq.push(10); min_pq.push(50);
+cout &lt;&lt; min_pq.top(); // 10
+min_pq.pop();         // Elimina 10
+
+// 3. Min-Heap de pares para Dijkstra (distancia, nodo):
+using pli = pair&lt;long long, int&gt;;
+priority_queue&lt;pli, vector&lt;pli&gt;, greater&lt;pli&gt;&gt; pq;
+pq.push({0LL, src});
+
+// 4. Con Structs y operador < sobrecargado:
+struct Tarea {
+    int id, prioridad, duracion;
+    // OJO: Para MIN-HEAP se invierte la lógica (< retorna mayor):
+    bool operator<(const Tarea& o) const {
+        if (prioridad != o.prioridad) return prioridad < o.prioridad;
+        return duracion > o.duracion;
+    }
+};
+priority_queue&lt;Tarea&gt; task_pq;</pre>
+    <div class="tip">
+      <span class="highlight">Patrón Examen: Mantenimiento Dinámico de Mediana con 2 Heaps:</span>
+      Mantener un max-heap <code>left</code> (mitad menor) y un min-heap <code>right</code> (mitad mayor). Balancear para que <code>left.size() == right.size()</code> o <code>left.size() == right.size() + 1</code>. La mediana es <code>left.top()</code> en $O(1)$.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.7 std::set&lt;T&gt; y std::multiset&lt;T&gt; (Árbol Red-Black)</span>
+      <span class="badge">O(log N)</span>
+    </div>
+    <p class="desc">Estructura en árbol binario balanceado. Siempre ordenado de menor a mayor.</p>
+    <ul class="compact-list">
+      <li><code>set&lt;T&gt;</code>: Elementos únicos garantizados.</li>
+      <li><code>multiset&lt;T&gt;</code>: Permite duplicados.</li>
+    </ul>
+    <table class="ctable">
+      <tr><th>Método</th><th>Complejidad</th><th>Descripción</th></tr>
+      <tr><td><code>s.insert(x)</code></td><td>$O(log N)$</td><td>Inserta manteniendo el orden</td></tr>
+      <tr><td><code>s.find(x)</code></td><td>$O(log N)$</td><td>Iterador a $x$ o <code>s.end()</code> si no está</td></tr>
+      <tr><td><code>s.count(x)</code></td><td>$O(log N + k)$</td><td>1 o 0 en set; cantidad exacta $k$ en multiset</td></tr>
+      <tr><td><code>s.lower_bound(x)</code></td><td>$O(log N)$</td><td>Primer elemento $ge x$</td></tr>
+      <tr><td><code>s.upper_bound(x)</code></td><td>$O(log N)$</td><td>Primer elemento $> x$</td></tr>
+      <tr><td><code>*s.begin()</code></td><td>$O(1)$</td><td>Mínimo elemento actual</td></tr>
+      <tr><td><code>*s.rbegin()</code></td><td>$O(1)$</td><td>Máximo elemento actual</td></tr>
+    </table>
+    <div class="tip">
+      <span class="highlight">Buscar predecesor y sucesor en set:</span>
+<pre class="code">auto it = s.lower_bound(x); // it apunta al primer >= x
+if (it != s.end()) { int sucesor = *it; }
+if (it != s.begin()) { int predecesor = *prev(it); } // El mayor < x</pre>
+    </div>
+    <div class="danger">
+      <span class="highlight">&iexcl;TRAMPA MORTAL EN MULTISET!</span>
+      <br><code>ms.erase(val);</code> &rarr; &iexcl;Borra <strong>TODAS</strong> las instancias de <code>val</code>!
+      <br>Para borrar <strong>SOLO UNA COPIA</strong>:
+<pre class="code">auto it = ms.find(val);
+if (it != ms.end()) ms.erase(it); // Borra por iterador</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.8 std::map&lt;Key, Value&gt; (Diccionario Balanceado)</span>
+      <span class="badge">O(log N)</span>
+    </div>
+    <p class="desc">Asociación Clave &rarr; Valor almacenada en árbol Red-Black.</p>
+<pre class="code">map&lt;string, int&gt; mp;
+mp["juan"] = 45; // Inserción / modificación O(log N)
+
+// Cuidado con operador []: SI LA CLAVE NO EXISTE, LA INSERTA CON VALOR 0
+if (mp.count("pedro")) { /* Seguro: no inserta */ }
+
+auto it = mp.find("juan");
+if (it != mp.end()) {
+    cout &lt;&lt; it->first &lt;&lt; " -> " &lt;&lt; it->second; // juan -> 45
+}
+
+// Iteración ordenada por claves (C++17):
+for (const auto& [nombre, puntaje] : mp) {
+    cout &lt;&lt; nombre &lt;&lt; ": " &lt;&lt; puntaje &lt;&lt; '
+';
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.9 std::unordered_map / unordered_set (Hash Tables)</span>
+      <span class="badge">O(1) Promedio</span>
+    </div>
+    <p class="desc">Tablas de dispersión hash. Ideales para evitar TLE cuando $N ge 2 cdot 10^5$.</p>
+    <table class="ctable">
+      <tr><th>Criterio</th><th><code>map / set</code></th><th><code>unordered_map / unordered_set</code></th></tr>
+      <tr><td>Estructura</td><td>Árbol Red-Black</td><td>Tabla Hash</td></tr>
+      <tr><td>Tiempo de Búsqueda</td><td>$O(log N)$ estricto</td><td>$O(1)$ promedio / $O(N)$ peor caso</td></tr>
+      <tr><td>Orden</td><td>Ordenado por $le$</td><td>Completamente arbitrario</td></tr>
+      <tr><td><code>lower_bound</code></td><td>Soportado $O(log N)$</td><td><span class="highlight">NO existe</span></td></tr>
+      <tr><td>Claves Complejas</td><td>Cualquiera con <code>&lt;</code></td><td>Requiere especializar <code>std::hash</code></td></tr>
+    </table>
+    <div class="tip">
+      <span class="highlight">Hash Custom para pair&lt;int, int&gt; (para que compile en unordered):</span>
+<pre class="code">struct PairHash {
+    size_t operator()(const pair&lt;int, int&gt;& p) const {
+        return hash&lt;int&gt;()(p.first) ^ (hash&lt;int&gt;()(p.second) &lt;&lt; 16);
+    }
+};
+unordered_map&lt;pair&lt;int, int&gt;, int, PairHash&gt; dist_grid;</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.10 std::list&lt;T&gt; (Lista Doblemente Enlazada)</span>
+      <span class="badge">O(1) Inserción/Splice</span>
+    </div>
+    <p class="desc">Nodos independientes con punteros <code>prev</code> y <code>next</code>. Inserción y eliminación en $O(1)$ en cualquier punto conociendo el iterador.</p>
+<pre class="code">list&lt;char&gt; l;
+auto it = l.begin(); // Cursor de texto
+l.insert(it, 'A');   // Inserta antes de 'it' en O(1)
+it = l.erase(it);    // Borra y retorna iterador al siguiente en O(1)
+
+// Método SPLICE: Mueve sublistas en O(1) sin copiar memoria
+// Resuelve directamente problemas de cursor como Sim (Listado 1):
+list&lt;char&gt; buffer;
+buffer.push_back('X'); buffer.push_back('Y');
+l.splice(it, buffer); // Mueve todo 'buffer' antes de 'it' en O(1)</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>1.11 std::bitset&lt;N&gt; (Vector de Bits Empacados)</span>
+      <span class="badge">O(N/64) Binario</span>
+    </div>
+    <p class="desc">Arreglo estático de $N$ bits. Optimiza espacio ($1$ bit por booleano) y tiempo mediante operaciones bitwise nativas de CPU de 64 bits ($O(N/64)$).</p>
+<pre class="code">const int MAXN = 1000;
+bitset&lt;MAXN&gt; bs;           // Todos en 0
+bitset&lt;8&gt; b("10110010");   // Desde cadena binaria
+
+bs.set(i);       // Pone bit i en 1  O(1)
+bs.reset(i);     // Pone bit i en 0  O(1)
+bs.flip(i);      // Invierte bit i   O(1)
+bool v = bs[i];  // Consulta bit i   O(1)
+int c = bs.count(); // Cantidad de 1s (popcount hardware en O(N/64))
+bool any = bs.any(); // true si hay al menos un 1
+string s = bs.to_string(); // Convierte a "00101..."
+
+// Operaciones bitwise de palabra completa en O(N/64):
+bitset&lt;MAXN&gt; a, b, c;
+c = a & b;  // AND
+c = a | b;  // OR
+c = a ^ b;  // XOR
+c = a << 5; // Desplazamiento</pre>
+    <div class="tip">
+      <span class="highlight">Mochila 0/1 Booleana con bitset en $O(N cdot W / 64)$:</span>
+<pre class="code">const int MAX_W = 100005;
+bitset&lt;MAX_W&gt; can;
+can[0] = 1;
+for (int w : pesos) {
+    can |= (can &lt;&lt; w); // Transición de estados en 1 línea
+}
+// can[x] == 1 sii es posible sumar exactamente x</pre>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN 2: ALGORITMOS STL                  -->
+  <!-- ========================================== -->
+  <div class="section-banner">2. Algoritmos STL Clave (&lt;algorithm&gt;, &lt;numeric&gt;)</div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>2.1 std::sort y std::stable_sort</span>
+      <span class="badge">O(N log N)</span>
+    </div>
+    <p class="desc">Ordenamiento de rangos de acceso aleatorio:</p>
+<pre class="code">// 1. Orden ascendente y descendente básico:
+sort(v.begin(), v.end());
+sort(v.rbegin(), v.rend()); // o sort(..., greater&lt;int&gt;());
+
+// 2. Con Lambda personalizada:
+sort(v.begin(), v.end(), [](const Item& a, const Item& b) {
+    if (a.score != b.score) return a.score > b.score; // Mayor score primero
+    return a.id < b.id; // Menor id en caso de empate
+});
+
+// 3. Ordenamiento de índices (sin mover los arreglos de datos):
+vector&lt;int&gt; p(n);
+iota(p.begin(), p.end(), 0); // p = {0, 1, ..., n-1}
+sort(p.begin(), p.end(), [&](int i, int j) {
+    return valores[i] < valores[j];
+});
+
+// 4. stable_sort: Preserva orden relativo en empates (MusicYourWay, SortOfSorting)
+stable_sort(v.begin(), v.end(), comp);
+
+// 5. nth_element: Encuentra el k-ésimo elemento en O(N) promedio
+nth_element(v.begin(), v.begin() + k, v.end()); // v[k] queda en su lugar final</pre>
+    <div class="danger">
+      <span class="highlight">&iexcl;ORDEN ESTRICTO DÉBIL (&lt;)!</span> Tu comparador <span class="highlight">NUNCA</span> debe retornar <code>true</code> para elementos iguales (usar <code>&lt;</code>, jamás <code>&le;</code>), de lo contrario provoca violación de memoria y fallo de segmentación (RTE).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>2.2 Búsqueda Binaria en STL (Rango Ordenado)</span>
+      <span class="badge">O(log N)</span>
+    </div>
+    <p class="desc"><span class="highlight">&iexcl;REQUISITO ABSOLUTO:</span> El rango <strong>DEBE ESTAR PREVIAMENTE ORDENADO</strong>.</p>
+    <table class="ctable">
+      <tr><th>Función</th><th>Retorna</th><th>Descripción Matemática</th></tr>
+      <tr><td><code>lower_bound(beg, end, x)</code></td><td>Iterador</td><td>Primer elemento tal que $*it ge x$</td></tr>
+      <tr><td><code>upper_bound(beg, end, x)</code></td><td>Iterador</td><td>Primer elemento tal que $*it > x$</td></tr>
+      <tr><td><code>binary_search(beg, end, x)</code></td><td><code>bool</code></td><td><code>true</code> si $x$ está en el rango</td></tr>
+      <tr><td><code>equal_range(beg, end, x)</code></td><td><code>pair&lt;it, it&gt;</code></td><td>Rango $[lower_bound, upper_bound)$</td></tr>
+    </table>
+<pre class="code">vector&lt;int&gt; v = {10, 20, 20, 20, 30, 50};
+
+// Obtener índice base 0 restando el inicio del vector:
+int idx = lower_bound(v.begin(), v.end(), 20) - v.begin(); // idx = 1
+int idx2 = upper_bound(v.begin(), v.end(), 20) - v.begin(); // idx2 = 4
+
+// Cantidad de apariciones exactas de 20:
+int count_20 = upper_bound(v.begin(), v.end(), 20) - 
+               lower_bound(v.begin(), v.end(), 20); // 4 - 1 = 3
+
+// Contar elementos en rango [L, R]:
+int en_rango = upper_bound(v.begin(), v.end(), R) - 
+               lower_bound(v.begin(), v.end(), L);
+
+// Verificar existencia de x:
+auto it = lower_bound(v.begin(), v.end(), x);
+if (it != v.end() && *it == x) {
+    // x existe en la posición (it - v.begin())
+}</pre>
+    <div class="danger">
+      &iexcl;EN SET O MAP, <strong>NUNCA</strong> USES <code>std::lower_bound(s.begin(), s.end(), x)</code>! Toma $O(N)$. Usa siempre el método propio: <code>s.lower_bound(x)</code> que toma $O(log N)$.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>2.3 Permutaciones (next_permutation)</span>
+      <span class="badge">Backtracking O(N!)</span>
+    </div>
+    <p class="desc">Transforma la secuencia en su siguiente permutación lexicográfica in-place:</p>
+<pre class="code">vector&lt;int&gt; p = {1, 2, 3};
+// &iexcl;OBLIGATORIO ordenar primero si quieres TODAS las permutaciones!
+sort(p.begin(), p.end());
+
+do {
+    // Procesar permutación: p[0], p[1], p[2]...
+} while (next_permutation(p.begin(), p.end()));
+
+// Retorna false al alcanzar la permutación máxima descendente</pre>
+    <div class="tip">
+      <span class="highlight">Generar Combinaciones de N tomados de K:</span>
+<pre class="code">vector&lt;bool&gt; sel(n, false);
+fill(sel.end() - k, sel.end(), true); // Últimos k en true
+do {
+    for (int i = 0; i < n; ++i) {
+        if (sel[i]) { /* elemento i seleccionado */ }
+    }
+} while (next_permutation(sel.begin(), sel.end()));</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>2.4 Extremos, Rangos y Transformaciones</span>
+      <span class="badge">Min / Max / Clamp</span>
+    </div>
+<pre class="code">// Mínimo y máximo en contenedor O(N):
+auto it_min = min_element(v.begin(), v.end());
+int min_val = *it_min;
+int min_idx = it_min - v.begin(); // Índice del mínimo
+
+// Mínimo y máximo de varias variables a la vez:
+int m = min({a, b, c, d});
+int M = max({a, b, c, d});
+
+// Acotar en rango [low, high] (C++17):
+int valor = clamp(x, 0, 100); // 0 si x < 0; 100 si x > 100; x en caso contrario
+
+// Rotación cíclica en O(N):
+rotate(v.begin(), v.begin() + k, v.end()); // Rota k posiciones a la izquierda</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>2.5 Reversa y Deduplicación (Erase-Unique)</span>
+      <span class="badge">Idiomas STL</span>
+    </div>
+<pre class="code">// Reversa O(N):
+reverse(v.begin(), v.end());
+
+// Deduplicación idiomática: deja solo elementos únicos O(N log N):
+sort(v.begin(), v.end());
+v.erase(unique(v.begin(), v.end()), v.end());
+// 'unique' compacta y retorna el nuevo final; 'erase' limpia el sobrante</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>2.6 Acumulación y Relleno (&lt;numeric&gt;)</span>
+      <span class="badge">Math STL</span>
+    </div>
+<pre class="code">#include &lt;numeric&gt;
+
+// Suma de elementos (OJO: usar 0LL para evitar overflow en suma):
+long long total = accumulate(v.begin(), v.end(), 0LL);
+
+// Rellenar con secuencia 0, 1, 2, ..., N-1:
+vector&lt;int&gt; id(n);
+iota(id.begin(), id.end(), 0);
+
+// Sumas Prefijas Automáticas O(N):
+vector&lt;long long&gt; pref(n);
+partial_sum(v.begin(), v.end(), pref.begin());
+
+// MCD y MCM (C++17) O(log min(a, b)):
+long long g = std::gcd(a, b);
+long long l = std::lcm(a, b);</pre>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN 3: ESTRUCTURAS Y PATRONES          -->
+  <!-- ========================================== -->
+  <div class="section-banner">3. Estructuras y Patrones Auxiliares de Examen</div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.1 Structs con Constructor y Operadores</span>
+      <span class="badge">POO Competitiva</span>
+    </div>
+    <p class="desc">Estructuras limpias y directas para algoritmos de grafos y ordenamientos:</p>
+<pre class="code">// Struct para aristas de grafos (Kruskal, Spanning Tree):
+struct Edge {
+    int u, v;
+    long long w;
+    Edge(int u=0, int v=0, long long w=0) : u(u), v(v), w(w) {}
+
+    // Operador < para std::sort (orden ascendente por peso)
+    bool operator<(const Edge& o) const {
+        return w < o.w;
+    }
+};
+
+// Struct para Dijkstra con prioridad por menor distancia:
+struct Node {
+    int u;
+    long long dist;
+    // OJO: Se invierte para que el menor quede al tope del heap:
+    bool operator<(const Node& o) const {
+        return dist > o.dist;
+    }
+};</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.2 DSU / Union-Find (Disjoint Set Union)</span>
+      <span class="badge">O(&alpha;(N)) &asymp; O(1)</span>
+    </div>
+    <p class="desc">Conjuntos disjuntos con compresión de camino y unión por tamaño/rango. Estructura estándar para Kruskal y conectividad dinámica:</p>
+<pre class="code">struct DSU {
+    vector&lt;int&gt; parent, sz;
+    int num_sets;
+
+    DSU(int n) : parent(n), sz(n, 1), num_sets(n) {
+        iota(parent.begin(), parent.end(), 0);
+    }
+
+    int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]); // Compresión de camino
+    }
+
+    bool unite(int i, int j) {
+        int root_i = find(i);
+        int root_j = find(j);
+        if (root_i == root_j) return false; // Ya estaban conectados
+
+        // Unión por tamaño
+        if (sz[root_i] < sz[root_j]) swap(root_i, root_j);
+        parent[root_j] = root_i;
+        sz[root_i] += sz[root_j];
+        num_sets--;
+        return true;
+    }
+
+    bool same(int i, int j) { return find(i) == find(j); }
+    int size(int i) { return sz[find(i)]; }
+};</pre>
+    <div class="tip">
+      <span class="highlight">Algoritmo de Kruskal (Árbol Recubridor Mínimo - LostMap / Red Resistencia):</span>
+<pre class="code">sort(edges.begin(), edges.end()); // Ordena aristas por peso w ascendente
+DSU dsu(n);
+long long mst_cost = 0;
+int edges_count = 0;
+
+for (const auto& e : edges) {
+    if (dsu.unite(e.u, e.v)) {
+        mst_cost += e.w;
+        edges_count++;
+        if (edges_count == n - 1) break; // MST completo
+    }
+}
+if (edges_count != n - 1) { /* Grafo no conexo */ }</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.3 Algoritmos Clave de Grafos en C++</span>
+      <span class="badge">BFS / DFS / Dijkstra</span>
+    </div>
+    <p class="desc"><span class="highlight">1. BFS Canónico (Distancias mínimas no ponderadas):</span></p>
+<pre class="code">vector&lt;int&gt; dist(n, INF), parent(n, -1);
+queue&lt;int&gt; q;
+dist[src] = 0;
+q.push(src);
+
+while (!q.empty()) {
+    int u = q.front(); q.pop();
+    for (int v : adj[u]) {
+        if (dist[v] == INF) {
+            dist[v] = dist[u] + 1;
+            parent[v] = u;
+            q.push(v);
+        }
+    }
+}</pre>
+    <p class="desc"><span class="highlight">2. Dijkstra Canónico (Pesos no negativos):</span></p>
+<pre class="code">vector&lt;long long&gt; dist(n, INF64);
+using pli = pair&lt;long long, int&gt;;
+priority_queue&lt;pli, vector&lt;pli&gt;, greater&lt;pli&gt;&gt; pq;
+
+dist[src] = 0;
+pq.push({0LL, src});
+
+while (!pq.empty()) {
+    auto [d, u] = pq.top(); pq.pop();
+    if (d > dist[u]) continue; // Salta estados desactualizados
+
+    for (auto& [v, w] : adj_w[u]) {
+        if (dist[u] + w < dist[v]) {
+            dist[v] = dist[u] + w;
+            pq.push({dist[v], v});
+        }
+    }
+}</pre>
+    <p class="desc"><span class="highlight">3. Floyd-Warshall (Todos a todos en O(V^3) para V &le; 400):</span></p>
+<pre class="code">for (int k = 0; k < n; ++k)
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < n; ++j)
+            if (dist[i][k] < INF64 && dist[k][j] < INF64)
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.4 Orden Topológico (Kahn: In-degrees + Queue)</span>
+      <span class="badge">DAG O(V + E)</span>
+    </div>
+    <p class="desc">Ordenamiento de nodos en un grafo dirigido acíclico (DAG) según dependencias:</p>
+<pre class="code">vector&lt;int&gt; in_degree(n, 0);
+for (int u = 0; u < n; ++u)
+    for (int v : adj[u]) in_degree[v]++;
+
+queue&lt;int&gt; q;
+for (int i = 0; i < n; ++i)
+    if (in_degree[i] == 0) q.push(i);
+
+vector&lt;int&gt; topo_order;
+while (!q.empty()) {
+    int u = q.front(); q.pop();
+    topo_order.push_back(u);
+    for (int v : adj[u]) {
+        if (--in_degree[v] == 0) q.push(v);
+    }
+}
+if ((int)topo_order.size() != n) {
+    // &iexcl;El grafo contiene ciclos dirigidos! No es un DAG.
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.5 Bellman-Ford y Detección de Ciclos Negativos</span>
+      <span class="badge">O(V &bull; E)</span>
+    </div>
+    <p class="desc">Caminos mínimos con aristas de peso negativo y detección de ciclos alcanzables (Problema C: Rumores C2_2026_01):</p>
+<pre class="code">struct EdgeBF { int u, v; long long w; };
+vector&lt;long long&gt; dist(n, INF64);
+dist[src] = 0;
+
+// Relajar aristas exactamente V - 1 veces:
+for (int i = 0; i < n - 1; ++i) {
+    for (const auto& e : edges) {
+        if (dist[e.u] < INF64 && dist[e.u] + e.w < dist[e.v]) {
+            dist[e.v] = dist[e.u] + e.w;
+        }
+    }
+}
+
+// 1 pasada adicional para detectar ciclos negativos:
+bool has_neg_cycle = false;
+for (const auto& e : edges) {
+    if (dist[e.u] < INF64 && dist[e.u] + e.w < dist[e.v]) {
+        has_neg_cycle = true; // e.v está en o es alcanzable desde un ciclo negativo
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.6 Componentes Fuertemente Conexas (Kosaraju SCC)</span>
+      <span class="badge">2 Pasadas DFS</span>
+    </div>
+    <p class="desc">Descompone un grafo dirigido en componentes fuertemente conexas en $O(V + E)$:</p>
+<pre class="code">vector&lt;vector&lt;int&gt;&gt; adj(n), rev_adj(n);
+vector&lt;bool&gt; vis(n, false);
+vector&lt;int&gt; order, scc(n, -1);
+
+void dfs1(int u) {
+    vis[u] = true;
+    for (int v : adj[u]) if (!vis[v]) dfs1(v);
+    order.push_back(u); // Orden topológico invertido
+}
+
+void dfs2(int u, int id) {
+    scc[u] = id;
+    for (int v : rev_adj[u]) if (scc[v] == -1) dfs2(v, id);
+}
+
+// En el main():
+for (int i = 0; i < n; ++i) if (!vis[i]) dfs1(i);
+reverse(order.begin(), order.end());
+int num_scc = 0;
+for (int u : order) if (scc[u] == -1) dfs2(u, num_scc++);</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.7 Fenwick Tree / Binary Indexed Tree (BIT)</span>
+      <span class="badge">O(log N) Sumas Prefijas</span>
+    </div>
+    <p class="desc">Estructura ultra-compacta para sumas de prefijos y actualizaciones puntuales en $O(log N)$. Indexación base 1:</p>
+<pre class="code">struct Fenwick {
+    int n;
+    vector&lt;long long&gt; tree;
+    Fenwick(int n) : n(n), tree(n + 1, 0) {}
+
+    void add(int i, long long delta) {
+        for (; i <= n; i += i & -i) tree[i] += delta;
+    }
+
+    long long query(int i) {
+        long long sum = 0;
+        for (; i > 0; i -= i & -i) sum += tree[i];
+        return sum;
+    }
+
+    long long range_query(int l, int r) {
+        return query(r) - query(l - 1);
+    }
+};</pre>
+    <div class="tip">
+      <span class="highlight">Conteo de Inversiones en O(N log N) (FroshWeek Listado 4):</span>
+<pre class="code">// Requiere compresión de coordenadas previa para valores de 1 a MAX_VAL
+Fenwick bit(max_val);
+long long inversions = 0;
+for (int i = 0; i < n; ++i) {
+    inversions += (i - bit.query(a[i])); // Cuántos mayores ya se insertaron
+    bit.add(a[i], 1);
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.8 Segment Tree Iterativo (Range Minimum / Sum Query)</span>
+      <span class="badge">O(log N) Rango</span>
+    </div>
+    <p class="desc">Estructura iterativa en base 0, no recursiva, ultra-rápida (tamaño $2N$):</p>
+<pre class="code">struct SegTree {
+    int n;
+    vector&lt;long long&gt; t;
+    SegTree(int n) : n(n), t(2 * n, INF64) {} // Para sumas iniciar en 0
+
+    void build(const vector&lt;long long&gt;& a) {
+        for (int i = 0; i < n; ++i) t[n + i] = a[i];
+        for (int i = n - 1; i > 0; --i) t[i] = min(t[i &lt;&lt; 1], t[i &lt;&lt; 1 | 1]);
+    }
+
+    void update(int p, long long val) { // Asignación puntual en índice p
+        for (t[p += n] = val; p > 1; p &gt;&gt;= 1)
+            t[p &gt;&gt; 1] = min(t[p], t[p ^ 1]);
+    }
+
+    long long query(int l, int r) { // Consulta mínimo en rango [l, r]
+        long long res = INF64;
+        for (l += n, r += n + 1; l < r; l &gt;&gt;= 1, r &gt;&gt;= 1) {
+            if (l & 1) res = min(res, t[l++]);
+            if (r & 1) res = min(res, t[--r]);
+        }
+        return res;
+    }
+};</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.9 Arreglo de Diferencias (Range Updates en O(1))</span>
+      <span class="badge">Difference Array</span>
+    </div>
+    <p class="desc">Para aplicar $Q$ operaciones de tipo "sumar $v$ a todo el rango $[L, R]$" en tiempo $O(1)$ por operación, y recuperar valores en $O(N)$ (Problema Firefly Listado 2):</p>
+<pre class="code">vector&lt;long long&gt; diff(n + 2, 0);
+
+// Operación: sumar 'val' en el rango [l, r] (1-based):
+void range_add(int l, int r, long long val) {
+    diff[l] += val;
+    diff[r + 1] -= val;
+}
+
+// Recuperar arreglo final mediante sumas de prefijos O(N):
+vector&lt;long long&gt; final_a(n + 1, 0);
+for (int i = 1; i <= n; ++i) {
+    final_a[i] = final_a[i - 1] + diff[i];
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.10 Subarreglo de Suma Máxima (Algoritmo de Kadane)</span>
+      <span class="badge">O(N) Tiempo / O(1) Espacio</span>
+    </div>
+    <p class="desc">Encuentra la suma máxima de un subarreglo contiguo no vacío:</p>
+<pre class="code">long long max_so_far = a[0], curr_max = a[0];
+for (size_t i = 1; i < a.size(); ++i) {
+    curr_max = max((long long)a[i], curr_max + a[i]);
+    max_so_far = max(max_so_far, curr_max);
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.11 Subarreglos con Suma Exacta K (Prefix Sums + Hash Map)</span>
+      <span class="badge">O(N)</span>
+    </div>
+    <p class="desc">Cuenta cuántos subarreglos contiguos suman exactamente $K$:</p>
+<pre class="code">unordered_map&lt;long long, int&gt; freq;
+freq[0] = 1; // Prefijo vacío
+long long pref = 0, count = 0;
+
+for (int x : a) {
+    pref += x;
+    if (freq.count(pref - K)) count += freq[pref - K];
+    freq[pref]++;
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.12 Meet-in-the-Middle (MitM para N &le; 40)</span>
+      <span class="badge">O(2^{N/2} &bull; N)</span>
+    </div>
+    <p class="desc">Dividir el conjunto de tamaño $N$ en dos mitades de tamaño $N/2$, calcular sumas de cada mitad, ordenar una y buscar con <code>lower_bound</code>:</p>
+<pre class="code">vector&lt;long long&gt; get_subsets(const vector&lt;long long&gt;& v) {
+    int sz = v.size();
+    vector&lt;long long&gt; res;
+    for (int mask = 0; mask < (1 &lt;&lt; sz); ++mask) {
+        long long s = 0;
+        for (int i = 0; i < sz; ++i) if (mask & (1 &lt;&lt; i)) s += v[i];
+        res.push_back(s);
+    }
+    return res;
+}
+
+// En el main(): dividir 'a' en left y right, generar sums_l y sums_r,
+// ordenar sums_r y para cada s en sums_l buscar (target - s) con binary_search.</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.13 Programación Dinámica: MWIS en Grafo Camino</span>
+      <span class="badge">Clase 01 y C2_2025_01</span>
+    </div>
+    <p class="desc">Conjunto Independiente de Peso Máximo (sin dos vértices adyacentes elegidos):</p>
+<pre class="code">// a[0..n-1] son los pesos no negativos de las antenas / nodos
+vector&lt;long long&gt; dp(n + 1, 0);
+dp[0] = 0;
+dp[1] = max(0LL, a[0]);
+
+for (int i = 2; i <= n; ++i) {
+    dp[i] = max(dp[i - 1], dp[i - 2] + a[i - 1]);
+}
+long long max_weight = dp[n];
+
+// Reconstrucción del conjunto óptimo (en reversa):
+vector&lt;int&gt; selected;
+int i = n;
+while (i >= 1) {
+    if (i == 1) {
+        if (dp[1] > 0) selected.push_back(0);
+        break;
+    }
+    if (dp[i] == dp[i - 1]) {
+        i--; // No tomamos el nodo i-1
+    } else {
+        selected.push_back(i - 1); // Tomamos el nodo i-1
+        i -= 2; // Saltamos el nodo contiguo
+    }
+}
+reverse(selected.begin(), selected.end());</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.14 LIS en O(N log N) con Reconstrucción</span>
+      <span class="badge">Subsecuencia Creciente</span>
+    </div>
+    <p class="desc">Longitud y elementos de la subsecuencia creciente más larga usando búsqueda binaria:</p>
+<pre class="code">vector&lt;int&gt; tails, tails_idx;
+vector&lt;int&gt; parent(n, -1);
+
+for (int i = 0; i < n; ++i) {
+    auto it = lower_bound(tails.begin(), tails.end(), a[i]);
+    int idx = it - tails.begin();
+    if (it == tails.end()) {
+        tails.push_back(a[i]);
+        tails_idx.push_back(i);
+    } else {
+        *it = a[i];
+        tails_idx[idx] = i;
+    }
+    if (idx > 0) parent[i] = tails_idx[idx - 1];
+}
+
+int lis_len = tails.size();
+// Reconstrucción:
+vector&lt;int&gt; lis;
+int curr = tails_idx.back();
+while (curr != -1) {
+    lis.push_back(a[curr]);
+    curr = parent[curr];
+}
+reverse(lis.begin(), lis.end());</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.15 Mochila 0/1 Clásica con Reconstrucción</span>
+      <span class="badge">O(N &bull; W)</span>
+    </div>
+    <p class="desc">Maximizar valor sin exceder capacidad $W$ y recuperar ítems elegidos:</p>
+<pre class="code">vector&lt;vector&lt;long long&gt;&gt; dp(n + 1, vector&lt;long long&gt;(W + 1, 0));
+
+for (int i = 1; i <= n; ++i) {
+    for (int w = 0; w <= W; ++w) {
+        dp[i][w] = dp[i - 1][w]; // No tomar item i-1
+        if (w >= wt[i - 1]) {
+            dp[i][w] = max(dp[i][w], dp[i - 1][w - wt[i - 1]] + val[i - 1]);
+        }
+    }
+}
+
+// Reconstrucción:
+vector&lt;int&gt; chosen;
+int curr_w = W;
+for (int i = n; i >= 1; --i) {
+    if (dp[i][curr_w] != dp[i - 1][curr_w]) {
+        chosen.push_back(i - 1);
+        curr_w -= wt[i - 1];
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.16 Backtracking: Subconjuntos de Tamaño K</span>
+      <span class="badge">Clase 13 y 14</span>
+    </div>
+    <p class="desc">Patrón Elegir &rarr; Explorar &rarr; Deshacer (La Guardia de la Noche C2_2026_01):</p>
+<pre class="code">vector&lt;int&gt; curr;
+void generarSubconjuntosK(int idx, int k, const vector&lt;int&gt;& elems) {
+    if ((int)curr.size() == k) {
+        // Procesar subconjunto válido de tamaño k
+        return;
+    }
+    int n = elems.size();
+    for (int i = idx; i < n; ++i) {
+        // Poda: si faltan más elementos que los disponibles en el arreglo
+        if (curr.size() + (n - i) < k) break;
+
+        curr.push_back(elems[i]); // Elegir
+        generarSubconjuntosK(i + 1, k, elems); // Explorar
+        curr.pop_back(); // Deshacer
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.17 Backtracking: TSP Exacto con Podas</span>
+      <span class="badge">Clase 15</span>
+    </div>
+    <p class="desc">Búsqueda exhaustiva del Ciclo Hamiltoniano Óptimo podando ramas con costo $ge$ mejor actual:</p>
+<pre class="code">long long best_cost = INF64;
+vector&lt;bool&gt; vis(n, false);
+
+void tsp(int u, int count, long long current_cost) {
+    // Poda por cota: si el costo acumulado ya supera o iguala la mejor solución:
+    if (current_cost >= best_cost) return;
+
+    if (count == n) {
+        // Retorno al origen (nodo 0):
+        if (adj_matrix[u][0] < INF64) {
+            best_cost = min(best_cost, current_cost + adj_matrix[u][0]);
+        }
+        return;
+    }
+
+    for (int v = 0; v < n; ++v) {
+        if (!vis[v] && adj_matrix[u][v] < INF64) {
+            vis[v] = true;
+            tsp(v, count + 1, current_cost + adj_matrix[u][v]);
+            vis[v] = false; // Backtrack
+        }
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.18 Movimientos en Grilla 2D (Grid Traversal)</span>
+      <span class="badge">dx / dy</span>
+    </div>
+    <p class="desc">Vectores de desplazamiento y función de validación de bordes:</p>
+<pre class="code">// 4 direcciones ortogonales: Arriba, Abajo, Izquierda, Derecha
+const int dr[4] = {-1, 1, 0, 0};
+const int dc[4] = {0, 0, -1, 1};
+
+// 8 direcciones (incluye diagonales):
+const int dr8[8] = {-1, -1, -1,  0, 0,  1,  1, 1};
+const int dc8[8] = {-1,  0,  1, -1, 1, -1,  0, 1};
+
+// Movimientos de Caballo en Ajedrez (Knight moves):
+const int kr[8] = {-2, -2, -1, -1,  1,  1,  2,  2};
+const int kc[8] = {-1,  1, -2,  2, -2,  2, -1,  1};
+
+inline bool inBounds(int r, int c, int R, int C) {
+    return r >= 0 && r < R && c >= 0 && c < C;
+}
+
+// Bucle de exploración estándar:
+for (int d = 0; d < 4; ++d) {
+    int nr = r + dr[d], nc = c + dc[d];
+    if (inBounds(nr, nc, R, C) && !vis[nr][nc] && grid[nr][nc] != '#') {
+        vis[nr][nc] = true;
+        q.push({nr, nc});
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.19 Manipulación de Bits y Bitmasks</span>
+      <span class="badge">Bitwise</span>
+    </div>
+    <p class="desc">Representación de subconjuntos de $N le 30$ elementos ($1 ll N$ estados):</p>
+    <table class="ctable">
+      <tr><th>Operación</th><th>Expresión C++</th><th>Explicación</th></tr>
+      <tr><td>Comprobar bit $i$</td><td><code>(mask & (1 &lt;&lt; i)) != 0</code></td><td>¿Está el elemento $i$ en el conjunto?</td></tr>
+      <tr><td>Encender bit $i$</td><td><code>mask |= (1 &lt;&lt; i);</code></td><td>Agrega elemento $i$ al conjunto</td></tr>
+      <tr><td>Apagar bit $i$</td><td><code>mask &= ~(1 &lt;&lt; i);</code></td><td>Elimina elemento $i$ del conjunto</td></tr>
+      <tr><td>Invertir bit $i$</td><td><code>mask ^= (1 &lt;&lt; i);</code></td><td>Cambia $0 leftrightarrow 1$</td></tr>
+      <tr><td>Conjunto completo</td><td><code>(1 &lt;&lt; N) - 1</code></td><td>Máscara con los primeros $N$ bits en 1</td></tr>
+    </table>
+<pre class="code">// Builtins intrínsecos GCC (O(1) por hardware):
+__builtin_popcount(mask);   // Cantidad de bits en 1 (int)
+__builtin_popcountll(mask); // Para variables long long (64 bits)
+__builtin_ctz(mask);        // Ceros a la derecha (índice del menor bit en 1)
+__builtin_clz(mask);        // Ceros a la izquierda
+
+// Iterar TODOS los subconjuntos estrictos de una máscara 'mask':
+for (int sub = mask; sub > 0; sub = (sub - 1) & mask) {
+    // sub es un subconjunto no vacío de mask
+}
+
+// Saber si x es potencia de 2:
+bool esPot2 = (x > 0) && ((x & (x - 1)) == 0);</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.20 Compresión de Coordenadas</span>
+      <span class="badge">Técnica Vital</span>
+    </div>
+    <p class="desc">Reduce valores grandes y dispersos (ej. $x in [-10^9, 10^9]$) al rango $[0, K-1]$ continuo:</p>
+<pre class="code">vector&lt;long long&gt; coords = orig; // Copia de datos originales
+sort(coords.begin(), coords.end());
+coords.erase(unique(coords.begin(), coords.end()), coords.end());
+
+// Función lambda para consultar el índice comprimido:
+auto getID = [&](long long val) -> int {
+    return lower_bound(coords.begin(), coords.end(), val) - coords.begin();
+};
+
+// coords[id] recupera el valor original en O(1)</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.21 Plantilla: Búsqueda Binaria sobre la Respuesta</span>
+      <span class="badge">Monotonía</span>
+    </div>
+    <p class="desc">Para problemas de optimización donde el predicado <code>check(x)</code> es monótono:</p>
+<pre class="code">bool check(long long val) {
+    // Retorna true si 'val' es factible / satisface la condición
+}
+
+long long lo = 1, hi = 1e18, ans = -1;
+while (lo <= hi) {
+    long long mid = lo + (hi - lo) / 2; // Evita overflow en la suma
+    if (check(mid)) {
+        ans = mid;    // Guarda mejor candidato
+        hi = mid - 1; // Minimizar: buscar si es posible con uno menor
+        // lo = mid + 1; // Si el objetivo es MAXIMIZAR
+    } else {
+        lo = mid + 1;
+        // hi = mid - 1; // Si el objetivo es MAXIMIZAR
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.22 Dos Punteros y Ventana Deslizante</span>
+      <span class="badge">O(N)</span>
+    </div>
+    <p class="desc"><span class="highlight">1. Dos punteros opuestos (Suma de pares en vector ordenado):</span></p>
+<pre class="code">int l = 0, r = n - 1;
+while (l < r) {
+    long long s = a[l] + a[r];
+    if (s == target) { /* encontrado */ break; }
+    else if (s < target) l++;
+    else r--;
+}</pre>
+    <p class="desc"><span class="highlight">2. Ventana Deslizante (Subarreglo de suma &le; S más largo):</span></p>
+<pre class="code">long long cur_sum = 0;
+int max_len = 0, l = 0;
+for (int r = 0; r < n; ++r) {
+    cur_sum += a[r];
+    while (cur_sum > S && l <= r) {
+        cur_sum -= a[l];
+        l++;
+    }
+    max_len = max(max_len, r - l + 1);
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.23 Tipos Numéricos, Overflow y Aritmética Modular</span>
+      <span class="badge">Prevención WA</span>
+    </div>
+    <table class="ctable">
+      <tr><th>Tipo</th><th>Rango Aprox.</th><th>Literal / Constante</th></tr>
+      <tr><td><code>int</code></td><td>$[-2 cdot 10^9, 2 cdot 10^9]$ (~32 bits)</td><td><code>1000000</code>, <code>INT_MAX</code></td></tr>
+      <tr><td><code>long long</code></td><td>$[-9 cdot 10^{18}, 9 cdot 10^{18}]$ (~64 bits)</td><td><code>1LL</code>, <code>LLONG_MAX</code></td></tr>
+      <tr><td><code>__int128_t</code></td><td>$[-1.7 cdot 10^{38}, 1.7 cdot 10^{38}]$ (128 bits)</td><td><code>(__int128)a * b</code></td></tr>
+    </table>
+    <div class="danger">
+      <span class="highlight">&iexcl;OVERFLOW CLÁSICO!</span> El producto <code>int * int</code> evalúa en <code>int</code> y desborda antes de asignarse a un <code>long long</code>:
+      <pre class="code" style="margin:1px 0;">long long ans = 1LL * a * b; // &iexcl;OBLIGATORIO usar 1LL!</pre>
+    </div>
+    <p class="desc"><span class="highlight">Aritmética Modular Segura:</span></p>
+<pre class="code">const int MOD = 1e9 + 7;
+
+inline long long add(long long a, long long b) { return (a + b) % MOD; }
+inline long long sub(long long a, long long b) { return (a - b % MOD + MOD) % MOD; }
+inline long long mul(long long a, long long b) { return (1LL * (a % MOD) * (b % MOD)) % MOD; }
+
+// Exponenciación Binaria Rápida Modular O(log exp):
+long long power(long long base, long long exp) {
+    long long res = 1;
+    base %= MOD;
+    while (exp > 0) {
+        if (exp & 1) res = mul(res, base);
+        base = mul(base, base);
+        exp >>= 1;
+    }
+    return res;
+}
+
+// Inverso modular (MOD primo por Pequeño Teorema de Fermat):
+long long inv(long long n) { return power(n, MOD - 2); }
+
+// Combinatoria N en K módulo primo: nCr = fact[n] * inv(fact[k]) * inv(fact[n-k])</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.24 Criba de Eratóstenes y Factorización O(log N)</span>
+      <span class="badge">Teoría Números</span>
+    </div>
+    <p class="desc">Precalcula el Menor Factor Primo (SPF = Smallest Prime Factor) en $O(N log log N)$:</p>
+<pre class="code">const int MAXV = 1000005;
+vector&lt;int&gt; spf(MAXV);
+
+void sieve() {
+    iota(spf.begin(), spf.end(), 0);
+    for (int i = 2; i * i < MAXV; ++i) {
+        if (spf[i] == i) {
+            for (int j = i * i; j < MAXV; j += i)
+                if (spf[j] == j) spf[j] = i;
+        }
+    }
+}
+
+// Factorización de x en factores primos en O(log x):
+vector&lt;int&gt; getFactors(int x) {
+    vector&lt;int&gt; factors;
+    while (x > 1) {
+        factors.push_back(spf[x]);
+        x /= spf[x];
+    }
+    return factors;
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.25 String Hashing Polinomial en O(1)</span>
+      <span class="badge">Subcadenas</span>
+    </div>
+    <p class="desc">Compara subcadenas en tiempo $O(1)$ tras preprocesamiento $O(N)$ con hash rodante:</p>
+<pre class="code">struct StringHash {
+    const long long P = 313, MOD = 1e9 + 9;
+    vector&lt;long long&gt; h, p_pow;
+
+    StringHash(const string& s) {
+        int n = s.size();
+        h.assign(n + 1, 0); p_pow.assign(n + 1, 1);
+        for (int i = 0; i < n; ++i) {
+            p_pow[i + 1] = (p_pow[i] * P) % MOD;
+            h[i + 1] = (h[i] * P + s[i]) % MOD;
+        }
+    }
+
+    // Retorna el hash del rango s[l..r] inclusivo en O(1):
+    long long get(int l, int r) {
+        long long res = (h[r + 1] - h[l] * p_pow[r - l + 1]) % MOD;
+        return (res + MOD) % MOD;
+    }
+};</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.26 KMP (Knuth-Morris-Pratt) y Función Prefijo &pi;</span>
+      <span class="badge">Matching O(N + M)</span>
+    </div>
+    <p class="desc">Calcula el prefijo más largo que también es sufijo para cada posición:</p>
+<pre class="code">vector&lt;int&gt; compute_pi(const string& s) {
+    int n = s.size();
+    vector&lt;int&gt; pi(n, 0);
+    for (int i = 1; i < n; ++i) {
+        int j = pi[i - 1];
+        while (j > 0 && s[i] != s[j]) j = pi[j - 1];
+        if (s[i] == s[j]) j++;
+        pi[i] = j;
+    }
+    return pi;
+}
+
+// Búsqueda de apariciones de patrón 'pat' en 'text':
+// Concatenar s = pat + "#" + text; donde pi[i] == pat.size() hay match!</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.27 Primitivas de Geometría Computacional 2D</span>
+      <span class="badge">Geometría</span>
+    </div>
+    <p class="desc">Vectores 2D, producto cruz y orientación de giros en el plano:</p>
+<pre class="code">struct Point {
+    long long x, y;
+    Point(long long x=0, long long y=0) : x(x), y(y) {}
+    Point operator-(const Point& o) const { return Point(x - o.x, y - o.y); }
+};
+
+// Producto cruz 2D (a x b): >0 giro antihorario, <0 horario, 0 colineal
+long long cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }
+long long orient(Point a, Point b, Point c) { return cross(b - a, c - a); }
+
+// Distancia Manhattan y Euclidiana al cuadrado (sin pérdida de precisión):
+long long distManhattan(Point a, Point b) { return abs(a.x - b.x) + abs(a.y - b.y); }
+long long distSq(Point a, Point b) { return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y); }</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.28 Teoría de Juegos: Juego de Nim y Sprague-Grundy</span>
+      <span class="badge">Jaime vs Bastián C2_2026_01</span>
+    </div>
+    <p class="desc">En juegos imparciales con regla normal de juego (último jugador en mover gana):</p>
+<pre class="code">// Un estado con pilas {p1, p2, ..., pk} es PERDEDOR sii XOR == 0
+int xor_sum = 0;
+for (int p : pilas) xor_sum ^= p;
+
+if (xor_sum != 0) {
+    cout &lt;&lt; "Gana el Primer Jugador
+";
+} else {
+    cout &lt;&lt; "Gana el Segundo Jugador
+";
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.29 Imprimir __int128_t en C++</span>
+      <span class="badge">IO 128-bits</span>
+    </div>
+    <p class="desc"><code>cin</code> y <code>cout</code> no soportan <code>__int128_t</code> por defecto. Usar función recursiva:</p>
+<pre class="code">void print128(__int128_t x) {
+    if (x < 0) { cout &lt;&lt; '-'; x = -x; }
+    if (x > 9) print128(x / 10);
+    cout &lt;&lt; (char)('0' + (x % 10));
+}</pre>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN 4: TABLAS Y CHECKLIST              -->
+  <!-- ========================================== -->
+  <div class="section-banner">4. Tabla Comparativa de Contenedores y Checklist</div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>4.1 Tabla Maestra de Contenedores STL</span>
+      <span class="badge">Referencia</span>
+    </div>
+    <table class="ctable">
+      <tr>
+        <th>Contenedor</th>
+        <th>Acceso</th>
+        <th>Inicio</th>
+        <th>Final</th>
+        <th>Búsqueda</th>
+        <th>Ordenado</th>
+      </tr>
+      <tr>
+        <td><code>vector</code></td>
+        <td>$O(1)$</td>
+        <td>$O(N)$</td>
+        <td>$O(1)$ am.</td>
+        <td>$O(N)$</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><code>deque</code></td>
+        <td>$O(1)$</td>
+        <td>$O(1)$</td>
+        <td>$O(1)$</td>
+        <td>$O(N)$</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><code>list</code></td>
+        <td>$O(N)$</td>
+        <td>$O(1)$</td>
+        <td>$O(1)$</td>
+        <td>$O(N)$</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><code>set / map</code></td>
+        <td>$O(log N)$</td>
+        <td>$O(log N)$</td>
+        <td>$O(log N)$</td>
+        <td>$O(log N)$</td>
+        <td><strong>Sí (&lt;)</strong></td>
+      </tr>
+      <tr>
+        <td><code>unordered_map</code></td>
+        <td>$O(1)$ pr.</td>
+        <td>$O(1)$ pr.</td>
+        <td>$O(1)$ pr.</td>
+        <td>$O(1)$ pr.</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><code>priority_queue</code></td>
+        <td>$O(1)$ top</td>
+        <td>&mdash;</td>
+        <td>$O(log N)$</td>
+        <td>&mdash;</td>
+        <td>Heap</td>
+      </tr>
+      <tr>
+        <td><code>bitset&lt;N&gt;</code></td>
+        <td>$O(1)$</td>
+        <td>&mdash;</td>
+        <td>&mdash;</td>
+        <td>$O(N/64)$</td>
+        <td>Bits</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>4.2 Árbol de Decisión: ¿Qué Contenedor Elegir?</span>
+      <span class="badge">Elección Rápida</span>
+    </div>
+    <ul class="compact-list">
+      <li><strong>"Necesito acceso aleatorio rápido por índice entero":</strong> &rarr; <code>vector&lt;T&gt;</code>.</li>
+      <li><strong>"Necesito agregar/sacar eficientemente en ambos extremos":</strong> &rarr; <code>deque&lt;T&gt;</code> (0-1 BFS).</li>
+      <li><strong>"Necesito el elemento máximo o mínimo continuamente":</strong> &rarr; <code>priority_queue&lt;T&gt;</code> (Dijkstra, Prim).</li>
+      <li><strong>"Necesito mantener elementos ordenados sin duplicados y consultar cotas":</strong> &rarr; <code>set&lt;T&gt;</code> (lower_bound $O(log N)$).</li>
+      <li><strong>"Necesito mantener elementos ordenados con duplicados":</strong> &rarr; <code>multiset&lt;T&gt;</code> (ojo con <code>erase(find(x))</code>).</li>
+      <li><strong>"Necesito asociar claves arbitrarias (strings, coordenadas) a valores":</strong> &rarr; <code>map</code> (ordenado) o <code>unordered_map</code> (rápido $O(1)$).</li>
+      <li><strong>"Necesito insertar en el medio en $O(1)$ mediante punteros/cursores":</strong> &rarr; <code>list&lt;T&gt;</code> (Simulación de texto, Sim.cpp).</li>
+      <li><strong>"Necesito subconjuntos de hasta 30 elementos":</strong> &rarr; Bitmask entero (<code>int</code> o <code>long long</code>).</li>
+      <li><strong>"Necesito operaciones de conjuntos de hasta $10^5$ booleanos":</strong> &rarr; <code>bitset&lt;N&gt;</code> (Mochila en $O(NW/64)$).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>4.3 Checklist de Prevención de Errores en Certamen</span>
+      <span class="badge-warn badge">&iexcl;Revisar Antes de Enviar!</span>
+    </div>
+    <ul class="compact-list">
+      <li><strong>&iquest;Variables reiniciadas en casos múltiples?</strong> Vectores globales, matrices de visitados y contadores deben limpiarse en cada test case con <code>clear()</code> o <code>assign()</code>.</li>
+      <li><strong>&iquest;Overflow numérico?</strong> ¿La respuesta puede superar $2 cdot 10^9$? Usa <code>long long</code> y <code>0LL</code> en <code>accumulate</code> y <code>1LL * a * b</code>.</li>
+      <li><strong>&iquest;Límites de arreglos $N$ vs $N+1$?</strong> Cuidado con indexación 1-based (usar <code>vector(n + 1)</code>).</li>
+      <li><strong>&iquest;getline tras cin &gt;&gt; x?</strong> Asegúrate de haber llamado <code>cin.ignore()</code> antes.</li>
+      <li><strong>&iquest;Estructura vacía antes de top/pop?</strong> Siempre verificar <code>!q.empty()</code> antes de <code>q.front()</code> o <code>st.top()</code>.</li>
+      <li><strong>&iquest;lower_bound sobre set?</strong> Usa <code>s.lower_bound(x)</code> y NUNCA <code>std::lower_bound(...)</code>.</li>
+      <li><strong>&iquest;Comparador con orden estricto débil?</strong> En <code>operator&lt;</code> usar siempre <code>&lt;</code> (nunca <code>&le;</code>).</li>
+      <li><strong>&iquest;División por cero o módulo cero?</strong> Verificar que denominadores o variables modulares sean $> 0$.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>4.4 Pragmas GCC y Generador Aleatorio 64-bit Seguro</span>
+      <span class="badge">Optimización</span>
+    </div>
+    <p class="desc">Aceleración por hardware y generación aleatoria uniforme (evitar <code>rand()</code>):</p>
+<pre class="code">// Pragmas de optimización (colocar arriba del código):
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+
+// Generador pseudoaleatorio de 64 bits de alta calidad:
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+// Entero aleatorio uniforme en [L, R]:
+long long randInt(long long l, long long r) {
+    return uniform_int_distribution&lt;long long&gt;(l, r)(rng);
+}
+// Barajar vector aleatoriamente:
+shuffle(v.begin(), v.end(), rng);</pre>
+  </div>
+
+</div>
+
+</body>
+</html>

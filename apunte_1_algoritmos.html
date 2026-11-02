@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>INF-221 Apunte 1: Catálogo Oficial de Algoritmos</title>
+<style>
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 8.2pt;
+    line-height: 1.25;
+    color: #111;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+  .header-banner {
+    border-bottom: 2px solid #111;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .header-banner h1 {
+    font-size: 11.5pt;
+    margin: 0 0 2px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #000;
+    font-weight: 800;
+  }
+  .header-banner .meta {
+    font-size: 7.4pt;
+    color: #333;
+    font-weight: 600;
+  }
+  .columns {
+    column-count: 2;
+    column-gap: 7mm;
+  }
+  .unit-title {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-after: avoid;
+    page-break-after: avoid;
+    background: #111;
+    color: #fff;
+    font-size: 8.6pt;
+    font-weight: 700;
+    padding: 3px 6px;
+    margin: 7px 0 5px 0;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .algo-card {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #555;
+    border-radius: 2.5px;
+    padding: 4.5px 6.5px;
+    margin-bottom: 6px;
+    background: #fff;
+  }
+  .algo-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #777;
+    padding-bottom: 2px;
+    margin-bottom: 3px;
+    break-after: avoid;
+  }
+  .algo-num-title {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #000;
+  }
+  .algo-tag {
+    font-size: 6.7pt;
+    font-weight: 600;
+    background: #e4e4e4;
+    color: #111;
+    padding: 1px 4px;
+    border-radius: 2px;
+    border: 0.5px solid #777;
+  }
+  .algo-desc {
+    font-size: 7.6pt;
+    color: #111;
+    margin-bottom: 3px;
+    line-height: 1.22;
+  }
+  .algo-notes {
+    font-size: 7.2pt;
+    background: #f3f3f3;
+    border-left: 2.5px solid #222;
+    padding: 3px 5px;
+    margin-bottom: 3.5px;
+    line-height: 1.2;
+  }
+  .algo-notes strong {
+    color: #000;
+  }
+  pre {
+    margin: 0;
+    padding: 3.5px 5px;
+    background: #fafafa;
+    border: 0.8px solid #999;
+    border-radius: 2px;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 7.0pt;
+    line-height: 1.18;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .algo-complexity {
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.0pt;
+    margin-top: 3px;
+    background: #e8e8e8;
+    border: 0.5px solid #999;
+    padding: 2px 5px;
+    border-radius: 2px;
+  }
+  .algo-complexity span.bold {
+    font-weight: 700;
+    color: #000;
+  }
+  table.comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 6.9pt;
+    margin-top: 3px;
+  }
+  table.comp-table th, table.comp-table td {
+    border: 0.5px solid #777;
+    padding: 2px 4px;
+    text-align: left;
+  }
+  table.comp-table th {
+    background: #d8d8d8;
+    font-weight: 700;
+    color: #000;
+  }
+  i {
+    font-family: "Times New Roman", Times, serif;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-banner">
+  <h1>INF-221 Algoritmos y Complejidad &bull; Certamen Final</h1>
+  <div class="meta">APUNTE 1: CATÁLOGO COMPLETO DE ALGORITMOS DE CÁTEDRA &bull; C++ FUNCIONAL, INVARIANTES, PODAS Y COMPLEJIDADES</div>
+</div>
+
+<div class="columns">
+
+  <!-- ========================================================== -->
+  <!-- UNIDAD 1: CORRECTITUD, INVARIANTES Y ORDENAMIENTO -->
+  <!-- ========================================================== -->
+  <div class="unit-title">Unidad 1: Correctitud, Invariantes y Ordenamiento</div>
+
+  <!-- 1. Naive Exponentiation -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">1. Exponenciación Naive (Potencia Iterativa)</span>
+      <span class="algo-tag">Clase 03</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Calcula la potencia entera <i>a</i><sup><i>b</i></sup> (para <i>a</i>, <i>b</i> &ge; 0 enteros) mediante multiplicaciones repetidas acumuladas. Se utiliza como caso introductorio para inducción matemática en invariantes de ciclo y para evidenciar el costo lineal en el valor de <i>b</i> pero exponencial en su número de bits.
+    </div>
+    <div class="algo-notes">
+      <strong>Invariante de Ciclo:</strong> Antes de cada iteración del ciclo <code>while</code>, se cumple la igualdad: <i>res</i> &times; <i>a</i><sup><i>b</i></sup> = <i>a</i><sub>orig</sub><sup><i>b</i><sub>orig</sub></sup>.<br>
+      &bull; <strong>Inicialización:</strong> Antes de la primera iteración, <i>res</i> = 1 y <i>b</i> = <i>b</i><sub>orig</sub>. Entonces <i>res</i> &times; <i>a</i><sup><i>b</i></sup> = 1 &times; <i>a</i><sub>orig</sub><sup><i>b</i><sub>orig</sub></sup> = <i>a</i><sub>orig</sub><sup><i>b</i><sub>orig</sub></sup> (verdadero).<br>
+      &bull; <strong>Mantenimiento:</strong> Si es verdadero antes de una iteración con <i>b</i> &gt; 0, en el cuerpo se ejecutan <i>res'</i> = <i>res</i> &times; <i>a</i> y <i>b'</i> = <i>b</i> &minus; 1. Antes de la siguiente iteración: <i>res'</i> &times; <i>a</i><sup><i>b'</i></sup> = (<i>res</i> &times; <i>a</i>) &times; <i>a</i><sup><i>b</i> &minus; 1</sup> = <i>res</i> &times; <i>a</i><sup><i>b</i></sup> = <i>a</i><sub>orig</sub><sup><i>b</i><sub>orig</sub></sup> (se preserva).<br>
+      &bull; <strong>Finalización:</strong> Termina cuando <i>b</i> = 0. Luego <i>res</i> &times; <i>a</i><sup>0</sup> = <i>res</i> &times; 1 = <i>res</i> = <i>a</i><sub>orig</sub><sup><i>b</i><sub>orig</sub></sup>. El valor final en <i>res</i> es correcto.
+    </div>
+<pre>long long naivePower(long long a, long long b) {
+    long long res = 1;
+    while (b > 0) {
+        res *= a;
+        b--;
+    }
+    return res;
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>b</i>) iteraciones = O(2<sup><i>k</i></sup>) (exp. en bits <i>k</i> = &lfloor;log<sub>2</sub> <i>b</i>&rfloor; + 1)</span>
+      <span><span class="bold">Espacio:</span> O(1)</span>
+    </div>
+  </div>
+
+  <!-- 2. Naive Multiplication -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">2. Multiplicación Naive por Sumas Sucesivas</span>
+      <span class="algo-tag">Clase 03</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Calcula el producto <i>a</i> &times; <i>b</i> mediante acumulación iterativa de sumas. Modelo canónico de cátedra para conteo de operaciones elementales de CPU (5 op. por ciclo: comparación, 2 lecturas/asignaciones, suma y resta).
+    </div>
+    <div class="algo-notes">
+      <strong>Invariante de Ciclo:</strong> Antes de cada iteración, se cumple: <i>res</i> + <i>a</i> &times; <i>b</i> = <i>a</i> &times; <i>b</i><sub>orig</sub>.<br>
+      &bull; <strong>Inicialización:</strong> <i>res</i> = 0, <i>b</i> = <i>b</i><sub>orig</sub> &rArr; <i>res</i> + <i>a</i> &times; <i>b</i> = 0 + <i>a</i> &times; <i>b</i><sub>orig</sub> = <i>a</i> &times; <i>b</i><sub>orig</sub>.<br>
+      &bull; <strong>Mantenimiento:</strong> Ejecutando <i>res'</i> = <i>res</i> + <i>a</i> y <i>b'</i> = <i>b</i> &minus; 1: <i>res'</i> + <i>a</i> &times; <i>b'</i> = (<i>res</i> + <i>a</i>) + <i>a</i>(<i>b</i> &minus; 1) = <i>res</i> + <i>a</i> + <i>ab</i> &minus; <i>a</i> = <i>res</i> + <i>ab</i> = <i>a</i> &times; <i>b</i><sub>orig</sub>.<br>
+      &bull; <strong>Finalización:</strong> Al alcanzar <i>b</i> = 0: <i>res</i> + <i>a</i> &times; 0 = <i>res</i> = <i>a</i> &times; <i>b</i><sub>orig</sub>.
+    </div>
+<pre>long long naiveMultiplication(long long a, long long b) {
+    long long res = 0;
+    while (b > 0) {
+        res += a;
+        b--;
+    }
+    return res;
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>b</i>) sumas elementales (5<i>b</i> + <i>c</i> op. de máquina)</span>
+      <span><span class="bold">Espacio:</span> O(1)</span>
+    </div>
+  </div>
+
+  <!-- 3. Russian Peasant -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">3. Multiplicación Rusa (Russian Peasant)</span>
+      <span class="algo-tag">Clase 03</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Multiplica dos números enteros no negativos <i>a</i> &times; <i>b</i> en tiempo logarítmico procesando implícitamente los bits de <i>b</i> desde el menos significativo al más significativo. Si el bit actual es 1 (impar), acumula <i>a</i>; luego duplica <i>a</i> (shift izquierdo) y divide <i>b</i> por 2 (shift derecho).
+    </div>
+    <div class="algo-notes">
+      <strong>Descomposición Binaria:</strong> <i>b</i> = &sum;<sub><i>j</i>=0</sub><sup><i>k</i>&minus;1</sup> <i>b</i><sub><i>j</i></sub> 2<sup><i>j</i></sup> con <i>b</i><sub><i>j</i></sub> &isin; {0, 1}. Por tanto, <i>a</i> &times; <i>b</i> = &sum;<sub><i>j</i>=0</sub><sup><i>k</i>&minus;1</sup> <i>b</i><sub><i>j</i></sub> (<i>a</i> &times; 2<sup><i>j</i></sup>).<br>
+      <strong>Invariante de Ciclo:</strong> En cada iteración se mantiene: <i>res</i> + <i>a</i> &times; <i>b</i> = <i>a</i><sub>orig</sub> &times; <i>b</i><sub>orig</sub>.<br>
+      &bull; Si <i>b</i> es par: <i>a'</i> = 2<i>a</i>, <i>b'</i> = <i>b</i>/2 &rArr; <i>res</i> + <i>a'b'</i> = <i>res</i> + (2<i>a</i>)(<i>b</i>/2) = <i>res</i> + <i>ab</i>.<br>
+      &bull; Si <i>b</i> es impar: <i>res'</i> = <i>res</i> + <i>a</i>, <i>a'</i> = 2<i>a</i>, <i>b'</i> = (<i>b</i>&minus;1)/2 &rArr; <i>res'</i> + <i>a'b'</i> = <i>res</i> + <i>a</i> + 2<i>a</i>(<i>b</i>&minus;1)/2 = <i>res</i> + <i>ab</i>.
+    </div>
+<pre>long long russianPeasant(long long a, long long b) {
+    long long res = 0;
+    while (b > 0) {
+        if (b & 1) { // Evalua si el bit menos significativo es 1 (impar)
+            res += a;
+        }
+        a <<= 1;     // Duplica a (a = a * 2 mediante shift izquierdo)
+        b >>= 1;     // Divide b en 2 (b = b / 2 mediante shift derecho)
+    }
+    return res;
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> &le; 8 log<sub>2</sub> <i>b</i> = O(log <i>b</i>) (lineal en cantidad de bits)</span>
+      <span><span class="bold">Espacio:</span> O(1)</span>
+    </div>
+  </div>
+
+  <!-- 4. Selection Sort -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">4. Selection Sort con Demostración de Invariantes</span>
+      <span class="algo-tag">Clases 02, 04</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Ordena un arreglo dividiéndolo en un prefijo ordenado y un sufijo sin ordenar. En cada paso localiza el mínimo del sufijo <i>A</i>[<i>i</i> &hellip; <i>n</i>&minus;1] y lo intercambia con <i>A</i>[<i>i</i>]. Minimiza el número de escrituras físicas (a lo sumo <i>n</i> &minus; 1 intercambios).
+    </div>
+    <div class="algo-notes">
+      <strong>Invariante Ciclo Interno (j):</strong> Antes de cada iteración <i>j</i> &isin; {<i>i</i>+1, &hellip;, <i>n</i>&minus;1}, <i>m</i> almacena el índice del menor elemento en <i>A</i>[<i>i</i> &hellip; <i>j</i>&minus;1].<br>
+      &bull; <em>Inicialización:</em> <i>j</i> = <i>i</i>+1, <i>m</i> = <i>i</i>. Rango {<i>A</i>[<i>i</i>]}, <i>m</i> es el mínimo trivial.<br>
+      &bull; <em>Mantenimiento:</em> Si <i>A</i>[<i>j</i>] &lt; <i>A</i>[<i>m</i>], se actualiza <i>m</i> = <i>j</i>; sino, se preserva. En ambos casos <i>m</i> es el índice del mínimo en <i>A</i>[<i>i</i> &hellip; <i>j</i>].<br>
+      &bull; <em>Finalización:</em> Al terminar <i>j</i> = <i>n</i>, <i>m</i> es el mínimo de todo el sufijo <i>A</i>[<i>i</i> &hellip; <i>n</i>&minus;1].<br>
+      <strong>Invariante Ciclo Externo (i):</strong> Antes de la iteración <i>i</i>, el prefijo <i>A</i>[0 &hellip; <i>i</i>&minus;1] contiene los <i>i</i> menores elementos del arreglo original en orden creciente, y todos son &le; que cualquier elemento de <i>A</i>[<i>i</i> &hellip; <i>n</i>&minus;1].
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;utility&gt;
+using namespace std;
+
+void selectionSort(vector&lt;int&gt;& a) {
+    int n = a.size();
+    for (int i = 0; i &lt; n - 1; ++i) {
+        int m = i; // m almacena el indice del minimo de a[i..n-1]
+        for (int j = i + 1; j &lt; n; ++j) {
+            if (a[j] &lt; a[m]) {
+                m = j; // Actualiza posicion del minimo observado
+            }
+        }
+        if (m != i) {
+            swap(a[i], a[m]); // Ubica el minimo en su posicion definitiva
+        }
+    }
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Comparaciones:</span> &sum;<sub><i>i</i>=0</sub><sup><i>n</i>&minus;2</sup>(<i>n</i>&minus;1&minus;<i>i</i>) = <i>n</i>(<i>n</i>&minus;1)/2 = &Theta;(<i>n</i><sup>2</sup>)</span>
+      <span><span class="bold">Swaps:</span> &le; <i>n</i> &minus; 1 &bull; <span class="bold">Espacio:</span> O(1)</span>
+    </div>
+  </div>
+
+  <!-- 5. MergeSort -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">5. MergeSort (Ordenamiento Divide y Conquista)</span>
+      <span class="algo-tag">Clase 02</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Algoritmo de ordenamiento clásico por división en mitades. Es estable (mantiene el orden relativo original de elementos iguales) y garantiza cota asintótica estricta &Theta;(<i>n</i> log <i>n</i>) en todos los casos.
+    </div>
+    <div class="algo-notes">
+      <strong>Recurrencia y Teorema Maestro:</strong> <i>T</i>(<i>n</i>) = 2<i>T</i>(<i>n</i>/2) + O(<i>n</i>). Con <i>a</i>=2, <i>b</i>=2, <i>d</i>=1, se tiene log<sub><i>b</i></sub> <i>a</i> = log<sub>2</sub> 2 = 1 = <i>d</i> &rArr; <i>T</i>(<i>n</i>) = &Theta;(<i>n</i> log <i>n</i>). Árbol de recursión de profundidad log<sub>2</sub> <i>n</i>, donde cada nivel realiza O(<i>n</i>) comparaciones en la fusión (<code>merge</code>).
+    </div>
+<pre>#include &lt;vector&gt;
+using namespace std;
+
+void merge(vector&lt;int&gt;& a, int l, int m, int r) {
+    int n1 = m - l + 1, n2 = r - m;
+    vector&lt;int&gt; L(n1), R(n2);
+    for (int i = 0; i &lt; n1; ++i) L[i] = a[l + i];
+    for (int j = 0; j &lt; n2; ++j) R[j] = a[m + 1 + j];
+
+    int i = 0, j = 0, k = l;
+    while (i &lt; n1 && j &lt; n2) {
+        if (L[i] &lt;= R[j]) { // &lt;= preserva estabilidad
+            a[k++] = L[i++];
+        } else {
+            a[k++] = R[j++];
+        }
+    }
+    while (i &lt; n1) a[k++] = L[i++];
+    while (j &lt; n2) a[k++] = R[j++];
+}
+
+void mergeSort(vector&lt;int&gt;& a, int l, int r) {
+    if (l &gt;= r) return;
+    int m = l + (r - l) / 2;
+    mergeSort(a, l, m);
+    mergeSort(a, m + 1, r);
+    merge(a, l, m, r);
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> &Theta;(<i>n</i> log <i>n</i>) en mejor, peor y caso promedio</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) auxiliar</span>
+    </div>
+  </div>
+
+  <!-- 6. QuickSort -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">6. QuickSort (Ordenamiento por Partición)</span>
+      <span class="algo-tag">Clase 02</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Divide y conquista particionando el arreglo alrededor de un elemento pivote in-place. Elementos menores o iguales se ubican a la izquierda y mayores a la derecha; luego ordena recursivamente ambas particiones.
+    </div>
+    <div class="algo-notes">
+      <strong>Análisis Asintótico según Pivote:</strong><br>
+      &bull; <em>Mejor / Promedio:</em> Partición balanceada (<i>n</i>/2). Altura del árbol log<sub>2</sub> <i>n</i>. Cada nivel suma <i>n</i> comparaciones &rArr; &Theta;(<i>n</i> log <i>n</i>).<br>
+      &bull; <em>Peor Caso:</em> Arreglo ya ordenado o invertido con pivote extremo (0 elementos a un lado, <i>n</i> &minus; 1 al otro) &rArr; <i>T</i>(<i>n</i>) = <i>T</i>(<i>n</i>&minus;1) + O(<i>n</i>) = &Theta;(<i>n</i><sup>2</sup>).
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;utility&gt;
+using namespace std;
+
+// Esquema de particion de Lomuto:
+int partitionLomuto(vector&lt;int&gt;& a, int low, int high) {
+    int pivot = a[high]; // Pivote seleccionado al extremo derecho
+    int i = low - 1;
+    for (int j = low; j &lt; high; ++j) {
+        if (a[j] &lt;= pivot) {
+            ++i;
+            swap(a[i], a[j]);
+        }
+    }
+    swap(a[i + 1], a[high]); // Ubica pivote en su indice definitivo
+    return i + 1;
+}
+
+void quickSort(vector&lt;int&gt;& a, int low, int high) {
+    if (low &lt; high) {
+        int pi = partitionLomuto(a, low, high);
+        quickSort(a, low, pi - 1);
+        quickSort(a, pi + 1, high);
+    }
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> Promedio &Theta;(<i>n</i> log <i>n</i>) &bull; Peor Caso &Theta;(<i>n</i><sup>2</sup>)</span>
+      <span><span class="bold">Espacio:</span> O(log <i>n</i>) pila recursiva</span>
+    </div>
+  </div>
+
+  <!-- 7. HeapSort -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">7. HeapSort (Montículo Binario In-Place)</span>
+      <span class="algo-tag">Clase 02</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Transforma el arreglo en un Max-Heap in-place. Intercambia la raíz (máximo global) con la última posición del rango y restaura la propiedad de montículo mediante hundimiento (<code>heapify</code>). Garantiza tiempo O(<i>n</i> log <i>n</i>) con memoria adicional O(1).
+    </div>
+    <div class="algo-notes">
+      <strong>Indexación del Montículo (0-based):</strong> Padre en &lfloor;(<i>i</i>&minus;1)/2&rfloor;; hijo izquierdo en 2<i>i</i>+1; hijo derecho en 2<i>i</i>+2. Construir el heap de abajo hacia arriba toma &sum;<sub><i>h</i>=0</sub><sup>log <i>n</i></sup> (<i>n</i>/2<sup><i>h</i>+1</sup>) O(<i>h</i>) = O(<i>n</i>). Cada una de las <i>n</i> &minus; 1 extracciones requiere O(log <i>n</i>).
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;utility&gt;
+using namespace std;
+
+void heapify(vector&lt;int&gt;& a, int n, int i) {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+
+    if (l &lt; n && a[l] &gt; a[largest]) largest = l;
+    if (r &lt; n && a[r] &gt; a[largest]) largest = r;
+
+    if (largest != i) {
+        swap(a[i], a[largest]);
+        heapify(a, n, largest); // Hundimiento recursivo
+    }
+}
+
+void heapSort(vector&lt;int&gt;& a) {
+    int n = a.size();
+    // 1. Build Max-Heap en tiempo O(n)
+    for (int i = n / 2 - 1; i &gt;= 0; --i) {
+        heapify(a, n, i);
+    }
+    // 2. Extraer maximos sucesivos y ubicarlos al final
+    for (int i = n - 1; i &gt; 0; --i) {
+        swap(a[0], a[i]); // Mueve el maximo actual a su posicion definitiva
+        heapify(a, i, 0); // Restaura heap sobre los i elementos restantes
+    }
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> &Theta;(<i>n</i> log <i>n</i>) garantizado en todo escenario</span>
+      <span><span class="bold">Espacio:</span> O(1) in-place</span>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- UNIDAD 2: FUERZA BRUTA, BITMASKS Y BACKTRACKING -->
+  <!-- ========================================================== -->
+  <div class="unit-title">Unidad 2: Fuerza Bruta, Bitmasks y Backtracking</div>
+
+  <!-- 8. Test Primalidad O(sqrt(x)) -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">8. Test de Primalidad O(&radic;<i>x</i>) para Podas</span>
+      <span class="algo-tag">Clase 13</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Determina de forma exacta si <i>x</i> &gt; 1 es primo inspeccionando divisores hasta &lfloor;&radic;<i>x</i>&rfloor;. Se aplica en búsquedas exhaustivas y podas de inviabilidad para descartar candidatos sin incurrir en costo lineal O(<i>x</i>).
+    </div>
+    <div class="algo-notes">
+      <strong>Demostración de Cota &radic;<i>x</i>:</strong> Si <i>x</i> es compuesto, admite factorización <i>x</i> = <i>a</i> &times; <i>b</i>. Si ambos factores fuesen &gt; &radic;<i>x</i> &rArr; <i>a</i> &times; <i>b</i> &gt; &radic;<i>x</i> &times; &radic;<i>x</i> = <i>x</i> (contradicción). Luego al menos un divisor es &le; &radic;<i>x</i>. Basta verificar hasta &radic;<i>x</i>.
+    </div>
+<pre>bool esPrimo(long long x) {
+    if (x &lt;= 1) return false;
+    if (x &lt;= 3) return true;
+    if (x % 2 == 0 || x % 3 == 0) return false;
+    // Salto de 6 en 6 (patron 6k +/- 1 para todo primo > 3)
+    for (long long i = 5; i * i &lt;= x; i += 6) {
+        if (x % i == 0 || x % (i + 2) == 0) return false;
+    }
+    return true;
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(&radic;<i>x</i>)</span>
+      <span><span class="bold">Espacio:</span> O(1)</span>
+    </div>
+  </div>
+
+  <!-- 9. Subconjuntos de tamano k -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">9. Generación de Subconjuntos de Tamaño <i>k</i></span>
+      <span class="algo-tag">Clase 13</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Genera sistemáticamente todas las combinaciones de tamaño exacto <i>k</i> de un conjunto de <i>n</i> elementos. Evita escribir <i>k</i> ciclos <code>for</code> anidados estáticos y utiliza el parámetro <code>inicio</code> para no repetir elementos ni generar permutaciones redundantes (ej. genera {1, 3} pero descarta {3, 1}).
+    </div>
+    <div class="algo-notes">
+      <strong>Propiedad Combinatoria:</strong> Cantidad de combinaciones: <i>C</i>(<i>n</i>, <i>k</i>) = <i>n</i>! / (<i>k</i>!(<i>n</i> &minus; <i>k</i>)!). Alcanza su valor máximo en <i>k</i> &asymp; <i>n</i>/2.<br>
+      <strong>Poda de Suficiencia:</strong> Si <code>actual.size() + (cjto.size() - i) &lt; k</code>, la cantidad de elementos disponibles en el sufijo no alcanza para completar el tamaño <i>k</i>. Se poda inmediatamente el ciclo.
+    </div>
+<pre>#include &lt;vector&gt;
+using namespace std;
+
+void generarSubconjuntosK(const vector&lt;int&gt;& cjto, vector&lt;int&gt;& actual,
+                         int inicio, int k) {
+    if ((int)actual.size() == k) {
+        // Solucion completa alcanzada: procesar/imprimir actual;
+        return;
+    }
+    // Poda: si los elementos restantes no alcanzan para completar k
+    if ((int)actual.size() + ((int)cjto.size() - inicio) &lt; k) return;
+
+    for (int i = inicio; i &lt; (int)cjto.size(); ++i) {
+        actual.push_back(cjto[i]);                // 1. ELEGIR
+        generarSubconjuntosK(cjto, actual, i + 1, k); // 2. EXPLORAR
+        actual.pop_back();                         // 3. DESHACER
+    }
+}
+// Llamada inicial: vector&lt;int&gt; act; generarSubconjuntosK(cjto, act, 0, k);</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>k</i> &times; <i>C</i>(<i>n</i>, <i>k</i>))</span>
+      <span><span class="bold">Espacio:</span> O(<i>k</i>) auxiliar (pila de profundidad <i>k</i>)</span>
+    </div>
+  </div>
+
+  <!-- 10. Conjunto Potencia Bitmask -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">10. Conjunto Potencia con Máscara de Bits (Bitmask)</span>
+      <span class="algo-tag">Clase 14</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Genera los 2<sup><i>n</i></sup> subconjuntos de un conjunto de forma puramente iterativa sin llamadas recursivas. Mapea la pertenencia de elementos a los <i>n</i> bits de un entero en [0, 2<sup><i>n</i></sup> &minus; 1]. Ideal para <i>n</i> &le; 25&hellip;30 por su máxima velocidad y nula sobrecarga de stack.
+    </div>
+    <div class="algo-notes">
+      <strong>Operaciones a Nivel de Bits:</strong><br>
+      &bull; <code>1 &lt;&lt; n</code>: Desplaza el bit 1 en <i>n</i> posiciones a la izquierda, produciendo 2<sup><i>n</i></sup>.<br>
+      &bull; <code>mask & (1 &lt;&lt; j)</code>: Prueba si el <i>j</i>-ésimo bit está encendido. Si es distinto de 0, el elemento en posición <i>j</i> pertenece al subconjunto.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+void conjuntoPotenciaBitmask(const vector&lt;int&gt;& cjto) {
+    int n = cjto.size();
+    int total = 1 &lt;&lt; n; // 2^n subconjuntos posibles
+
+    for (int mask = 0; mask &lt; total; ++mask) {
+        vector&lt;int&gt; subconjunto;
+        for (int j = 0; j &lt; n; ++j) {
+            if (mask & (1 &lt;&lt; j)) { // j-esimo bit encendido
+                subconjunto.push_back(cjto[j]);
+            }
+        }
+        // Procesar subconjunto actual
+    }
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i> &times; 2<sup><i>n</i></sup>)</span>
+      <span><span class="bold">Espacio:</span> O(1) adicional (O(<i>n</i>) si almacena)</span>
+    </div>
+  </div>
+
+  <!-- 11. Conjunto Potencia Recursivo -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">11. Conjunto Potencia con Backtracking Recursivo</span>
+      <span class="algo-tag">Clase 14</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Genera todos los 2<sup><i>n</i></sup> subconjuntos recorriendo el árbol de decisiones mediante DFS. A diferencia de las permutaciones o combinaciones de tamaño fijo, en este problema <em>cada nodo del árbol es una solución válida</em> (incluido el conjunto vacío inicial).
+    </div>
+    <div class="algo-notes">
+      <strong>Ventaja respecto a Bitmask:</strong> Permite incorporar podas intermedias sobre soluciones parciales (ej. cortar la rama completa si la suma parcial excede una cota), evitando explorar 2<sup><i>n</i></sup> estados ciegamente cuando existen restricciones adicionales.
+    </div>
+<pre>#include &lt;vector&gt;
+using namespace std;
+
+void generarConjuntoPotenciaRec(const vector&lt;int&gt;& cjto,
+                                vector&lt;int&gt;& actual, int inicio) {
+    // Al entrar a cada llamada, 'actual' ya es un subconjunto valido
+    // procesar/guardar actual;
+
+    for (int i = inicio; i &lt; (int)cjto.size(); ++i) {
+        actual.push_back(cjto[i]); // ELEGIR
+        generarConjuntoPotenciaRec(cjto, actual, i + 1); // EXPLORAR
+        actual.pop_back();          // DESHACER
+    }
+}
+// Llamada inicial: vector&lt;int&gt; act; generarConjuntoPotenciaRec(cjto, act, 0);</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i> &times; 2<sup><i>n</i></sup>)</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) profundidad de la pila de recursión</span>
+    </div>
+  </div>
+
+  <!-- 12. Permutaciones con arreglo usados -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">12. Generación de Permutaciones con Arreglo `usados`</span>
+      <span class="algo-tag">Clase 14</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Genera las <i>n</i>! permutaciones de un arreglo de <i>n</i> elementos distintos. Como el orden importa ({1, 2} &ne; {2, 1}), el ciclo interno comienza siempre en 0 y un vector booleano <code>usados</code> evita colocar elementos ya presentes en el prefijo.
+    </div>
+    <div class="algo-notes">
+      <strong>Estructura del Árbol:</strong> A diferencia del conjunto potencia, los nodos internos son permutaciones incompletas; <em>únicamente las hojas a profundidad n (<code>actual.size() == n</code>) constituyen soluciones completas</em>.
+    </div>
+<pre>#include &lt;vector&gt;
+using namespace std;
+
+void generarPermutaciones(const vector&lt;int&gt;& cjto, vector&lt;int&gt;& actual,
+                         vector&lt;bool&gt;& usados) {
+    if (actual.size() == cjto.size()) {
+        // Solucion completa alcanzada en hoja del arbol:
+        // procesar(actual);
+        return;
+    }
+
+    for (int i = 0; i &lt; (int)cjto.size(); ++i) {
+        if (usados[i]) continue;   // Elemento ya forma parte del prefijo
+        usados[i] = true;          // 1. ELEGIR
+        actual.push_back(cjto[i]);
+        generarPermutaciones(cjto, actual, usados); // 2. EXPLORAR
+        actual.pop_back();         // 3. DESHACER
+        usados[i] = false;
+    }
+}
+// Inicializar: vector&lt;bool&gt; usados(n, false); generarPermutaciones(c, act, usados);</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i> &times; <i>n</i>!)</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) auxiliar (vector <code>usados</code> y profundidad <i>n</i>)</span>
+    </div>
+  </div>
+
+  <!-- 13. next_permutation STL & Algoritmo -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">13. Generación de Permutaciones con `std::next_permutation`</span>
+      <span class="algo-tag">Clase 15</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Reorganiza un rango in-place para transformarlo en la siguiente permutación en orden lexicográfico. Retorna <code>false</code> cuando se alcanza la permutación descendente máxima. Muy conveniente para recorrer permutaciones cuando no hay podas intermedias.
+    </div>
+    <div class="algo-notes">
+      <strong>Mecanismo Interno Canónico (3 pasos):</strong><br>
+      1. <em>Pivote:</em> Desde la derecha, buscar el primer índice <i>i</i> tal que <i>a</i>[<i>i</i>] &lt; <i>a</i>[<i>i</i>+1]. Si no existe, es la última permutación.<br>
+      2. <em>Sucesor:</em> Desde la derecha, buscar el primer <i>j</i> tal que <i>a</i>[<i>j</i>] &gt; <i>a</i>[<i>i</i>] e intercambiarlos: <code>swap(a[i], a[j])</code>.<br>
+      3. <em>Inversión:</em> Invertir el sufijo <i>a</i>[<i>i</i>+1 &hellip; <i>n</i>&minus;1] para dejarlo en orden ascendente mínimo.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+// 1. Recorrido estandar con la STL:
+void recorrerPermutaciones(vector&lt;int&gt; a) {
+    sort(a.begin(), a.end()); // Indispensable partir ordenado ascendentemente
+    do {
+        // Procesar permutacion actual 'a'
+    } while (next_permutation(a.begin(), a.end()));
+}
+
+// 2. Implementacion interna del algoritmo de std::next_permutation:
+bool miNextPermutation(vector&lt;int&gt;& a) {
+    int n = a.size(), i = n - 2;
+    while (i &gt;= 0 && a[i] &gt;= a[i + 1]) --i; // 1. Buscar pivote
+    if (i &lt; 0) return false;                 // Fin de las permutaciones
+    int j = n - 1;
+    while (a[j] &lt;= a[i]) --j;               // 2. Buscar sucesor
+    swap(a[i], a[j]);                        // Intercambiar pivote y sucesor
+    reverse(a.begin() + i + 1, a.end());    // 3. Invertir sufijo
+    return true;
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i>) peor caso por paso &bull; O(<i>n</i> &times; <i>n</i>!) recorrido completo</span>
+      <span><span class="bold">Espacio:</span> O(1) in-place</span>
+    </div>
+  </div>
+
+  <!-- 14. Backtracking con Podas de Inviabilidad -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">14. Backtracking con Podas de Inviabilidad (Suma &le; <i>S</i>)</span>
+      <span class="algo-tag">Clases 13, 14</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Patrón de poda de inviabilidad. Al construir una solución parcial con números positivos sujeta a una cota de suma &le; <i>S</i>, si la suma acumulada supera <i>S</i>, se descarta el subárbol de descendientes, pues con elementos positivos la suma solo puede aumentar.
+    </div>
+    <div class="algo-notes">
+      <strong>Ciclo de Decisión:</strong> Elegir &rArr; Verificar Factibilidad &rArr; Explorar &rArr; Deshacer.<br>
+      Al podar antes de invocar la recursión (<code>if (suma + cjto[i] &gt; S) continue;</code>), se ahorra la sobrecarga de entrar a la llamada y crear marcos de pila infructuosos.
+    </div>
+<pre>#include &lt;vector&gt;
+using namespace std;
+
+void backtrackConPodaInviabilidad(const vector&lt;int&gt;& cjto, vector&lt;int&gt;& actual,
+                                 int inicio, int k, int suma, int S) {
+    if ((int)actual.size() == k) {
+        // Subconjunto de tamano k factible (suma &lt;= S) encontrado
+        return;
+    }
+
+    for (int i = inicio; i &lt; (int)cjto.size(); ++i) {
+        // PODA DE INVIABILIDAD: descarta la rama si sobrepasa la cota S
+        if (suma + cjto[i] &gt; S) continue;
+
+        actual.push_back(cjto[i]); // ELEGIR
+        backtrackConPodaInviabilidad(cjto, actual, i + 1, k, suma + cjto[i], S); // EXPLORAR
+        actual.pop_back();          // DESHACER
+    }
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> Acotado por O(<i>k</i> &times; <i>C</i>(<i>n</i>, <i>k</i>)), drásticamente menor con poda</span>
+      <span><span class="bold">Espacio:</span> O(<i>k</i>)</span>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- UNIDAD 3: BACKTRACKING EN OPTIMIZACIÓN Y RAMIFICACIÓN -->
+  <!-- ========================================================== -->
+  <div class="unit-title">Unidad 3: Optimización y Branch & Bound</div>
+
+  <!-- 15. TSP con Backtracking -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">15. TSP con Poda por Mejor Solución Conocida</span>
+      <span class="algo-tag">Clase 15</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Encuentra el tour cerrado de menor costo que visita todas las <i>n</i> ciudades exactamente una vez y regresa al origen. Aplica poda cuando el costo acumulado de un camino parcial ya es &ge; <i>mejorCosto</i> conocido.
+    </div>
+    <div class="algo-notes">
+      <strong>Simetría y Reducción:</strong> Fija la ciudad 0 como punto de partida sin pérdida de generalidad, reduciendo el espacio de búsqueda de <i>n</i>! a (<i>n</i>&minus;1)!.<br>
+      <strong>Poda Incumbente:</strong> Como las distancias son no negativas, <i>costo</i> &ge; <i>mejor</i> &rArr; ningún descendiente podrá mejorar a <i>mejor</i> &rArr; podar rama.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int tspBacktracking(int pos, int count, int costo, int n,
+                    const vector&lt;vector&lt;int&gt;&gt;& dist,
+                    vector&lt;bool&gt;& visitado, int& mejor) {
+    // PODA: si el camino parcial ya iguala o empeora la mejor cota
+    if (costo &gt;= mejor) return mejor;
+
+    if (count == n) {
+        // Se visitaron todas las ciudades: sumar retorno al origen (0)
+        mejor = min(mejor, costo + dist[pos][0]);
+        return mejor;
+    }
+
+    for (int i = 0; i &lt; n; ++i) {
+        if (!visitado[i]) {
+            visitado[i] = true; // ELEGIR
+            tspBacktracking(i, count + 1, costo + dist[pos][i], n, dist, visitado, mejor);
+            visitado[i] = false; // DESHACER
+        }
+    }
+    return mejor;
+}
+// Inicializar: visitado[0]=true, count=1, costo=0, mejor=INF;</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> Peor caso O((<i>n</i>&minus;1)!), con podas explora una fracción ínfima</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) memoria de visita y pila</span>
+    </div>
+  </div>
+
+  <!-- 16. Esquema Branch & Bound -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">16. Esquema General de Branch & Bound (Ramificación y Poda)</span>
+      <span class="algo-tag">Clase 15</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Generaliza el backtracking en optimización calculando en cada nodo una cota optimista (cota inferior en minimización, cota superior en maximización) del subárbol restante. Si la cota no supera a la mejor solución conocida, descarta la rama entera.
+    </div>
+    <div class="algo-notes">
+      <strong>Reglas Fundamentales de Poda B&B:</strong><br>
+      &bull; <em>Minimización:</em> Cota Inferior = <i>costo_actual</i> + <i>estimacion_optimista_resto</i>. Si <i>LB</i> &ge; <i>mejor</i>, PODAR.<br>
+      &bull; <em>Maximización:</em> Cota Superior = <i>valor_actual</i> + <i>estimacion_optimista_resto</i>. Si <i>UB</i> &le; <i>mejor</i>, PODAR.<br>
+      &bull; Es una búsqueda exacta: una cota válida jamás poda la rama que contiene la solución óptima global.
+    </div>
+<pre>// Plantilla generica de Branch & Bound en C++
+struct Estado {
+    int nivel;
+    int acumulado;
+    // variables especificas del problema
+};
+
+void branchAndBound(Estado s, int& mejorSol) {
+    if (esSolucionCompleta(s)) {
+        mejorSol = mejor(mejorSol, s.acumulado);
+        return;
+    }
+    // Calculo de cota optimista (LB para min, UB para max)
+    int cota = s.acumulado + cotaOptimistaRestante(s);
+    if (!puedeSuperar(cota, mejorSol)) return; // PODA B&B
+
+    for (auto decision : ramificar(s)) {
+        Estado hijo = aplicar(s, decision);
+        branchAndBound(hijo, mejorSol);
+    }
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Propiedad:</span> Búsqueda exacta óptima &bull; Cotas ajustadas maximizan poda</span>
+      <span><span class="bold">Espacio:</span> O(profundidad máxima)</span>
+    </div>
+  </div>
+
+  <!-- 17. Knapsack 0/1 Backtracking -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">17. Mochila 0/1 con Backtracking y Poda Dual</span>
+      <span class="algo-tag">Clase 15</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Determina qué objetos incluir en una mochila de capacidad máxima <i>W</i> para maximizar el valor total. Combina poda de inviabilidad por peso con poda por cota superior optimista (Branch & Bound).
+    </div>
+    <div class="algo-notes">
+      <strong>Poda Dual Implementada:</strong><br>
+      1. <em>Poda de Capacidad:</em> Si <i>peso</i> + <i>wt</i>[<i>i</i>] &gt; <i>W</i>, la rama de inclusión es infactible y no se explora.<br>
+      2. <em>Poda por Cota Superior:</em> Si <i>valor</i> + &sum;<sub><i>j</i>=<i>i</i></sub><sup><i>n</i>&minus;1</sup> <i>val</i>[<i>j</i>] &le; <i>mejorValor</i>, incluso si tomáramos todos los objetos restantes no podríamos superar el óptimo conocido; se poda inmediatamente la rama.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+void knapsackBT(int i, int peso, int valor, int remVal, int W,
+                const vector&lt;int&gt;& wt, const vector&lt;int&gt;& val,
+                int& mejorValor) {
+    if (peso &gt; W) return; // Inviabilidad
+    mejorValor = max(mejorValor, valor);
+    if (i == (int)wt.size()) return;
+
+    // PODA B&B: Si aun tomando todo lo que falta no superamos mejorValor
+    if (valor + remVal &lt;= mejorValor) return;
+
+    // Rama 1: Incluir objeto i (si no desborda la capacidad)
+    if (peso + wt[i] &lt;= W) {
+        knapsackBT(i + 1, peso + wt[i], valor + val[i],
+                   remVal - val[i], W, wt, val, mejorValor);
+    }
+    // Rama 2: Excluir objeto i
+    knapsackBT(i + 1, peso, valor, remVal - val[i], W, wt, val, mejorValor);
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> Peor caso O(2<sup><i>n</i></sup>), fuertemente podado con cota acumulada</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) pila recursiva</span>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- UNIDAD 4: PROGRAMACIÓN DINÁMICA (DP) -->
+  <!-- ========================================================== -->
+  <div class="unit-title">Unidad 4: Programación Dinámica (MWIS en Grafos Camino)</div>
+
+  <!-- Intro MWIS -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Fundamento MWIS: Falla de Greedy y Divide & Conquista</span>
+      <span class="algo-tag">Clase 01</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Problema:</strong> En un grafo camino <i>G</i> = (<i>V</i>, <i>E</i>) donde solo hay aristas entre vértices consecutivos <i>v</i><sub><i>i</i></sub>, <i>v</i><sub><i>i</i>+1</sub>, hallar un conjunto independiente <i>S</i> &sube; <i>V</i> (sin vértices adyacentes) que maximice la suma de pesos &sum;<sub><i>v</i> &isin; <i>S</i></sub> <i>w</i><sub><i>v</i></sub>.
+    </div>
+    <div class="algo-notes">
+      <strong>Por qué falla Greedy:</strong> Ordenar por peso y tomar vértices de mayor a menor sin conflicto adyacente falla. Contraejemplo de cátedra: camino de pesos [1, 4, 5, 4]. Greedy toma 5, luego no puede tomar 4 ni 4, y toma 1 &rArr; 5 + 1 = 6. La solución óptima es tomar los dos vértices de peso 4 &rArr; 4 + 4 = 8 &gt; 6.<br>
+      <strong>Por qué falla Dividir y Conquistar:</strong> Al partir el camino en dos mitades y unirlas, las soluciones óptimas locales pueden seleccionar vértices en la frontera que resulten adyacentes en el grafo original.<br>
+      <strong>Lema de Subestructura Óptima:</strong> Sea <i>S</i> un MWIS de <i>G</i><sub><i>n</i></sub>. Se cumple exactamente uno de dos casos:<br>
+      1. <i>v</i><sub><i>n</i></sub> &notin; <i>S</i> &rArr; <i>S</i> es un MWIS del prefijo <i>G</i><sub><i>n</i>&minus;1</sub>.<br>
+      2. <i>v</i><sub><i>n</i></sub> &isin; <i>S</i> &rArr; <i>S</i> \ {<i>v</i><sub><i>n</i></sub>} es un MWIS del prefijo <i>G</i><sub><i>n</i>&minus;2</sub>.<br>
+      <em>Recurrencia canónica:</em> <i>W</i><sub>0</sub> = 0, <i>W</i><sub>1</sub> = <i>w</i><sub>1</sub>, y para <i>i</i> &ge; 2: <i>W</i><sub><i>i</i></sub> = max(<i>W</i><sub><i>i</i>&minus;1</sub>, <i>W</i><sub><i>i</i>&minus;2</sub> + <i>w</i><sub><i>i</i></sub>).
+    </div>
+  </div>
+
+  <!-- 18. MWIS Top-Down Memoizado -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">18. MWIS Top-Down con Memoización (Recursión con Caché)</span>
+      <span class="algo-tag">Clase 01</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Implementación recursiva natural de la recurrencia que consulta una tabla memo antes de calcular. Resuelve cada uno de los <i>n</i> + 1 subproblemas exactamente una vez, reduciendo la complejidad de exponencial O(2<sup><i>n</i></sup>) a lineal O(<i>n</i>).
+    </div>
+    <div class="algo-notes">
+      <strong>Manejo de Índices:</strong> Si el vector de pesos <code>w</code> tiene <i>n</i> elementos indexados 0 &hellip; <i>n</i>&minus;1, el prefijo <i>G</i><sub><i>i</i></sub> comprende los primeros <i>i</i> vértices con peso <i>w</i>[<i>i</i>&minus;1].
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int mwisTopDown(int i, const vector&lt;int&gt;& w, vector&lt;int&gt;& memo) {
+    if (i == 0) return 0;
+    if (i == 1) return w[0];
+    if (memo[i] != -1) return memo[i]; // Subproblema ya resuelto en O(1)
+
+    int excluir = mwisTopDown(i - 1, w, memo);          // Caso 1: no usar v_i
+    int incluir = mwisTopDown(i - 2, w, memo) + w[i - 1]; // Caso 2: usar v_i
+    return memo[i] = max(excluir, incluir);
+}
+// Inicializar: vector&lt;int&gt; memo(w.size() + 1, -1);
+// Llamar: mwisTopDown((int)w.size(), w, memo);</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i>) (<i>n</i> + 1 subproblemas &times; O(1) transiciones)</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) tabla memo + pila de recursión</span>
+    </div>
+  </div>
+
+  <!-- 19. MWIS Bottom-Up Tabulado -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">19. MWIS Bottom-Up con Tabulación (Tabla Completa)</span>
+      <span class="algo-tag">Clase 01</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Resuelve MWIS iterativamente de izquierda a derecha llenando una tabla <i>A</i>[0 &hellip; <i>n</i>] en orden ascendente desde los casos base. Es el método estándar cuando además del peso óptimo se requiere reconstruir el conjunto <i>S</i> de vértices elegidos.
+    </div>
+    <div class="algo-notes">
+      <strong>Semántica de la Tabla:</strong> <i>A</i>[<i>i</i>] guarda el peso del MWIS de <i>G</i><sub><i>i</i></sub>. <i>A</i>[0] = 0, <i>A</i>[1] = <i>w</i>[0]. Para <i>i</i> &ge; 2, <i>A</i>[<i>i</i>] = max(<i>A</i>[<i>i</i>&minus;1], <i>A</i>[<i>i</i>&minus;2] + <i>w</i>[<i>i</i>&minus;1]). El valor óptimo final es <i>A</i>[<i>n</i>].
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int mwisBottomUp(const vector&lt;int&gt;& w, vector&lt;int&gt;& A) {
+    int n = w.size();
+    if (n == 0) return 0;
+    A.assign(n + 1, 0);
+    A[0] = 0;
+    A[1] = w[0];
+
+    for (int i = 2; i &lt;= n; ++i) {
+        A[i] = max(A[i - 1], A[i - 2] + w[i - 1]);
+    }
+    return A[n];
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i>) (<i>n</i> &minus; 1 iteraciones con trabajo constante O(1))</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) para el arreglo de estados <i>A</i></span>
+    </div>
+  </div>
+
+  <!-- 20. MWIS Espacio O(1) -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">20. MWIS Bottom-Up con Optimización Espacial O(1)</span>
+      <span class="algo-tag">Clase 01</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Calcula el peso óptimo de MWIS en espacio adicional constante O(1). Como cada estado <i>A</i>[<i>i</i>] depende únicamente de los dos anteriores (<i>A</i>[<i>i</i>&minus;1] y <i>A</i>[<i>i</i>&minus;2]), se reemplaza el vector completo por dos variables escalares en una ventana deslizante.
+    </div>
+    <div class="algo-notes">
+      <strong>Cuándo usarlo:</strong> Cuando el problema de certamen solicita exclusivamente el valor numérico óptimo y no la reconstrucción de los vértices que componen la solución.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int mwisO1Space(const vector&lt;int&gt;& w) {
+    int n = w.size();
+    if (n == 0) return 0;
+    if (n == 1) return w[0];
+
+    int prev2 = 0;    // Representa A[i-2], inicialmente A[0] = 0
+    int prev1 = w[0]; // Representa A[i-1], inicialmente A[1] = w[0]
+
+    for (int i = 2; i &lt;= n; ++i) {
+        int curr = max(prev1, prev2 + w[i - 1]);
+        prev2 = prev1;
+        prev1 = curr;
+    }
+    return prev1; // Contiene el peso optimo de G_n
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i>)</span>
+      <span><span class="bold">Espacio:</span> O(1) memoria adicional constante</span>
+    </div>
+  </div>
+
+  <!-- 21. Reconstruccion MWIS -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">21. Algoritmo de Reconstrucción del Conjunto Óptimo <i>S</i> en MWIS</span>
+      <span class="algo-tag">Clase 01</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> A partir de la tabla tabulada <i>A</i>[0 &hellip; <i>n</i>], reconstruye en tiempo O(<i>n</i>) la lista exacta de vértices que forman el MWIS realizando un recorrido hacia atrás desde <i>i</i> = <i>n</i> hasta 1.
+    </div>
+    <div class="algo-notes">
+      <strong>Regla de Decisión Hacia Atrás:</strong><br>
+      &bull; Si <i>A</i>[<i>i</i> &minus; 1] &ge; <i>A</i>[<i>i</i> &minus; 2] + <i>w</i>[<i>i</i> &minus; 1] &rArr; el vértice <i>v</i><sub><i>i</i></sub> NO fue incluido en el óptimo; retroceder a <i>i</i> &minus; 1.<br>
+      &bull; De lo contrario &rArr; <i>v</i><sub><i>i</i></sub> SÍ fue incluido; agregarlo a <i>S</i>, y retroceder a <i>i</i> &minus; 2 (pues <i>v</i><sub><i>i</i>&minus;1</sub> queda forzosamente excluido).<br>
+      &bull; Caso base <i>i</i> = 1: si se llega a <i>i</i> = 1, el vértice <i>v</i><sub>1</sub> se incluye en <i>S</i>.<br>
+      <strong>Ejemplo Cátedra:</strong> <i>w</i> = [3, 2, 1, 6, 4, 5] &rArr; <i>A</i> = [0, 3, 3, 4, 9, 9, 14]. Reconstrucción produce <i>S</i> = {<i>v</i><sub>1</sub>, <i>v</i><sub>4</sub>, <i>v</i><sub>6</sub>} con peso 3 + 6 + 5 = 14.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+vector&lt;int&gt; reconstruirMWIS(const vector&lt;int&gt;& A, const vector&lt;int&gt;& w) {
+    vector&lt;int&gt; S; // Almacenara los indices de los vertices elegidos
+    int i = w.size();
+
+    while (i &gt;= 2) {
+        if (A[i - 1] &gt;= A[i - 2] + w[i - 1]) {
+            // Se excluye v_i
+            i = i - 1;
+        } else {
+            // Se incluye v_i y se salta forzosamente v_{i-1}
+            S.push_back(i); // vertice v_i (1-based: 1 .. n)
+            i = i - 2;
+        }
+    }
+    if (i == 1) {
+        S.push_back(1); // Vertice v_1 incluido
+    }
+    reverse(S.begin(), S.end()); // Deja vertices en orden ascendente
+    return S;
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i>) (&le; <i>n</i> iteraciones con paso 1 o 2)</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) vector resultante <i>S</i></span>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- ANEXO: ASINTÓTICA, TEOREMA MAESTRO Y TDAs -->
+  <!-- ========================================================== -->
+  <div class="unit-title">Anexo: Comparativa Asintótica, Teorema Maestro y TDAs</div>
+
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Resumen de Complejidades Asintóticas de Ordenamiento</span>
+      <span class="algo-tag">Clase 02</span>
+    </div>
+    <table class="comp-table">
+      <tr>
+        <th>Algoritmo</th>
+        <th>Mejor Caso</th>
+        <th>Promedio</th>
+        <th>Peor Caso</th>
+        <th>Espacio</th>
+        <th>Estable</th>
+      </tr>
+      <tr>
+        <td><strong>Selection Sort</strong></td>
+        <td>&Theta;(<i>n</i><sup>2</sup>)</td>
+        <td>&Theta;(<i>n</i><sup>2</sup>)</td>
+        <td>&Theta;(<i>n</i><sup>2</sup>)</td>
+        <td>O(1)</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><strong>MergeSort</strong></td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>O(<i>n</i>)</td>
+        <td>Sí</td>
+      </tr>
+      <tr>
+        <td><strong>QuickSort</strong></td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>&Theta;(<i>n</i><sup>2</sup>)</td>
+        <td>O(log <i>n</i>)</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><strong>HeapSort</strong></td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>&Theta;(<i>n</i> log <i>n</i>)</td>
+        <td>O(1)</td>
+        <td>No</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Definiciones Asintóticas Formales</span>
+      <span class="algo-tag">Clase 05</span>
+    </div>
+    <div class="algo-notes">
+      Dadas funciones positivas <i>f</i>(<i>n</i>), <i>g</i>(<i>n</i>):<br>
+      &bull; <strong><i>f</i>(<i>n</i>) &isin; O(<i>g</i>(<i>n</i>)):</strong> &exist; <i>c</i> &gt; 0, <i>n</i><sub>0</sub> &gt; 0 t.q. <i>f</i>(<i>n</i>) &le; <i>c</i> &times; <i>g</i>(<i>n</i>), &forall; <i>n</i> &ge; <i>n</i><sub>0</sub> (cota superior asintótica).<br>
+      &bull; <strong><i>f</i>(<i>n</i>) &isin; &Omega;(<i>g</i>(<i>n</i>)):</strong> &exist; <i>c</i> &gt; 0, <i>n</i><sub>0</sub> &gt; 0 t.q. <i>f</i>(<i>n</i>) &ge; <i>c</i> &times; <i>g</i>(<i>n</i>), &forall; <i>n</i> &ge; <i>n</i><sub>0</sub> (cota inferior asintótica).<br>
+      &bull; <strong><i>f</i>(<i>n</i>) &isin; &Theta;(<i>g</i>(<i>n</i>)):</strong> <i>f</i>(<i>n</i>) &isin; O(<i>g</i>(<i>n</i>)) y <i>f</i>(<i>n</i>) &isin; &Omega;(<i>g</i>(<i>n</i>)) (cota asintótica ajustada).<br>
+      &bull; <strong><i>f</i>(<i>n</i>) &isin; <i>o</i>(<i>g</i>(<i>n</i>)):</strong> lim<sub><i>n</i>&rarr;&infin;</sub> (<i>f</i>(<i>n</i>) / <i>g</i>(<i>n</i>)) = 0 &bull; <strong><i>f</i>(<i>n</i>) &isin; &omega;(<i>g</i>(<i>n</i>)):</strong> lim<sub><i>n</i>&rarr;&infin;</sub> (<i>f</i>(<i>n</i>) / <i>g</i>(<i>n</i>)) = &infin;.
+    </div>
+  </div>
+
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Teorema Maestro (Master Theorem)</span>
+      <span class="algo-tag">Clase 05</span>
+    </div>
+    <div class="algo-notes">
+      Para recurrencias de la forma <i>T</i>(<i>n</i>) = <i>a</i> <i>T</i>(<i>n</i>/<i>b</i>) + O(<i>n</i><sup><i>d</i></sup>) con <i>a</i> &ge; 1, <i>b</i> &gt; 1, <i>d</i> &ge; 0 (donde <i>a</i>: número de subproblemas, <i>b</i>: factor de reducción de tamaño, <i>d</i>: exponente del costo de partición/fusión):<br>
+      &bull; <strong>Caso 1 (<i>d</i> &gt; log<sub><i>b</i></sub> <i>a</i>):</strong> El trabajo del nivel raíz domina &rArr; <i>T</i>(<i>n</i>) = &Theta;(<i>n</i><sup><i>d</i></sup>).<br>
+      &bull; <strong>Caso 2 (<i>d</i> = log<sub><i>b</i></sub> <i>a</i>):</strong> El trabajo está perfectamente balanceado en los log<sub><i>b</i></sub> <i>n</i> niveles &rArr; <i>T</i>(<i>n</i>) = &Theta;(<i>n</i><sup><i>d</i></sup> log <i>n</i>).<br>
+      &bull; <strong>Caso 3 (<i>d</i> &lt; log<sub><i>b</i></sub> <i>a</i>):</strong> El trabajo en las hojas domina &rArr; <i>T</i>(<i>n</i>) = &Theta;(<i>n</i><sup>log<sub><i>b</i></sub> <i>a</i></sup>).<br>
+      <strong>Jerarquía Asintótica de Crecimiento:</strong><br>
+      1 &ll; log log <i>n</i> &ll; log <i>n</i> &ll; &radic;<i>n</i> &ll; <i>n</i> &ll; <i>n</i> log <i>n</i> &ll; <i>n</i><sup>2</sup> &ll; <i>n</i><sup>3</sup> &ll; 2<sup><i>n</i></sup> &ll; <i>n</i>! &ll; <i>n</i><sup><i>n</i></sup>.
+    </div>
+  </div>
+
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Propiedades Algebraicas de la Notación Asintótica</span>
+      <span class="algo-tag">Apunte Pezoa</span>
+    </div>
+    <div class="algo-notes">
+      Basado en el documento oficial de cátedra (Pezoa - Cormen Cap. 3):<br>
+      &bull; <strong>Transitividad:</strong> <i>f</i> &isin; O(<i>g</i>) y <i>g</i> &isin; O(<i>h</i>) &rArr; <i>f</i> &isin; O(<i>h</i>) (análogo para &Omega;, &Theta;, <i>o</i>, &omega;).<br>
+      &bull; <strong>Reflexividad:</strong> <i>f</i> &isin; O(<i>f</i>), <i>f</i> &isin; &Omega;(<i>f</i>), <i>f</i> &isin; &Theta;(<i>f</i>). (Nota: <i>o</i> y &omega; NO son reflexivas).<br>
+      &bull; <strong>Simetría:</strong> <i>f</i> &isin; &Theta;(<i>g</i>) &hArr; <i>g</i> &isin; &Theta;(<i>f</i>).<br>
+      &bull; <strong>Simetría Transpuesta:</strong> <i>f</i> &isin; O(<i>g</i>) &hArr; <i>g</i> &isin; &Omega;(<i>f</i>); <i>f</i> &isin; <i>o</i>(<i>g</i>) &hArr; <i>g</i> &isin; &omega;(<i>f</i>).<br>
+      &bull; <strong>Suma y Máximo:</strong> max{<i>f</i>(<i>n</i>), <i>g</i>(<i>n</i>)} = &Theta;(<i>f</i>(<i>n</i>) + <i>g</i>(<i>n</i>)).<br>
+      &bull; <strong>Falta de Tricotomía:</strong> A diferencia de los reales (&lt;, =, &gt;), dos funciones no siempre son comparables. Contraejemplo de cátedra: <i>f</i>(<i>n</i>) = <i>n</i> y <i>g</i>(<i>n</i>) = <i>n</i><sup>1 + sin <i>n</i></sup> oscilan infinitamente &rArr; <i>f</i> &notin; O(<i>g</i>) y <i>f</i> &notin; &Omega;(<i>g</i>).
+    </div>
+  </div>
+
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">TDAs STL: Complejidades y Costo Amortizado</span>
+      <span class="algo-tag">Clase 06</span>
+    </div>
+    <div class="algo-notes">
+      <strong>Costo Amortizado de push_back() en std::vector:</strong><br>
+      Supóngase capacidad inicial 1 que se duplica al llenarse. Para insertar <i>n</i> elementos, cada inserción cuesta 1 (total <i>n</i>), y las copias al redimensionar suman: 1 + 2 + 4 + &hellip; + 2<sup><i>k</i></sup> = 2<sup><i>k</i>+1</sup> &minus; 1 &lt; 2<i>n</i>. Costo total de <i>n</i> inserciones &lt; <i>n</i> + 2<i>n</i> = 3<i>n</i>.<br>
+      Costo amortizado por operación = (Costo total) / <i>n</i> &le; 3<i>n</i> / <i>n</i> = O(1).
+    </div>
+    <table class="comp-table">
+      <tr>
+        <th>Contenedor STL</th>
+        <th>Estructura Interna</th>
+        <th>Acceso</th>
+        <th>Búsqueda</th>
+        <th>Inserción/Borrado</th>
+      </tr>
+      <tr>
+        <td><code>std::vector</code></td>
+        <td>Arreglo dinámico continuo</td>
+        <td>O(1)</td>
+        <td>O(<i>n</i>) secuencial</td>
+        <td>Fin: O(1)* amort. / Medio: O(<i>n</i>)</td>
+      </tr>
+      <tr>
+        <td><code>std::list</code></td>
+        <td>Lista doblemente enlazada</td>
+        <td>O(<i>n</i>)</td>
+        <td>O(<i>n</i>)</td>
+        <td>O(1) con iterador</td>
+      </tr>
+      <tr>
+        <td><code>std::deque</code></td>
+        <td>Bloques continuos indexados</td>
+        <td>O(1)</td>
+        <td>O(<i>n</i>)</td>
+        <td>Inicio/Fin: O(1)</td>
+      </tr>
+      <tr>
+        <td><code>std::set</code> / <code>std::map</code></td>
+        <td>Árbol binario balanceado (Red-Black)</td>
+        <td>&mdash; / O(log <i>n</i>)</td>
+        <td>O(log <i>n</i>)</td>
+        <td>O(log <i>n</i>)</td>
+      </tr>
+      <tr>
+        <td><code>std::priority_queue</code></td>
+        <td>Montículo binario (Heap)</td>
+        <td>Top: O(1)</td>
+        <td>&mdash;</td>
+        <td>Push/Pop: O(log <i>n</i>)</td>
+      </tr>
+      <tr>
+        <td><code>std::unordered_map/set</code></td>
+        <td>Tabla Hash con encadenamiento</td>
+        <td>&mdash; / Prom. O(1)</td>
+        <td>Prom. O(1), Peor O(<i>n</i>)</td>
+        <td>Prom. O(1), Peor O(<i>n</i>)</td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>

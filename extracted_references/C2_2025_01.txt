@@ -1,0 +1,148 @@
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+Sa´bado 14 de junio de 2025
+Campus Casa Central Campus Santiago San Joaqu´in
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+Problema A
+Flujos Parametrizados en Grafos
+autor: Roberto As´in
+La profesora Dorit, distinguida investigadora de la Universidad de California, Berkeley, ha desarrollado un algoritmo innovador para resolver el problema de flujo m´aximo/corte m´inimo en grafos parametrizados. Su algoritmo es capaz de encontrar la soluci´on ´optima para todos los valores posibles del par´ametro  de manera eficiente.
+En los grafos parametrizados, trabajamos con un grafo dirigido G = (V, E) que contiene un nodo fuente s y un nodo sumidero t. La caracter´istica distintiva es que las capacidades de las arcos no son constantes, sino que dependen linealmente de un par´ametro . Espec´ificamente, cada arco (u, v)  E tiene una capacidad c(u, v) = auv + buv · , donde auv y buv son constantes predefinidas. El algoritmo de Dorit determina, para cada valor de   0, el corte m´inimo (S, T) que separa la fuente del sumidero. Aqu´i, S representa el conjunto de nodos en el lado de la fuente y T el conjunto en el lado del sumidero. Un aspecto fascinante del problema es que, conforme  aumenta desde 0 hasta infinito, los nodos pueden "migrar" gradualmente desde S hacia T. Cada nodo v  V \ {s, t} tiene un valor cr´itico v que determina el momento exacto de su transici´on:
+Si  < v, entonces v  S (el nodo permanece del lado de la fuente) Si   v, entonces v  T (el nodo pasa al lado del sumidero)
+Ayleen, una talentosa estudiante de posgrado, implement´o exitosamente el algoritmo de Dorit. Sin embargo, surgi´o una discrepancia respecto al formato de salida. La implementaci´on de Ayleen genera, para cada nodo del grafo, un par ordenado que contiene el identificador del nodo (entero) y el valor cr´itico  (flotante) en el cual dicho nodo transiciona hacia el conjunto del sumidero.
+Dorit, por su parte, prefiere un formato diferente: desea que la salida se organice por valores de , mostrando para cada valor cr´itico la lista completa de nodos que transicionan en ese momento espec´ifico.
+Ante la negativa de Ayleen de modificar su implementaci´on (pues considera que su formato es m´as eficiente), necesitamos tu ayuda para crear un programa que convierta la salida del formato de Ayleen al formato solicitado por Dorit.
+Entrada
+La primera l´inea de la entrada contiene un entero n (1  n  106), que indica la cantidad de nodos en el grafo (sin incluir los nodos fuente y sumidero).
+Las siguientes n l´ineas contienen, cada una, dos valores separados por un espacio:
+Un entero idi (1  idi  106): el identificador u´nico del nodo Un nu´mero real i (0,0  i  106): el valor del par´ametro en el cual el nodo transiciona
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+
+Se garantiza que:
+
+Todos los identificadores de nodos son u´nicos Los valores  se expresan con m´aximo 6 d´igitos decimales Los nodos aparecen ordenados por identificador de forma ascendente
+
+Salida
+Para cada valor distinto de  en el que ocurra al menos una transici´on, imprime una l´inea con el siguiente formato:
+lambda: id1 id2 ... idk Donde:
+lambda es el valor del par´ametro (conservando la precisi´on decimal original pero eliminando ceros innecesarios al final. Si el nu´mero es un entero, se deber´a imprimir con un decimal, como en los ejemplos). Los identificadores id1 id2 ... idk corresponden a todos los nodos que transicionan en ese valor de , listados en orden ascendente
+Los valores de  deben aparecer en orden ascendente.
+
+Ejemplos
+Ejemplo de entrada 1 5 3 2.5 7 1.0 12 2.5 15 1.0 20 3.14159
+
+Ejemplo de salida 1 1.0: 7 15 2.5: 3 12 3.14159: 20
+
+Ejemplo de entrada 2 3 100 0.0 200 0.0 300 0.0
+
+Ejemplo de salida 2 0.0: 100 200 300
+
+Ejemplo de entrada 3 4 1 10.5 2 10.500 3 10.5000 4 10.50001
+
+Ejemplo de salida 3 10.5: 1 2 3 10.50001: 4
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+Obersaciones:
+En el Ejemplo 1, observamos que dos nodos (7 y 15) transicionan cuando  = 1,0, otros dos (3 y 12) cuando  = 2,5, y uno solo (20) cuando  = 3,14159. El Ejemplo 3 ilustra un punto importante: los valores 10.5, 10.500 y 10.5000 se consideran id´enticos (representan el mismo nu´mero real), mientras que 10.50001 es diferente. Es crucial eliminar los ceros innecesarios al final de la parte decimal al imprimir los valores de  (por ejemplo, escribir 10.5 en lugar de 10.5000).
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+Problema B
+Red de la Resistencia
+autor: Raquel Pezoa
+Despu´es de que el brote del Cordyceps colapsara la civilizaci´on, las pocas zonas seguras que au´n existen sobreviven como pueden. En su misio´n por encontrar una cura, Ellie y Joel descubren en una base abandonada de las Luci´ernagas los planos de un sistema antiguo de comunicaciones conocido como la Red Silenciosa.
+Esta red fue disen~ada para conectar diferentes asentamientos sin depender de electricidad, mediante dispositivos que funcionan con bater´ias. Aunque muchas de las rutas originales est´an destruidas, se ha logrado generar un mapa para un conjunto de conexiones posibles entre zonas au´n habitadas. Cada conexi´on requiere una cierta cantidad de bater´ias para restaurarse.
+Pero el sistema tiene una limitaci´on cr´itica: si se restauran conexiones que forman un ciclo, se activa una alarma que atrae hordas de infectados. Por ello, deben evitar cualquier ciclo en la red.
+El objetivo de Ellie y Joel es activar la Red Silenciosa de forma que todas las zonas seguras queden comunicadas, de manera directa o indirecta, usando la menor cantidad total de bater´ias, y sin activar conexiones redundantes que generen ciclos.
+Ellie y Joel han recurrido a los alumnos de Algoritmos y Complejidad en busca de ayuda para encontrar la estrategia ´optima. ¿Podr´as ayudarlos a completar esta peligrosa misi´on?
+Entrada
+La entrada consiste en:
+Una l´inea con dos enteros N y M (1  N  105, 0  M  2 · 105): el nu´mero de zonas seguras y la cantidad de rutas disponibles. Luego siguen M l´ineas, cada una con tres enteros u, v y b:
+· u y v (1  u, v  N ): identificadores de las zonas conectadas. · b (1  b  104): bater´ias necesarias para restaurar la ruta.
+Salida
+Imprime un solo nu´mero: la cantidad m´inima total de bater´ias necesarias para restaurar la red cumpliendo las condiciones.
+
+Ejemplos
+Ejemplo de entrada 1 45 123 135 234 342 1 4 10
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+Ejemplo de salida 1 9
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+Problema C
+Roberto El Mago
+autor: Gabriel Carmona
+En el Universo Sensacional M´agico (USM) vive un mago muy peculiar llamado Roberto. Su talento extraordinario consiste en elaborar pociones capaces de transformar una criatura en otra.
+Por ejemplo, Roberto dispone de una pocio´n que convierte sapos en perros y otra que transforma perros en ardillas. As´i, partiendo de un sapo, puede administrarle la primera poci´on para obtener un perro y, al an~o siguiente, darle la segunda para lograr una ardilla.
+Con este poder, Roberto planea un experimento: durante exactamente x an~os suministrar´a una poci´on por an~o a una criatura inicial.
+Define la funci´on potencial(a, b, x) como la cantidad de maneras distintas de transformar una criatura de tipo a en otra de tipo b empleando una secuencia de exactamente x pociones (una por an~o).
+En el USM abundan las criaturas m´agicas y, cada an~o, Roberto recarga todas sus pociones, de modo que puede usarlas cuantas veces desee. Sin embargo, teme provocar una cat´astrofe universal si alguna transformaci´on se descontrola.
+Tu misi´on es ayudarlo: dado el conjunto de criaturas y todas las transformaciones posibles con sus pociones, determina, despu´es de x an~os, qu´e pareja de criaturas (a, b) tiene el mayor potencial ; es decir, aquella para la cual potencial(a, b, x) es m´axima.
+Entrada
+La primera l´inea contiene dos enteros n (1  n  100) y x (1  x  100), que representan respectivamente la cantidad de criaturas m´agicas y la cantidad de an~os que durar´a el experimento. Cada criatura est´a identificada por un nu´mero entero del 0 al n - 1.
+A continuaci´on siguen n l´ineas. La l´inea i describe las pociones que permiten transformar alguna otra criatura en la criatura i.
+Cada l´inea contiene un entero s (la cantidad de pociones que permiten llegar a la criatura i), seguido de s enteros, cada uno representando una criatura que puede ser transformada en la criatura i mediante una poci´on.
+La suma total de todos los valores s no superar´a n · (n - 1).
+Puede existir m´as de una poci´on que permita transformar a un animal a en un animal b.
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+
+Salida
+Imprime tres enteros separados por espacios:
+a: el identificador de la criatura inicial de la pareja con mayor potencial; b: el identificador de la criatura final de dicha pareja; el valor de potencial(a, b, x).
+Si existen varias parejas con el mismo potencial m´aximo, elige la que tenga el menor a y, en caso de empate, la que tenga el menor b.
+
+Ejemplos
+
+Ejemplo de entrada 1 38 11 12 201
+
+Ejemplo de salida 1 125
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+
+Problema D
+Construyendo Antenas Tel´efonicas
+autor: Juan Pablo Castillo
+Una famosa empresa de telecomunicaciones se ha contactado con los alumnos de Algoritmos para resolver un problema vital. Deben construir antenas telef´onicas para comunicar a la mayor cantidad de personas posibles, sin embargo, no saben como hacerlo. En particular, se tienen n ciudades donde cada una de est´as tiene una poblaci´on pi para 0  i < n, se pueden construir antenas telef´onicas en cualquier ciudad, sin embargo, no lo pueden hacer en ciudades adyacentes por temas legales. Adem´as, cada antena es capaz de proporcionar sen~al a la ciudad en donde es construida. Por ahora a la empresa les interesa saber la m´axima cantidad de personas que pueden comunicar.
+Input
+La entrada comienza con un entero n que indica el nu´mero de ciudades (1  n  105).
+En la l´inea siguiente, le siguen n enteros separados por espacio que representan las poblaciones de cada ciudad (1  pi  107).
+Output
+Imprime un u´nico entero que indica la m´axima cantidad de personas que se pueden comunicar.
+
+Ejemplos
+
+Ejemplo de entrada 1 10 1 5 10 1 5 10 50 10 1 1
+
+Ejemplo de salida 1 67
+
+Observaci´on Notar que esta soluci´on se obtiene al construir antenas en las ciudades: 1, 3, 5, 7 y 10.
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+Problema E
+ParenTalk
+autor: Maximiliano Ojeda
+En la plataforma de mensajer´ia ParenTalk, los usuarios expresan sus emociones utilizando u´nicamente dos caracteres: "(" para sorpresa y ")" para alivio. Una secuencia de estos caracteres se denomina emotic´on. Para que un emotic´on transmita correctamente una emoci´on, la secuencia debe estar correctamente balanceada (1). Sin embargo, a veces los emoticones llegan desbalanceados, lo que dificulta interpretar la emoci´on transmitida. Para mejorar la interfaz, el equipo de desarrollo desea detectar, dentro de cada emotic´on, la subcadena contigua (2) m´as larga que constituya un emotic´on correctamente balanceado; es decir, una secuencia que transmita adecuadamente una emoci´on. (1) Una secuencia correctamente balanceada de "(" y ")" es una combinaci´on de par´entesis donde cada par´entesis de apertura "(" tiene un par´entesis de cierre ")" correspondiente, y el orden es el adecuado. Ejemplos v´alidos (balanceados):
+"()" "(())" "(()())"
+Ejemplos no v´alidos (desbalanceados):
+"(()" "())(" ")"
+(2) Una subcadena contigua es una parte de un texto formada por caracteres consecutivos, sin omitir ninguno. Por ejemplo, en el mensaje "(()())", algunas subcadenas contiguas son:
+"(()" "()()" "()"
+
+Certamen 2 Disen~o de Algoritmos y Complejidad 2025-01
+
+Entrada
+La primera l´inea de la entrada contiene un entero n (1  n  100 000), correspondiente a la longitud del emotic´on recibido. La segunda l´inea contiene el emotic´on recibido, de longitud n, formado u´nicamente por los caracteres "(" y ")".
+Salida
+Imprime un u´nico entero, correspondiente la longitud de la subcadena contigua m´as larga que sea un emotic´on correctamente balanceado y que pueda transmitir la emoci´on de forma adecuada.
+Ejemplos
+
+Ejemplo de entrada 1 6 )()())
+Ejemplo de entrada 2 4 ((((
+Ejemplo de entrada 3 8 )(()())(
+
+Ejemplo de salida 1 4
+Ejemplo de salida 2 0
+Ejemplo de salida 3 6
+
+

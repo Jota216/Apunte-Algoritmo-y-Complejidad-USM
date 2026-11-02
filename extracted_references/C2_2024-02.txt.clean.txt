@@ -1,0 +1,213 @@
+================================================================================
+Torneo de ProgramaciÃ³n Competitiva USM 2024 (Certamen 2 AlgoCo 2024-02)
+================================================================================
+
+--------------------------------------------------------------------------------
+Problema A: El oso negro
+Autor: Roberto AsÃ­n | Nivel: Intermedio
+--------------------------------------------------------------------------------
+Contexto:
+Un grupo de campistas debe preparar una ofrenda de alimentos para un oso. Se tiene un lÃ­mite mÃ¡ximo de calorÃ­as diarias recomendadas C (1 <= C <= 10000) y n alimentos disponibles (1 <= n <= 1000). Cada alimento i tiene un nombre (string con espacios/letras), un valor calÃ³rico VC_i (0 <= VC_i <= 10000) y un Ã­ndice de sabrosidad para osos ISO_i (0 <= ISO_i <= 10000). Se puede incluir a lo mÃ¡s una unidad de cada alimento.
+Problema:
+Problema de la Mochila 0/1 (0/1 Knapsack). Maximizar la sabrosidad total (suma de ISO_i) de los alimentos seleccionados sin que la suma de sus calorÃ­as (VC_i) exceda C.
+Entrada:
+- Primera lÃ­nea: dos enteros n y C (1 <= n <= 1000, 1 <= C <= 10000).
+- Siguientes n lÃ­neas: nombre_i seguido de VC_i e ISO_i. (nombre compuesto de letras y espacios, los dos Ãºltimos tokens de la lÃ­nea son enteros VC e ISO).
+Salida:
+- Un nÃºmero entero correspondiente a la sabrosidad mÃ¡xima total de la ofrenda.
+Ejemplo:
+Input:
+5 50
+brocoli 10 1
+hamburguesa vegana 10 3
+hamburguesa de carne 25 15
+ravioles de acelgas 35 10
+marraqueta 10 5
+Output:
+23
+
+--------------------------------------------------------------------------------
+Problema B: Escaleras para salvar el ramo
+Autor: SebastiÃ¡n Torrealba | Nivel: Intermedio
+--------------------------------------------------------------------------------
+Contexto:
+Un estudiante comienza con 1000 puntos y debe subir una escalera de n peldaÃ±os numerados 1 a n (1 <= n <= 10^5). Al pisar el peldaÃ±o i se le descuenta una penalizaciÃ³n p_i (0 <= p_i <= 500). Desde un peldaÃ±o se puede avanzar 1, 2 o 3 peldaÃ±os a la vez. Se debe comenzar obligatoriamente pisando el peldaÃ±o 1 y terminar pisando el peldaÃ±o n.
+Problema:
+ProgramaciÃ³n DinÃ¡mica / Caminos. Encontrar la secuencia de saltos (de tamaÃ±o 1, 2 o 3) desde el peldaÃ±o 1 hasta el n que minimice la suma de penalizaciones de los peldaÃ±os pisados. El puntaje final es 1000 - (penalizaciÃ³n mÃ­nima acumulada).
+Recurrencia: min_cost[i] = p[i] + min({min_cost[i-1], min_cost[i-2], min_cost[i-3]}).
+Entrada:
+- Primera lÃ­nea: entero n (1 <= n <= 10^5).
+- Segunda lÃ­nea: n enteros p_1, p_2, ..., p_n (0 <= p_i <= 500).
+Salida:
+- Un entero indicando el mÃ¡ximo puntaje posible al llegar al Ãºltimo escalÃ³n.
+Ejemplos:
+Input: 1 \n 100 -> Output: 900
+Input: 3 \n 0 0 0 -> Output: 1000
+Input: 4 \n 5 10 15 20 -> Output: 975 (pisa 1 y 4: 1000 - 5 - 20 = 975)
+
+--------------------------------------------------------------------------------
+Problema C: SebastiÃ¡n Tramposo
+Autor: Gabriel Carmona | Nivel: BÃ¡sico
+--------------------------------------------------------------------------------
+Contexto:
+Duelo de palabras: Carlos tiene la palabra A y SebastiÃ¡n la palabra B (strings de 1 a 10^5 letras minÃºsculas). SebastiÃ¡n puede reordenar las letras de su palabra como desee. GanarÃ¡ SebastiÃ¡n si su palabra reordenada es estrictamente menor lexicogrÃ¡ficamente que la de Carlos.
+Problema:
+Greedy / Strings. Para que la palabra de SebastiÃ¡n sea lo mÃ¡s pequeÃ±a posible lexicogrÃ¡ficamente, debe ordenarse de forma ascendente (alfabÃ©ticamente). Sea B_sorted la palabra de SebastiÃ¡n ordenada ascendentemente. SebastiÃ¡n puede ganar si y solo si B_sorted < A lexicogrÃ¡ficamente.
+Entrada:
+- Primera lÃ­nea: string de Carlos (letras minÃºsculas, 1 <= len <= 10^5).
+- Segunda lÃ­nea: string de SebastiÃ¡n (letras minÃºsculas, 1 <= len <= 10^5).
+Salida:
+- "Si" si SebastiÃ¡n puede ganar reordenando sus letras, "No" en caso contrario.
+Ejemplos:
+Input: numero \n cifra -> Output: Si
+Input: abcde \n decab -> Output: No
+Input: hola \n hola -> Output: Si (ahlo < hola)
+
+--------------------------------------------------------------------------------
+Problema D: Anti-Hacking
+Autor: Gabriel Carmona | Nivel: Intermedio
+--------------------------------------------------------------------------------
+Contexto:
+Se tiene un multiconjunto de n letras (1 <= n <= 10). Se quieren generar contraseÃ±as que usen TODOS los n caracteres.
+Condiciones de una contraseÃ±a fuerte:
+1. No debe tener letras repetidas en forma consecutiva (s[i] != s[i+1]).
+2. No debe comenzar por el carÃ¡cter lexicogrÃ¡ficamente menor del multiconjunto disponible.
+3. Debe usar todos los caracteres del multiconjunto.
+Problema:
+Backtracking / Permutaciones Ãºnicas. Generar o contar todas las permutaciones distintas del multiconjunto que cumplan las restricciones 1 y 2. Dado n <= 10, se puede ordenar el multiconjunto, descartar las ramas donde la primera letra sea la menor, y usar backtracking (o next_permutation saltando duplicados) verificando adyacencias.
+Entrada:
+- Primera lÃ­nea: entero n (1 <= n <= 10).
+- Segunda lÃ­nea: n letras del alfabeto inglÃ©s separadas por espacio.
+Salida:
+- Un entero con la cantidad de contraseÃ±as fuertes diferentes.
+Ejemplo:
+Input: 4 \n b c d b -> Output: 2 (las contraseÃ±as son cbdb y dbcb).
+
+--------------------------------------------------------------------------------
+Problema E: Juego del Destino
+Autor: Carlos Lagos | Nivel: Intermedio
+--------------------------------------------------------------------------------
+Contexto:
+Grafo conexo no dirigido con n puntos (1 <= n <= 10^5) y m calles (m <= 2*10^5). Cada calle entre a y b tiene f fichas (1 <= f <= 10^9).
+Reglas del juego: Robert y Rachele eligen cada uno un punto inicial y visitan todos los puntos.
+"No puedes usar una calle que lleva a un punto ya visitado. Te puedes devolver a cualquier punto ya visitado."
+Esto implica que el conjunto de calles utilizadas para conectar todos los puntos forma un Ã¡rbol recubridor (Spanning Tree) de n-1 aristas.
+Robert y Rachele buscan maximizar la diferencia entre sus puntajes totales (uno elige el Spanning Tree de peso mÃ¡ximo y el otro el de peso mÃ­nimo, recolectando la suma de las fichas de las aristas del Ã¡rbol).
+Problema:
+Ãrbol Recubridor MÃ­nimo y MÃ¡ximo (Kruskal MST / Maximum Spanning Tree).
+La diferencia mÃ¡xima es: Suma(pesos MaxST) - Suma(pesos MinST).
+Entrada:
+- Primera lÃ­nea: n y m.
+- Siguientes m lÃ­neas: a, b, f (calle entre a y b con f fichas).
+Salida:
+- Un Ãºnico entero: la diferencia mÃ¡xima de fichas.
+Ejemplo:
+Input:
+5 6
+1 2 3
+2 3 5
+2 4 2
+3 4 8
+5 1 7
+5 4 4
+Output:
+10
+
+--------------------------------------------------------------------------------
+Problema F: Viaje IntergalÃ¡ctico
+Autor: Ayleen Irribarra | Nivel: Intermedio
+--------------------------------------------------------------------------------
+Contexto:
+Una nave viaja en lÃ­nea recta a lo largo de n estaciones (1 <= n <= 10^5) a distancia 1 entre estaciones consecutivas. El estanque tiene capacidad k (1 <= k <= 10^5). El consumo es 1 unidad de combustible por unidad de distancia.
+El viaje es de IDA Y VUELTA (de 0 a n y luego de n a 0).
+La nave parte con el estanque lleno (k unidades).
+Cada estaciÃ³n cobra un precio por unidad de combustible: la primera lÃ­nea da el precio de la compaÃ±Ã­a de renta (que cobra por cada unidad faltante al devolver la nave al final en 0), y las siguientes n lÃ­neas dan el precio por unidad en cada estaciÃ³n 1 a n (la Ãºltima lÃ­nea es la estaciÃ³n n).
+Problema:
+Greedy / DP de recarga de combustible con capacidad de tanque k.
+Entrada:
+- Primera lÃ­nea: n y k.
+- Siguiente lÃ­nea: precio de renta (penalizaciÃ³n por unidad vacÃ­a al devolver).
+- Siguientes n lÃ­neas: precio por unidad de combustible en cada estaciÃ³n.
+Salida:
+- Costo Ã³ptimo del viaje.
+
+--------------------------------------------------------------------------------
+Problema G: Uno mÃ¡s
+Autor: Gabriel Carmona | Nivel: Avanzado
+--------------------------------------------------------------------------------
+Contexto:
+Un profesor tiene n instrucciones binarias de longitud n (1 <= n <= 1000). Falta una instrucciÃ³n, y se debe generar una nueva cadena binaria de longitud n que sea DIFERENTE a todas las n cadenas dadas.
+Problema:
+Argumento de la Diagonal de Cantor (Cantor's Diagonalization).
+Para construir una cadena binaria ans de largo n que difiera de la i-Ã©sima cadena s_i en la posiciÃ³n i:
+ans[i] = (s[i][i] == '0' ? '1' : '0') para todo 0 <= i < n.
+Esto garantiza en O(n) tiempo y O(n) espacio que ans difiere de cada s_i en al menos el bit i.
+Entrada:
+- Primera lÃ­nea: entero n (1 <= n <= 1000).
+- Siguientes n lÃ­neas: strings binarios de longitud n.
+Salida:
+- Un string binario de largo n diferente a todos los entregados.
+Ejemplo:
+Input:
+4
+1010
+1011
+1111
+0001
+Output:
+0101
+
+--------------------------------------------------------------------------------
+Problema H: Juez de Gato
+Autor: Gabriel Carmona | Nivel: BÃ¡sico
+--------------------------------------------------------------------------------
+Contexto:
+Juego de Gato (Tic-Tac-Toe) en tablero 3x3. La partida estÃ¡ TERMINADA y es VÃLIDA.
+Determinar si ganÃ³ 'X', 'O' o hubo empate ('-').
+Entrada:
+- 3 lÃ­neas con 3 caracteres cada una ('X', 'O', '-').
+Salida:
+- 'X' si ganÃ³ X, 'O' si ganÃ³ O, '-' si hubo empate.
+
+--------------------------------------------------------------------------------
+Problema I: Plagio
+Autor: Carlos Lagos | Nivel: BÃ¡sico
+--------------------------------------------------------------------------------
+Contexto:
+Verificar si el ejercicio de Vicente es una copia del de JosÃ©.
+Transformaciones de Vicente sobre el texto de JosÃ©:
+1. Convierte todo a minÃºsculas.
+2. Reemplaza todas las apariciones de "jose" (incluso como subcadena) por "vicente".
+3. Puede cambiar algunas letras a mayÃºsculas segÃºn su criterio.
+Problema:
+Strings / NormalizaciÃ³n. Para verificar:
+Pasar ambos strings a minÃºsculas.
+En el texto de JosÃ©, reemplazar cada "jose" por "vicente".
+Comparar si el texto normalizado de JosÃ© es idÃ©ntico al texto normalizado de Vicente.
+Si son iguales: "Plagio", si no: "Original".
+Entrada:
+- Primera lÃ­nea: texto de JosÃ© (hasta 10^5 caracteres).
+- Segunda lÃ­nea: texto de Vicente (hasta 10^5 caracteres).
+Salida:
+- "Plagio" o "Original".
+
+--------------------------------------------------------------------------------
+Problema J: Calle MÃ¡gica
+Autor: Carlos Lagos | Nivel: Avanzado
+--------------------------------------------------------------------------------
+Contexto:
+Calle de n baldosas (1 <= n <= 10^5) con caracteres en minÃºsculas S[1..n].
+Se comienza en baldosa 1 y se debe llegar a la baldosa n.
+Movimientos permitidos desde i:
+1. Avanzar a i+1 con costo 1.
+2. Teletransportarse a j > i de forma gratuita (costo 0) si existe un substring idÃ©ntico de largo k >= 1 que comience en i y en j (es decir, si S[i] == S[j], para k=1 ya se cumple!).
+ObservaciÃ³n crucial del enunciado: "pero solo si existe un substring de longitud k (1 <= k <= n) que comience en la baldosa i y sea idÃ©ntico a un substring de longitud k que comience en la baldosa j". Dado que k >= 1, Â¡basta con que k=1, lo cual significa S[i] == S[j]! Por tanto, saltar de i a cualquier j con el mismo carÃ¡cter S[i] == S[j] tiene costo 0.
+Problema:
+BFS de camino mÃ¡s corto en grafo o DP. Costo 0 para cualquier j con S[j] == S[i], costo 1 para i+1.
+MÃ­nimo costo desde 1 a n.
+Entrada:
+- Una cadena de longitud n (1 <= n <= 10^5).
+Salida:
+- Entero con el costo mÃ­nimo para llegar a n.
+================================================================================
+
