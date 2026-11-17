@@ -161,7 +161,7 @@
 
 <div class="header-banner">
   <h1>INF-221 Algoritmos y Complejidad &bull; Certamen Final</h1>
-  <div class="meta">APUNTE 1: CATÁLOGO COMPLETO DE ALGORITMOS DE CÁTEDRA &bull; C++ FUNCIONAL, INVARIANTES, PODAS Y COMPLEJIDADES</div>
+  <div class="meta">APUNTE 1: CATÁLOGO OFICIAL DE ALGORITMOS DE CÁTEDRA &bull; INVARIANTES, ORDENAMIENTO, BACKTRACKING, B&B, DP (1D, 2D, GRAFOS, INTERVALOS) Y ASINTÓTICA</div>
 </div>
 
 <div class="columns">
@@ -840,7 +840,7 @@ void knapsackBT(int i, int peso, int valor, int remVal, int W,
   <!-- ========================================================== -->
   <!-- UNIDAD 4: PROGRAMACIÓN DINÁMICA (DP) -->
   <!-- ========================================================== -->
-  <div class="unit-title">Unidad 4: Programación Dinámica (MWIS en Grafos Camino)</div>
+  <div class="unit-title">Unidad 4: Programación Dinámica (1D, 2D, Grafos e Intervalos)</div>
 
   <!-- Intro MWIS -->
   <div class="algo-card">
@@ -1008,6 +1008,400 @@ vector&lt;int&gt; reconstruirMWIS(const vector&lt;int&gt;& A, const vector&lt;in
     <div class="algo-complexity">
       <span><span class="bold">Tiempo:</span> O(<i>n</i>) (&le; <i>n</i> iteraciones con paso 1 o 2)</span>
       <span><span class="bold">Espacio:</span> O(<i>n</i>) vector resultante <i>S</i></span>
+    </div>
+  </div>
+
+
+  <!-- ========================================================== -->
+  <!-- DP 2D: ALINEAMIENTO DE SECUENCIAS (NEEDLEMAN-WUNSCH) -->
+  <!-- ========================================================== -->
+
+  <!-- Fundamento Needleman-Wunsch -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Fundamento Needleman-Wunsch: Alineamiento Global de Secuencias</span>
+      <span class="algo-tag">Clase 03 (Roughgarden Cap. 17)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Problema:</strong> Dadas dos secuencias <i>X</i> = <i>x</i><sub>1</sub>&hellip;<i>x</i><sub><i>m</i></sub> e <i>Y</i> = <i>y</i><sub>1</sub>&hellip;<i>y</i><sub><i>n</i></sub> sobre un alfabeto &Sigma; (e.g. bioinformática {A, C, G, T} o cadenas de texto), hallar una alineación columna a columna insertando espacios (<i>gaps</i> '-') que minimice la penalización total bajo costos &alpha;<sub><i>x</i>,<i>y</i></sub> (desajuste/mismatch) y &alpha;<sub><i>gap</i></sub> (inserción/borrado).
+    </div>
+    <div class="algo-notes">
+      <strong>Lema de Subestructura Óptima (Última Columna):</strong> En cualquier alineamiento de <i>X</i> e <i>Y</i>, la última columna corresponde forzosamente a uno de tres casos disjuntos:<br>
+      &bull; <strong>Caso 1 (Símbolo-Símbolo):</strong> Se alinean <i>x</i><sub><i>m</i></sub> con <i>y</i><sub><i>n</i></sub>. Para que el total sea óptimo, los prefijos <i>x</i><sub>1</sub>&hellip;<i>x</i><sub><i>m</i>&minus;1</sub> e <i>y</i><sub>1</sub>&hellip;<i>y</i><sub><i>n</i>&minus;1</sub> deben alinearse óptimamente. Costo: <i>P</i><sub><i>m</i>&minus;1, <i>n</i>&minus;1</sub> + &alpha;<sub><i>x</i><sub><i>m</i></sub>, <i>y</i><sub><i>n</i></sub></sub>.<br>
+      &bull; <strong>Caso 2 (Símbolo-Gap en Y):</strong> <i>x</i><sub><i>m</i></sub> se enfrenta a '-'. Queda por alinear óptimamente <i>x</i><sub>1</sub>&hellip;<i>x</i><sub><i>m</i>&minus;1</sub> con todo <i>Y</i>. Costo: <i>P</i><sub><i>m</i>&minus;1, <i>n</i></sub> + &alpha;<sub><i>gap</i></sub>.<br>
+      &bull; <strong>Caso 3 (Gap en X-Símbolo):</strong> '-' se enfrenta a <i>y</i><sub><i>n</i></sub>. Queda por alinear óptimamente todo <i>X</i> con <i>y</i><sub>1</sub>&hellip;<i>y</i><sub><i>n</i>&minus;1</sub>. Costo: <i>P</i><sub><i>m</i>, <i>n</i>&minus;1</sub> + &alpha;<sub><i>gap</i></sub>.<br>
+      <strong>Recurrencia de Needleman-Wunsch:</strong> Para <i>i</i> = 1&hellip;<i>m</i>, <i>j</i> = 1&hellip;<i>n</i>:<br>
+      <i>P</i><sub><i>i</i>,<i>j</i></sub> = min { <i>P</i><sub><i>i</i>&minus;1,<i>j</i>&minus;1</sub> + &alpha;<sub><i>x</i><sub><i>i</i></sub>,<i>y</i><sub><i>j</i></sub></sub>, <i>P</i><sub><i>i</i>&minus;1,<i>j</i></sub> + &alpha;<sub><i>gap</i></sub>, <i>P</i><sub><i>i</i>,<i>j</i>&minus;1</sub> + &alpha;<sub><i>gap</i></sub> }.<br>
+      <em>Casos base:</em> <i>P</i><sub>0,0</sub> = 0; <i>P</i><sub><i>i</i>,0</sub> = <i>i</i> &times; &alpha;<sub><i>gap</i></sub> (alinear prefijo de <i>X</i> de longitud <i>i</i> con cadena vacía); <i>P</i><sub>0,<i>j</i></sub> = <i>j</i> &times; &alpha;<sub><i>gap</i></sub>.
+    </div>
+  </div>
+
+  <!-- 22. Needleman-Wunsch DP 2D -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">22. Needleman-Wunsch: DP 2D Bottom-Up (Puntaje Mínimo)</span>
+      <span class="algo-tag">Clase 03 (Roughgarden Cap. 17)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Llena sistemáticamente una tabla (<i>m</i>+1) &times; (<i>n</i>+1) para determinar el puntaje de similitud óptimo entre dos secuencias. Se utiliza en bioinformática (alineamiento ADN/proteínas), corrección ortográfica y cálculo de distancia de edición generalizada.
+    </div>
+    <div class="algo-notes">
+      <strong>Semántica de Celda:</strong> <i>P</i>[<i>i</i>][<i>j</i>] almacena la penalización mínima de alinear el prefijo <i>X</i>[0&hellip;<i>i</i>&minus;1] con <i>Y</i>[0&hellip;<i>j</i>&minus;1]. Cada celda se calcula en O(1) consultando diagonal superior izquierda, arriba e izquierda.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int needlemanWunschDP(const string& X, const string& Y, int gapCost, int mismatchCost,
+                      vector&lt;vector&lt;int&gt;&gt;& P) {
+    int m = X.size(), n = Y.size();
+    P.assign(m + 1, vector&lt;int&gt;(n + 1, 0));
+
+    // Casos base: alinear prefijo con cadena vacia
+    for (int i = 0; i &lt;= m; ++i) P[i][0] = i * gapCost;
+    for (int j = 0; j &lt;= n; ++j) P[0][j] = j * gapCost;
+
+    for (int i = 1; i &lt;= m; ++i) {
+        for (int j = 1; j &lt;= n; ++j) {
+            int matchCost = (X[i - 1] == Y[j - 1]) ? 0 : mismatchCost;
+            int opMatch = P[i - 1][j - 1] + matchCost; // Caso 1: simbolo-simbolo
+            int opGapY  = P[i - 1][j] + gapCost;       // Caso 2: gap en Y
+            int opGapX  = P[i][j - 1] + gapCost;       // Caso 3: gap en X
+            P[i][j] = min({opMatch, opGapY, opGapX});
+        }
+    }
+    return P[m][n]; // Puntaje minimo global de alineacion
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>m</i> &times; <i>n</i>) (cada celda toma O(1))</span>
+      <span><span class="bold">Espacio:</span> O(<i>m</i> &times; <i>n</i>) tabla de programación dinámica</span>
+    </div>
+  </div>
+
+  <!-- 23. Reconstruccion y Espacio Needleman-Wunsch -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">23. Needleman-Wunsch: Reconstrucción (Traceback) y Espacio O(min(m, n))</span>
+      <span class="algo-tag">Clase 03 (Roughgarden Cap. 17)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> (1) Reconstruye las secuencias alineadas con sus gaps mediante traceback desde <i>P</i>[<i>m</i>][<i>n</i>] hasta <i>P</i>[0][0]. (2) Permite optimizar el cálculo del costo a O(min(<i>m</i>, <i>n</i>)) espacio con 2 filas si solo se requiere el puntaje numérico.
+    </div>
+    <div class="algo-notes">
+      <strong>Traceback hacia atrás:</strong> En (<i>i</i>, <i>j</i>), evaluar qué caso originó <i>P</i>[<i>i</i>][<i>j</i>]:<br>
+      &bull; Diagonal si <i>P</i>[<i>i</i>][<i>j</i>] == <i>P</i>[<i>i</i>&minus;1][<i>j</i>&minus;1] + &alpha; &rArr; emitir (<i>X</i>[<i>i</i>&minus;1], <i>Y</i>[<i>j</i>&minus;1]), decrementar <i>i</i>, <i>j</i>.<br>
+      &bull; Arriba si <i>P</i>[<i>i</i>][<i>j</i>] == <i>P</i>[<i>i</i>&minus;1][<i>j</i>] + &alpha;<sub><i>gap</i></sub> &rArr; emitir (<i>X</i>[<i>i</i>&minus;1], '-'), decrementar <i>i</i>.<br>
+      &bull; Izquierda si <i>P</i>[<i>i</i>][<i>j</i>] == <i>P</i>[<i>i</i>&minus;1][<i>j</i>&minus;1] + &alpha;<sub><i>gap</i></sub> &rArr; emitir ('-', <i>Y</i>[<i>j</i>&minus;1]), decrementar <i>j</i>.<br>
+      Al vaciar <i>i</i> &gt; 0 o <i>j</i> &gt; 0, rellenar con gaps e invertir las cadenas resultantes.
+    </div>
+<pre>#include &lt;utility&gt;
+// 1. Reconstruccion completa del alineamiento optimo (Traceback):
+pair&lt;string, string&gt; reconstruirNW(const string& X, const string& Y,
+                                   const vector&lt;vector&lt;int&gt;&gt;& P,
+                                   int gapCost, int mismatchCost) {
+    string ax = "", ay = "";
+    int i = X.size(), j = Y.size();
+    while (i &gt; 0 || j &gt; 0) {
+        int matchCost = (i &gt; 0 && j &gt; 0) ? ((X[i - 1] == Y[j - 1]) ? 0 : mismatchCost) : -1;
+        if (i &gt; 0 && j &gt; 0 && P[i][j] == P[i - 1][j - 1] + matchCost) {
+            ax += X[i - 1]; ay += Y[j - 1]; --i; --j;
+        } else if (i &gt; 0 && P[i][j] == P[i - 1][j] + gapCost) {
+            ax += X[i - 1]; ay += '-'; --i;
+        } else {
+            ax += '-'; ay += Y[j - 1]; --j;
+        }
+    }
+    reverse(ax.begin(), ax.end());
+    reverse(ay.begin(), ay.end());
+    return {ax, ay};
+}
+
+// 2. Optimizacion espacial O(n) solo para puntaje (2 filas):
+int needlemanWunschO_N(const string& X, const string& Y, int gapCost, int mismatchCost) {
+    int m = X.size(), n = Y.size();
+    vector&lt;int&gt; prev(n + 1), curr(n + 1);
+    for (int j = 0; j &lt;= n; ++j) prev[j] = j * gapCost;
+    for (int i = 1; i &lt;= m; ++i) {
+        curr[0] = i * gapCost;
+        for (int j = 1; j &lt;= n; ++j) {
+            int matchCost = (X[i - 1] == Y[j - 1]) ? 0 : mismatchCost;
+            curr[j] = min({prev[j - 1] + matchCost, prev[j] + gapCost, curr[j - 1] + gapCost});
+        }
+        prev = curr;
+    }
+    return prev[n];
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Traceback:</span> O(<i>m</i> + <i>n</i>) tiempo y espacio</span>
+      <span><span class="bold">Versión Espacio Reducido:</span> O(min(<i>m</i>, <i>n</i>)) memoria</span>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- DP EN GRAFOS: BELLMAN-FORD Y PRESUPUESTO DE ARISTAS -->
+  <!-- ========================================================== -->
+
+  <!-- Fundamento Bellman-Ford -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Fundamento Bellman-Ford: Presupuesto de Aristas y Ciclos Negativos</span>
+      <span class="algo-tag">Clase 24 (Roughgarden Cap. 18)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Problema:</strong> Dado un digrafo <i>G</i> = (<i>V</i>, <i>E</i>) con costos reales <i>c</i><sub><i>u</i>,<i>v</i></sub> (positivos o negativos) y vértice fuente <i>s</i>, hallar las distancias mínimas dist(<i>s</i>, <i>v</i>) para todo <i>v</i> &isin; <i>V</i>, o detectar la presencia de un ciclo de costo negativo alcanzable desde <i>s</i>.
+    </div>
+    <div class="algo-notes">
+      <strong>Por qué falla Dijkstra con aristas negativas:</strong> Dijkstra fija vorazmente la distancia de un nodo al extraerlo de la cola de prioridad asumiendo que no puede abaratarse. Con aristas negativas, un camino que parecía más largo puede reducir drásticamente su costo total mediante una arista negativa posterior.<br>
+      <strong>Ciclos Negativos y NP-Hardness:</strong> Si existen ciclos con suma de aristas &lt; 0 alcanzables, un camino puede ciclar infinitamente disminuyendo su costo hacia &minus;&infin;. Si se fuerza a buscar <em>caminos simples</em> (sin repetir nodos) con ciclos negativos presentes, el problema se vuelve <strong>NP-Hard</strong> (reducción desde Camino Hamiltoniano / Longest Simple Path).<br>
+      <strong>Subproblemas con Presupuesto de Aristas (Roughgarden):</strong> Con aristas negativas, el prefijo de un camino más corto no necesariamente tiene menor costo, ¡pero <em>siempre contiene estrictamente menos aristas</em>! Definimos <i>L</i><sub><i>i</i>,<i>v</i></sub> = costo mínimo de un camino <i>s</i> &rarr; <i>v</i> usando a lo más <i>i</i> aristas (<i>i</i> &isin; {0, &hellip;, <i>n</i>&minus;1}).<br>
+      <strong>Subestructura Óptima:</strong> Un camino óptimo de &le; <i>i</i> aristas o bien usa &le; <i>i</i>&minus;1 aristas (<i>L</i><sub><i>i</i>&minus;1,<i>v</i></sub>), o usa exactamente <i>i</i> aristas terminando en (<i>w</i>, <i>v</i>), cuyo prefijo hasta <i>w</i> usa &le; <i>i</i>&minus;1 aristas (<i>L</i><sub><i>i</i>&minus;1,<i>w</i></sub> + <i>c</i><sub><i>w</i>,<i>v</i></sub>):<br>
+      <i>L</i><sub><i>i</i>,<i>v</i></sub> = min { <i>L</i><sub><i>i</i>&minus;1,<i>v</i></sub>, min<sub>(<i>w</i>,<i>v</i>)&isin;<i>E</i></sub> { <i>L</i><sub><i>i</i>&minus;1,<i>w</i></sub> + <i>c</i><sub><i>w</i>,<i>v</i></sub> } }.<br>
+      <em>Casos base:</em> <i>L</i><sub>0,<i>s</i></sub> = 0; <i>L</i><sub>0,<i>v</i></sub> = +&infin; (&forall; <i>v</i> &ne; <i>s</i>).<br>
+      <strong>Teorema de Detección:</strong> En un grafo de <i>n</i> vértices sin ciclos negativos, todo camino simple tiene &le; <i>n</i>&minus;1 aristas. Por tanto, <i>L</i><sub><i>n</i>&minus;1,<i>v</i></sub> = dist(<i>s</i>, <i>v</i>). Si en la iteración <i>i</i> = <i>n</i> existe algún <i>v</i> tal que <i>L</i><sub><i>n</i>,<i>v</i></sub> &lt; <i>L</i><sub><i>n</i>&minus;1,<i>v</i></sub>, <strong>existe un ciclo negativo alcanzable desde <i>s</i></strong>.
+    </div>
+  </div>
+
+  <!-- 24. Bellman-Ford DP Matriz 2D -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">24. Bellman-Ford DP: Formulación 2D Formal con Presupuesto</span>
+      <span class="algo-tag">Clase 24 (Roughgarden Cap. 18)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Implementación pedagógica formal de la recurrencia DP de Tim Roughgarden con matriz (<i>n</i>+1) &times; <i>n</i>. Construye de manera desacoplada las distancias exactas permitiendo a lo más <i>i</i> aristas, garantizando aislamiento estricto entre niveles.
+    </div>
+    <div class="algo-notes">
+      <strong>Propiedad Clave:</strong> A diferencia de las relajaciones in-place que pueden propagar múltiples aristas en una sola iteración, la matriz 2D restringe exactamente la longitud del camino a <i>i</i> aristas en la fila <i>i</i>.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+const long long INF_BF = 1e18; // Evita overflow en sumas
+
+struct Arista { int u, v; long long peso; };
+
+// Retorna matriz L de (n+1) x n. Si detecta ciclo negativo retorna vector vacio.
+vector&lt;vector&lt;long long&gt;&gt; bellmanFordDP2D(int n, int s, const vector&lt;Arista&gt;& aristas) {
+    // L[i][v]: dist minima de s a v usando a lo mas i aristas
+    vector&lt;vector&lt;long long&gt;&gt; L(n + 1, vector&lt;long long&gt;(n, INF_BF));
+    L[0][s] = 0; // Caso base: 0 aristas solo alcanzan a la fuente s
+
+    for (int i = 1; i &lt;= n; ++i) {
+        // Caso 1: conservar la mejor distancia con a lo mas i-1 aristas
+        for (int v = 0; v &lt; n; ++v) L[i][v] = L[i - 1][v];
+
+        // Caso 2: examinar todas las aristas que llegan a v
+        for (const auto& e : aristas) {
+            if (L[i - 1][e.u] != INF_BF) {
+                L[i][e.v] = min(L[i][e.v], L[i - 1][e.u] + e.peso);
+            }
+        }
+    }
+
+    // Comprobacion en iteracion n: si algun nodo mejora, existe ciclo negativo
+    for (int v = 0; v &lt; n; ++v) {
+        if (L[n][v] &lt; L[n - 1][v]) {
+            return {}; // Ciclo negativo alcanzable detectado
+        }
+    }
+    return L; // L[n-1] contiene las distancias mas cortas definitivas
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i> &times; <i>m</i>) (|<i>V</i>| presupuestos &times; |<i>E</i>| aristas)</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i><sup>2</sup>) para la tabla de programación dinámica</span>
+    </div>
+  </div>
+
+  <!-- 25. Bellman-Ford Espacio O(V) y Ciclos Negativos -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">25. Bellman-Ford O(|V|) Espacio con Parada Temprana y Ciclos Negativos</span>
+      <span class="algo-tag">Clase 24 / Listado 5</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Versión competitiva estándar de Bellman-Ford con vector 1D de distancias. Reduce el espacio a O(|<i>V</i>|). Incorpora bandera <code>cambio</code> para detenerse anticipadamente si las distancias convergen en menos de <i>n</i>&minus;1 fases.
+    </div>
+    <div class="algo-notes">
+      <strong>Detección de Ciclo Negativo:</strong> Si tras <i>n</i>&minus;1 iteraciones completas se puede seguir relajando al menos una arista en la pasada <i>n</i>, existe un ciclo negativo alcanzable. Si se requiere propagar `-&infin;` a todos los nodos afectados por el ciclo, se corre un BFS/DFS desde los nodos que aún relajan.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+const long long INF = 1e18;
+struct Edge { int u, v; long long w; };
+
+bool bellmanFordOptimizado(int n, int s, const vector&lt;Edge&gt;& edges,
+                          vector&lt;long long&gt;& dist, vector&lt;int&gt;& parent) {
+    dist.assign(n, INF);
+    parent.assign(n, -1);
+    dist[s] = 0;
+
+    // Relajacion iterativa: a lo mas n - 1 fases
+    for (int iter = 1; iter &lt; n; ++iter) {
+        bool cambio = false;
+        for (const auto& e : edges) {
+            if (dist[e.u] &lt; INF && dist[e.u] + e.w &lt; dist[e.v]) {
+                dist[e.v] = dist[e.u] + e.w;
+                parent[e.v] = e.u;
+                cambio = true;
+            }
+        }
+        if (!cambio) return true; // Criterio de parada temprana: convergio antes
+    }
+
+    // Pasada n para detectar presencia de ciclos negativos alcanzables
+    for (const auto& e : edges) {
+        if (dist[e.u] &lt; INF && dist[e.u] + e.w &lt; dist[e.v]) {
+            return false; // Retorna false: EXISTE ciclo negativo alcanzable
+        }
+    }
+    return true; // Retorna true: distancias optimas libres de ciclos negativos
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(|<i>V</i>| &times; |<i>E</i>|) peor caso &bull; O(<i>k</i> &times; |<i>E</i>|) con parada</span>
+      <span><span class="bold">Espacio:</span> O(|<i>V</i>|) en vectores <code>dist</code> y <code>parent</code></span>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- DP DE INTERVALOS: ÁRBOLES DE BÚSQUEDA BINARIA ÓPTIMOS (OBST) -->
+  <!-- ========================================================== -->
+
+  <!-- Fundamento OBST -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">Fundamento OBST: Tiempo Promedio, Catalan y Subestructura de Intervalos</span>
+      <span class="algo-tag">Clase 05 (Roughgarden Cap. 17)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Problema:</strong> Dadas <i>n</i> claves ordenadas <i>k</i><sub>1</sub> &lt; <i>k</i><sub>2</sub> &lt; &hellip; &lt; <i>k</i><sub><i>n</i></sub> con frecuencias de búsqueda conocidas y no negativas <i>p</i><sub>1</sub>, <i>p</i><sub>2</sub>, &hellip;, <i>p</i><sub><i>n</i></sub>, construir un Árbol de Búsqueda Binaria (BST) <i>T</i> que minimice el tiempo de búsqueda promedio ponderado: &sum;<sub><i>i</i>=1</sub><sup><i>n</i></sup> <i>p</i><sub><i>i</i></sub> &times; (profundidad<sub><i>T</i></sub>(<i>k</i><sub><i>i</i></sub>) + 1).
+    </div>
+    <div class="algo-notes">
+      <strong>Por qué un árbol balanceado no basta:</strong> Un AVL/Red-Black minimiza la altura máxima (O(log <i>n</i>)), optimizando el <em>peor caso</em>. Pero si una clave concentra alta frecuencia (ej. <i>p</i><sub>1</sub> = 0.8), colocarla en la raíz arroja costo promedio &asymp; 1.2 comparaciones, mientras que un árbol balanceado forzaría 2 o más comparaciones para la clave más consultada.<br>
+      <strong>Exponencialidad de Fuerza Bruta (Números de Catalan):</strong> La cantidad de BSTs distintos formados por <i>n</i> claves ordenadas es <i>C</i><sub><i>n</i></sub> = (1 / (<i>n</i>+1)) &times; (2<i>n</i> sobre <i>n</i>) = &Theta;(4<sup><i>n</i></sup> / <i>n</i><sup>3/2</sup>). Para <i>n</i> = 10 hay 16.796 árboles; para <i>n</i> = 20 supera 6.5 &times; 10<sup>9</sup>.<br>
+      <strong>Lema 17.4 de Subestructura Óptima (Roughgarden):</strong> Si <i>T</i> es un BST óptimo para {<i>k</i><sub>1</sub>, &hellip;, <i>k</i><sub><i>n</i></sub>} con raíz <i>r</i> &isin; {1, &hellip;, <i>n</i>}:<br>
+      1. Su subárbol izquierdo debe ser un BST óptimo para las claves {<i>k</i><sub>1</sub>, &hellip;, <i>k</i><sub><i>r</i>&minus;1</i>}.<br>
+      2. Su subárbol derecho debe ser un BST óptimo para las claves {<i>k</i><sub><i>r</i>+1</sub>, &hellip;, <i>k</i><sub><i>n</i></sub>}.<br>
+      <strong>Recurrencia de Intervalos:</strong> Sea <i>W</i><sub><i>i</i>,<i>j</i></sub> el costo óptimo para el intervalo de claves {<i>k</i><sub><i>i</i></sub>, &hellip;, <i>k</i><sub><i>j</i></sub>}:<br>
+      <i>W</i><sub><i>i</i>,<i>j</i></sub> = &sum;<sub><i>k</i>=<i>i</i></sub><sup><i>j</i></sup> <i>p</i><sub><i>k</i></sub> + min<sub><i>r</i>=<i>i</i>&hellip;<i>j</i></sub> { <i>W</i><sub><i>i</i>, <i>r</i>&minus;1</sub> + <i>W</i><sub><i>r</i>+1, <i>j</i></sub> }.<br>
+      <em>Por qué sumar la suma de frecuencias:</em> Al elegir <i>r</i> como raíz, todas las claves del intervalo aumentan su profundidad en 1 respecto de sus subárboles individuales, sumando 1 &times; <i>p</i><sub><i>k</i></sub> por cada clave.<br>
+      <em>Casos base:</em> <i>W</i><sub><i>i</i>,<i>i</i>&minus;1</sub> = 0 (subárbol vacío), <i>W</i><sub><i>i</i>,<i>i</i></sub> = <i>p</i><sub><i>i</i></sub> (un solo nodo).
+    </div>
+  </div>
+
+  <!-- 26. OBST DP de Intervalos -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">26. Optimal BST (OBST): DP de Intervalos por Diagonales O(n^3)</span>
+      <span class="algo-tag">Clase 05 (Roughgarden Cap. 17)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> Calcula el costo de búsqueda ponderado mínimo llenando la matriz <i>W</i> por diagonales (longitud de intervalo <i>s</i> = <i>j</i> &minus; <i>i</i> creciente de 0 a <i>n</i>&minus;1). Almacena las raíces óptimas en <i>R</i>[<i>i</i>][<i>j</i>] para posterior reconstrucción del árbol.
+    </div>
+    <div class="algo-notes">
+      <strong>Orden Bottom-Up Estricto:</strong> Como <i>W</i><sub><i>i</i>,<i>j</i></sub> consulta <i>W</i><sub><i>i</i>,<i>r</i>&minus;1</sub> y <i>W</i><sub><i>r</i>+1,<i>j</i></sub> (subproblemas de tamaño &lt; <i>s</i>+1), es obligatorio iterar primero por tamaño de intervalo <i>s</i> = 0, 1, &hellip;, <i>n</i>&minus;1. La suma de frecuencias &sum;<sub><i>k</i>=<i>i</i></sub><sup><i>j</i></sup> <i>p</i><sub><i>k</i></sub> se obtiene en O(1) con sumas prefijas.
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+const double INF_OBST = 1e18;
+
+// Retorna W[1][n] con el costo optimo; llena W y matriz de raices R
+double optimalBST(const vector&lt;double&gt;& p, vector&lt;vector&lt;double&gt;&gt;& W,
+                  vector&lt;vector&lt;int&gt;&gt;& R) {
+    int n = p.size(); // p es 0-based: p[0..n-1]
+    // Tablas indexadas 1..n+1 para admitir subproblemas vacios W[i][i-1]
+    W.assign(n + 2, vector&lt;double&gt;(n + 2, 0.0));
+    R.assign(n + 2, vector&lt;int&gt;(n + 2, 0));
+
+    // Sumas prefijas para calcular sum(p[i..j]) en O(1)
+    vector&lt;double&gt; pref(n + 1, 0.0);
+    for (int k = 1; k &lt;= n; ++k) pref[k] = pref[k - 1] + p[k - 1];
+
+    // Casos base: subproblemas vacios (j = i - 1) valen 0 (ya asignados)
+    // Recorrido por diagonales: s = tamano_intervalo - 1
+    for (int s = 0; s &lt; n; ++s) {
+        for (int i = 1; i &lt;= n - s; ++i) {
+            int j = i + s;
+            double sumaP = pref[j] - pref[i - 1];
+            double mejorCosto = INF_OBST;
+            int mejorRaiz = -1;
+
+            // Probar cada clave r en [i, j] como raiz del subarbol
+            for (int r = i; r &lt;= j; ++r) {
+                double costo = W[i][r - 1] + W[r + 1][j];
+                if (costo &lt; mejorCosto) {
+                    mejorCosto = costo;
+                    mejorRaiz = r;
+                }
+            }
+            W[i][j] = sumaP + mejorCosto;
+            R[i][j] = mejorRaiz;
+        }
+    }
+    return W[1][n];
+}</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i><sup>3</sup>) (<i>n</i><sup>2</sup>/2 subproblemas &times; O(<i>n</i>) raíces &times; O(1) suma)</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i><sup>2</sup>) para matrices <i>W</i> y <i>R</i></span>
+    </div>
+  </div>
+
+  <!-- 27. Reconstruccion OBST -->
+  <div class="algo-card">
+    <div class="algo-top">
+      <span class="algo-num-title">27. Reconstrucción del Árbol OBST mediante Tabla de Raíces</span>
+      <span class="algo-tag">Clase 05 (Roughgarden Cap. 17)</span>
+    </div>
+    <div class="algo-desc">
+      <strong>Qué hace y cuándo se aplica:</strong> A partir de la matriz de raíces óptimas <i>R</i>[<i>i</i>][<i>j</i>] calculada por el algoritmo DP, reconstruye la topología completa del árbol binario en tiempo lineal O(<i>n</i>) mediante un recorrido recursivo descendente divide y conquista.
+    </div>
+    <div class="algo-notes">
+      <strong>Mecanismo Recursivo:</strong> <i>r</i> = <i>R</i>[<i>i</i>][<i>j</i>] es la raíz del subárbol para claves <i>i</i>&hellip;<i>j</i>. Su hijo izquierdo se obtiene recursivamente de <i>R</i>[<i>i</i>][<i>r</i>&minus;1] y su hijo derecho de <i>R</i>[<i>r</i>+1][<i>j</i>]. Termina cuando <i>i</i> &gt; <i>j</i> (subárbol vacío).
+    </div>
+<pre>#include &lt;vector&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+struct NodoBST {
+    int clave;
+    NodoBST* izq;
+    NodoBST* der;
+    NodoBST(int k) : clave(k), izq(nullptr), der(nullptr) {}
+};
+
+// Construye punteros del arbol a partir de la tabla R:
+NodoBST* construirArbolOBST(int i, int j, const vector&lt;vector&lt;int&gt;&gt;& R) {
+    if (i &gt; j) return nullptr; // Subarbol vacio
+    int r = R[i][j];          // Raiz optima del rango [i..j]
+    NodoBST* raiz = new NodoBST(r);
+    raiz-&gt;izq = construirArbolOBST(i, r - 1, R);
+    raiz-&gt;der = construirArbolOBST(r + 1, j, R);
+    return raiz;
+}
+
+// Imprime las relaciones padre-hijo del arbol:
+void imprimirEstructura(int i, int j, int padre, bool esIzq,
+                        const vector&lt;vector&lt;int&gt;&gt;& R) {
+    if (i &gt; j) return;
+    int r = R[i][j];
+    if (padre == 0) {
+        cout &lt;&lt; "Clave " &lt;&lt; r &lt;&lt; " es la RAIZ del arbol global\n";
+    } else {
+        cout &lt;&lt; "Clave " &lt;&lt; r &lt;&lt; " es hijo " &lt;&lt; (esIzq ? "IZQ" : "DER")
+             &lt;&lt; " de Clave " &lt;&lt; padre &lt;&lt; "\n";
+    }
+    imprimirEstructura(i, r - 1, r, true, R);
+    imprimirEstructura(r + 1, j, r, false, R);
+}
+// Llamar con: imprimirEstructura(1, n, 0, false, R);</pre>
+    <div class="algo-complexity">
+      <span><span class="bold">Tiempo:</span> O(<i>n</i>) (visita exactamente los <i>n</i> nodos del árbol)</span>
+      <span><span class="bold">Espacio:</span> O(<i>n</i>) pila recursiva y estructura de nodos</span>
     </div>
   </div>
 

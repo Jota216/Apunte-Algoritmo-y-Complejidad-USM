@@ -1,0 +1,494 @@
+Programación Dinámica Árboles de búsqueda binarios óptimos
+Prof. Raquel Pezoa Algoritmos y Complejidad - INF 221
+UTFSM, Casa Central
+2026
+
+Referencias
+ Diapositivas basadas en el capítulo Advanced Dynamic Programming de Tim Roughgarden, Algorithms Illuminated, Omnibus Edition (2022).
+
+Árboles de búsqueda binaria
+Un árbol de búsqueda binaria es una estructura de datos que funciona como una versión dinámica de un arreglo ordenado.
+Propiedad de búsqueda
+Para cada nodo con clave x: 1. Las claves del subárbol izquierdo son menores que x. 2. Las claves del subárbol derecho son mayores que x.
+Pregunta: ¿Dónde insertarías las claves 30 y 60?
+
+50
+
+20
+
+80
+
+10
+
+40
+
+70
+
+90
+
+Árboles de búsqueda binaria
+
+Insertemos las claves 30 y 60.  Para insertar 30:
+50  20  40  30
+ Para insertar 60:
+50  80  70  60
+En cada comparación, avanzamos hacia el subárbol izquierdo o derecho según el valor de la clave.
+
+50
+
+20
+
+80
+
+10
+
+40
+
+70
+
+90
+
+30
+
+60
+
+Tiempo promedio de búsqueda
+
+El tiempo de búsqueda de una clave k es el número de nodos visitados, incluido el nodo encontrado.
+¿Cuánto cuesta buscar la clave 1 en cada árbol?
+
+3
+
+1
+
+5
+
+24 2 nodos visitados
+
+5 4 3 2 1 5 nodos visitados
+
+Tiempos de búsqueda promedio
+ Un árbol equilibrado minimiza la altura máxima, que determina el peor tiempo de búsqueda.
+ En un árbol equilibrado, la altura es del orden de log2 n.  Minimizar la altura mejora el peor caso, pero no necesariamente minimiza el costo
+promedio cuando las claves tienen distintas frecuencias de búsqueda.
+Pregunta ¿Qué pasaría si conociéramos las frecuencias de búsqueda de cada clave?
+
+Pregunta
+
+Considere dos árboles con claves 1, 2, 3 y frecuencias de búsqueda:
+
+Clave
+
+123
+
+Frecuencia 0,8 0,1 0,1
+
+2
+
+1
+
+3
+
+1 2 3
+
+Árbol 1
+
+Árbol 2
+
+¿Cuáles son los tiempos promedio ponderados? a) 1.9 y 1.2 b) 1.9 y 1.3 c) 2 y 1 d) 2 y 3
+
+Si usamos fuerza bruta
+
+Clave
+A B C
+Costo
+
+Freq.
+.6 .3 .1
+
+Árbol 1
+2 1 2
+1.7
+
+Árbol 2
+3 2 1
+2.5
+
+Árbol 3
+1 2 3
+1.5
+
+B
+
+C
+
+A
+
+A
+
+C
+
+B
+
+B
+
+Árbol 1
+
+A
+
+C
+
+Árbol 2
+
+Árbol 3
+
+Costo ponderado: pi · (comparaciones de i).
+i
+
+Número de árboles de búsqueda binaria con n claves ordenadas: número de Catalan.
+
+Cn = 1 2n n+1 n
+Para n = 3: C3 = 1 6 = 5 43
+
+Para n = 10: C10 = 1 20 = 16 796 11 10
+
+Cn = 
+
+4n n3/2
+
+Fuerza bruta: costo exponencial. Usaremos programación dinámica.
+
+Definición del problema
+El mejor árbol de búsqueda binaria depende de las frecuencias de acceso.
+Optimal Binary Search Trees (OBST)
+Entrada: claves ordenadas k1 < k2 < · · · < kn y frecuencias no negativas p1, . . . , pn. Salida: árbol de búsqueda binaria T que minimiza el tiempo de búsqueda ponderado:
+n
+pi depthT (ki ) + 1
+i =1
+La profundidad depthT (ki ) es el número de aristas desde la raíz hasta ki . Como también comparamos con la raíz, el número de comparaciones es depthT (ki ) + 1.
+
+Subestructura óptima
+
+Supongamos que un árbol óptimo para las claves {1, 2, . . . , n} tiene raíz r , subárbol izquierdo T1 y subárbol derecho T2.
+r
+
+T1
+
+T2
+
+Propiedad: si el árbol completo es óptimo, entonces T1 y T2 deben ser óptimos para sus respectivas claves.
+
+Subestructura óptima
+Lema (Roughgarden, 17.4)
+Si T es un árbol de búsqueda binaria óptimo para las claves {k1, . . . , kn}, con raíz r , entonces: 1. Su subárbol izquierdo es óptimo para {1, . . . , r - 1} y frecuencias p1, . . . , pr-1. 2. Su subárbol derecho es óptimo para {r + 1, . . . , n} y frecuencias pr+1, . . . , pn.
+
+Recurrencia
+Consideremos las claves ordenadas k1 < k2 < · · · < kn, con frecuencias p1, p2, . . . , pn.  pi : frecuencia de búsqueda de la clave ki .  Wi,j : costo ponderado mínimo de un árbol que contiene las claves ki , . . . , kj .  r : índice de la clave elegida como raíz, con i  r  j.
+Recurrencia de Optimal BST (Roughgarden)
+j
+Wi,j = pk + m´in (Wi,r-1 + Wr+1,j )
+r =i,...,j k =i
+Caso r
+Wi,j = 0 si i > j Idea: probar cada clave como raíz y elegir la alternativa de menor costo.
+
+¿Qué hace la recurrencia?
+
+
+
+
+
+Wi,j =
+
+j
+pk
+k =i
+
+ + m´in 
+r =i,...,j
+
+Wi,r -1
+
+ + Wr+1,j 
+
+subárbol izquierdo subárbol derecho
+
+costo por un nivel adicional
+
+j
+ pk : al elegir una nueva raíz r , todas las claves del intervalo contribuyen con una comparación
+k =i
+adicional respecto de los costos de los subárboles.
+
+ Wi,r-1: costo óptimo del subárbol izquierdo, formado por las claves ki , . . . , kr-1.
+
+ Wr+1,j : costo óptimo del subárbol derecho, formado por las claves kr+1, . . . , kj .
+
+¿Qué minimizamos?
+Probamos todas las raíces r  {i, . . . , j} y escogemos la que minimiza la suma de los costos de ambos subárboles.
+
+Ejemplo simple
+
+Consideremos las siguientes claves y frecuencias. Supongamos que elegimos B como raíz (r = 2).
+
+Clave Índice Frecuencia
+
+B
+
+A
+
+1
+
+0.2
+
+B
+
+2
+
+0.3
+
+C
+
+3
+
+0.5
+
+A
+
+C
+
+B es raíz; A y C son sus subárboles.
+
+ W1,1 = 0,2 · 1 = 0,2: costo óptimo del subárbol izquierdo.
+
+ W3,3 = 0,5 · 1 = 0,5: costo óptimo del subárbol derecho.
+
+3
+ pk = 0,2 + 0,3 + 0,5 = 1,0: contribución de todas las frecuencias del intervalo.
+k =1
+
+W1,3 (r=2) = 1,0 + W1,1 + W3,3 = 1,0 + 0,2 + 0,5 = 1,7 Costo si elegimos B como raíz: 1.7.
+
+Ejemplo: cálculo de Wi,j
+Consideremos tres claves ordenadas:
+
+Clave
+
+ABC
+
+Índice
+
+123
+
+Frecuencia 0.2 0.3 0.5
+
+Paso 1: subproblemas con una sola clave (i = j).
+
+A
+W1,1 = 0,2
+
+B
+W2,2 = 0,3
+
+C
+W3,3 = 0,5
+
+Cada árbol contiene una sola clave, por lo que buscarla requiere una comparación. Wi,i = pi
+Caso adicional: si i > j, el intervalo no contiene claves (árbol vacío): Wi,j = 0 si i > j
+
+Ejemplo: subproblemas de dos claves
+
+Paso 2: calculamos W1,2 y W2,3, probando cada clave como raíz. W1,2: claves A y B
+
+W2,3: claves B y C
+
+A
+
+B
+
+B
+
+C
+
+B
+0,2(1) + 0,3(2) = 0,8
+
+A
+0,3(1) + 0,2(2) = 0,7
+
+C
+0,3(1) + 0,5(2) = 1,3
+
+B
+0,5(1) + 0,3(2) = 1,1
+
+W1,2 = (0,2 + 0,3) + m´in{0,3, 0,2}
+= 0,7
+Raíz óptima: B.
+
+W2,3 = (0,3 + 0,5) + m´in{0,5, 0,3}
+= 1,1
+Raíz óptima: C.
+
+Ejemplo: cálculo de W1,3
+Paso 3: buscamos el árbol óptimo para las claves A, B y C.
+
+W1,3 = (0,2 + 0,3 + 0,5) + m´in (W1,r-1 + Wr+1,3)
+r =1,2,3 1,0
+Probamos las tres raíces posibles:
+
+Raíz
+A (r = 1) B (r = 2) C (r = 3)
+
+Subárboles óptimos
+W1,0 + W2,3 = 0 + 1,1 W1,1 + W3,3 = 0,2 + 0,5 W1,2 + W4,3 = 0,7 + 0
+
+Costo total
+2,1 1,7 1,7
+
+W1,3 = 1,0 + m´in{1,1, 0,7, 0,7} = 1,7
+
+B
+
+C
+
+A
+
+C
+
+B
+
+Raíz B: costo 1.7
+
+A
+
+Raíz C: costo 1.7
+Existen dos árboles óptimos con costo 1.7.
+
+Optimal BST: pseudocódigo
+
+Entrada: claves 1, . . . , n y frecuencias no negativas p1, . . . , pn. Salida: costo mínimo de búsqueda ponderado.
+
+OptBST (bottom-up)
+
+// Subproblemas: i desde 1, j desde 0 A := matriz (n+1) x (n+1)
+
+// Casos base: árbol vacío (i = j+1) para i = 1 hasta n+1:
+A[i][i-1] := 0
+
+// Resolver subproblemas por tamaño creciente para s = 0 hasta n-1: // s = tamaño - 1
+para i = 1 hasta n-s: j := i+s // extremo derecho // Aplicar la recurrencia A[i][j] :=
+
+retornar A[1][n]
+
+j
+pk + m´in {A[i][r - 1] + A[r + 1][j]}
+r =i,...,j k =i
+
+Orden bottom-up: primero intervalos de una clave (s = 0), luego de dos (s = 1), y así hasta n claves.
+
+OBST: orden de los subproblemas
+
+El ciclo principal recorre s = 0, . . . , n - 1; para cada s, j = i + s.
+
+s Subproblemas (i, j) para n = 4 Tamaño s + 1
+
+0 (1, 1), (2, 2), (3, 3), (4, 4)
+
+1
+
+1 (1, 2), (2, 3), (3, 4)
+
+2
+
+2 (1, 3), (2, 4)
+
+3
+
+3 (1, 4)
+
+4
+
+Idea
+Primero resolvemos intervalos de una clave, luego de dos, de tres y finalmente de cuatro.
+
+OBST: orden de los subproblemas
+Primero: inicializamos los subproblemas vacíos:
+
+A[i][i - 1] = 0, i = 1, . . . , n + 1.
+
+Luego: resolvemos los subproblemas en orden creciente de tamaño, usando dos ciclos:  s = 0, . . . , n - 1: tamaño del subproblema menos uno.  i = 1, . . . , n - s: índice de la primera clave.  j = i + s: índice de la última clave.
+
+s Tamaño s + 1 Subproblemas para n = 4
+
+0
+
+1
+
+A[1][1], A[2][2], A[3][3], A[4][4]
+
+1
+
+2
+
+A[1][2], A[2][3], A[3][4]
+
+2
+
+3
+
+A[1][3], A[2][4]
+
+3
+
+4
+
+A[1][4]
+
+¿Por qué este orden?
+Para calcular A[i][j], la recurrencia utiliza A[i][r - 1] y A[r + 1][j]: subproblemas de menor tamaño que ya fueron resueltos.
+
+OBST: ¿cómo se llena la matriz A?
+
+Supongamos las claves k1, k2, k3, k4. Los subproblemas se resuelven por diagonales.
+
+i\j 0 1
+
+2
+
+3
+
+4
+
+1 0 W1,1 W1,2 W1,3 W1,4
+
+2
+
+0
+
+W2,2 W2,3 W2,4
+
+3
+
+0
+
+W3,3 W3,4
+
+4
+
+0
+
+W4,4
+
+5
+
+0
+
+Orden de cálculo
+Primero los intervalos de tamaño 1, luego 2, luego 3 y finalmente el intervalo completo (1, 4).
+
+Complejidad
+ O(n2) subproblemas: uno por intervalo (i, j).  Para cada intervalo se prueban hasta O(n) raíces posibles.  Las sumas k=i j pk pueden calcularse en O(1) mediante sumas acumuladas.
+Complejidades
+Tiempo: O(n3) Espacio: O(n2)
+
+

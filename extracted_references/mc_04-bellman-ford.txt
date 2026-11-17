@@ -1,0 +1,248 @@
+Clase 24: Programación Dinámica
+Bellman-Ford para camino más corto de una sola fuente
+Prof. Raquel Pezoa Algoritmos y Complejidad - INF 221
+UTFSM, Casa Central 1er Semestre 2026
+
+Referencias
+ Estas diapositivas están basadas en el capítulo 18, "The Bellman-Ford Algorithm", de Algorithms Illuminated, Omnibus Edition, Tim Roughgarden (2022).
+
+Problema del camino más corto con una sola fuente
+The Single-Source Shortest-Path Problem  Entrada: grafo dirigido G = (V , E ), longitud real e para cada arista e  E y vértice fuente s  V .  La longitud de un camino es la suma de las longitudes de sus aristas.  Salida: para cada destino v , la distancia mínima dist(s, v ) desde s hasta v .  Si no existe un camino desde s hasta v , definimos dist(s, v ) = +.
+
+Ejemplo
+
+Consideremos el vértice fuente s.
+
+v
+
+1
+
+6
+
+s
+
+2
+
+t
+
+4
+
+3
+
+w
+
+dist(s, s) = 0, dist(s, v ) = 1, dist(s, w ) = 3, dist(s, t) = 6.
+
+Dijkstra
+
+ Dijkstra resuelve el caso especial en que todas las longitudes de aristas son no negativas.
+ Con aristas negativas, Dijkstra no siempre es correcto.
+
+v
+
+1
+
+-5
+
+s
+
+t
+
+-2
+
+El camino s  v  t tiene longitud -4, menor que la arista directa de longitud -2.
+
+Ciclos negativos
+ Si permitimos aristas con longitudes negativas, ¿qué significa "camino más corto"?  Pregunta: ¿qué ocurre si podemos recorrer repetidamente un ciclo cuya longitud total es
+negativa?
+Veamos un ejemplo.
+
+Camino s-v más corto: opción 1
+
+Se permiten ciclos.
+
+ Un recorrido puede visitar vértices varias
+
+veces.  Consideremos s  v de longitud 10 y el
+
+10
+
+4
+
+s
+
+v
+
+ciclo v  u  w  x  v .
+
+-4
+
+ Longitud del ciclo: -4 + 3 - 5 + 4 = -2.
+
+u
+
+ Tras k vueltas: 10 - 2k.
+
+3
+
+No existe un mínimo finito: la longitud puede disminuir indefinidamente.
+
+x -5 w
+
+Camino s-v más corto: opción 2
+No se permiten ciclos (caminos simples).  Sin repetir vértices, existe un número finito de caminos simples entre s y v .  Podríamos escoger el de menor longitud.  Sin embargo, cuando hay ciclos negativos presentes, esta versión del problema es generalmente un problema NP-hard.
+Recordatorio
+Un problema es NP-hard si todo problema de NP puede reducirse a él en tiempo polinomial.
+
+Problema: rutas más cortas desde una sola fuente
+Versión revisada
+Entrada: grafo dirigido G = (V , E ), fuente s y longitudes reales e. Salida: una de las siguientes opciones:
+1. Las distancias mínimas desde s a todos los vértices, si no hay ciclos negativos alcanzables desde s; o
+2. La detección de un ciclo negativo alcanzable desde s.
+
+Algoritmo Bellman-Ford
+ El algoritmo Bellman-Ford nos permite resolver de caminos más cortos desde una fuente incluso con aristas de longitud negativa.
+ Calcula las distancias correctas si no hay ciclos negativos alcanzables desde s.  En caso contrario, detecta la presencia de un ciclo negativo alcanzable desde la fuente.
+
+Subproblemas
+ En programación dinámica, buscamos construir soluciones óptimas a partir de soluciones óptimas de subproblemas más pequeños.
+ Intuitivamente, el prefijo P de un camino más corto P debería ser también un camino más corto hacia un destino intermedio. P s w wv v
+P
+
+Subproblemas
+ ¿En qué sentido P es un subproblema "más pequeño" que P?  Con aristas negativas, el prefijo P puede tener mayor longitud que P.  Pero P siempre contiene menos aristas que P.  Idea de Bellman-Ford: introducir un presupuesto i de aristas permitidas; los
+subproblemas más grandes permiten más aristas.  Entonces, un prefijo de ruta puede verse como una solución a un subproblema más pequeño.
+
+Ejemplo
+
+v
+
+2
+
+2
+
+s
+
+t
+
+1u
+
+w1
+
+1
+
+ Fuente: nodo s.  Para destino t, si i = 0 o 1: no existe camino con a lo más i aristas, por lo que Li,t = +.  Si i = 2: el camino s  v  t tiene longitud 4.  Si i  3: se permite s  u  w  t, de longitud 3.
+
+Subproblemas
+Subproblemas de Bellman-Ford
+Calcular Li,v , la longitud mínima de un recorrido desde s hasta v usando a lo más i aristas, permitiendo vértices repetidos.
+Li,v = + si no existe un recorrido factible. Para cada i = 0, 1, 2, . . . y cada v  V .
+
+Subestructuras óptimas
+Sea P un camino óptimo desde s hasta v , con a lo más i aristas.
+Caso 1: P usa a lo más i - 1 aristas
+Entonces P también es óptimo para el subproblema con presupuesto i - 1 y el mismo destino v . Por lo tanto, podemos conservar la solución del subproblema anterior:
+A[i][v ] = A[i - 1][v ]
+
+Subestructuras óptimas: Caso 1
+
+Supongamos que buscamos el camino más corto de A a D, utilizando a lo más 3 aristas.
+
+2 A
+1
+
+3
+
+B
+
+D
+
+2 5
+C
+
+ Camino óptimo: P = A  B  D, costo 2 + 3 = 5.  P utiliza solo 2 aristas, aunque permitimos hasta 3.  Con a lo más 2 aristas, P también es óptimo.
+A[3][D] = A[2][D] = 5 Caso 1 de la recurrencia: conservamos la solución del subproblema anterior.
+
+Subestructuras óptimas
+Caso 2: P usa exactamente i aristas
+Sea (w , v ) su última arista y P el prefijo que termina en w .  P va desde s hasta w usando i - 1 aristas.  P = P + (w , v ) y (P) = (P) + wv .  P debe ser óptimo entre los caminos desde s hasta w con a lo más i - 1 aristas.
+Por lo tanto, el costo del camino óptimo en este caso es: A[i - 1][w ] + wv
+
+Subestructuras óptimas
+El prefijo P es un recorrido s-w con i - 1 aristas y longitud L - wv . P : i - 1 aristas
+s w wv v
+(P) = L - wv
+
+Lema: subestructura óptima Bellman-Ford
+Sea P un recorrido óptimo desde s hasta v con a lo más i  1 aristas. Entonces ocurre uno de dos casos:
+1. P es un recorrido óptimo de s a v con a lo más i - 1 aristas. 2. Para algún (w , v )  E , P consiste en un recorrido óptimo de s a w con a lo más i - 1
+aristas, seguido por (w , v ). Idea: o ya habíamos llegado a v , o llegamos mediante una última arista (w , v ).
+
+Corolario: recurrencia Bellman-Ford
+Sea Li,v la longitud mínima de un recorrido desde s hasta v con a lo más i aristas. Para i  1: Li,v = m´in Li-1,v , m´in Li-1,w + wv
+(w ,v )E
+ Mínimo externo: comparar el caso 1 (no usar una nueva arista) y el caso 2 (llegar mediante una última arista).
+ Mínimo interno: examinar todas las aristas (w , v ) que llegan a v .
+
+Criterio de detención de Bellman-Ford
+
+Si para algún k  0 se cumple
+
+Lk+1,v = Lk,v
+
+v  V ,
+
+entonces: 1. Li,v = Lk,v para todo i  k y v  V . 2. Las distancias se han estabilizado: Lk,v = dist(s, v ) para cada v , siempre que no haya ciclos negativos alcanzables desde s.
+No es necesario permitir más aristas.
+
+Bellman-Ford sin ciclos negativos
+
+ Un camino simple en un grafo con n vértices tiene a lo más n - 1 aristas.
+
+ Si no hay ciclos negativos alcanzables desde s, las distancias se estabilizan a más tardar al permitir n - 1 aristas:
+
+Ln,v = Ln-1,v
+
+v  V .
+
+ ¿Y si hay una mejora adicional? Si Ln,v < Ln-1,v para algún v , existe un ciclo negativo alcanzable desde s.
+
+¿Cómo sería el pseudocódigo?
+ ¿Necesitamos un vector o una matriz?  ¿Qué dimensiones tendrá?  ¿Cuáles son los casos base?  ¿Cómo usamos la recurrencia para llenar la estructura?
+
+Pseudocódigo
+Bellman-Ford (programación dinámica)
+A := matriz (n+1) x n, indexada por i y v A[0][s] := 0 para cada v != s: A[0][v] := +infinito // Resolver subproblemas para i := 1 hasta n:
+estable := verdadero para cada v en V:
+A[i][v] := min( A[i-1][v], min sobre (w,v) en E de (A[i-1][w] + longitud(w,v)) )
+si A[i][v] != A[i-1][v]: estable := falso si estable: retornar A[i][v] para todo v retornar "ciclo negativo alcanzable desde s"
+A[i][v ]: distancia mínima desde s hasta v usando a lo más i aristas. Tiempo: O(|V ||E |); espacio: O(|V |2).
+
+Ejemplo
+
+v4t 4
+
+s
+
+-1
+
+2
+
+2
+
+u
+
+w
+
+2
+
+i v t w us 00 1 2 3 4 5
+
+Completar Li,v para cada presupuesto i , usando la recurrencia.
+
+Teorema: propiedades de Bellman-Ford
+Para un grafo dirigido G = (V , E ) con n vértices, m aristas, longitudes reales y fuente s, Bellman-Ford se ejecuta en
+O (nm) y realiza una de las siguientes tareas:
+1. Devuelve las distancias mínimas desde s a todos los destinos; o 2. Detecta un ciclo negativo alcanzable desde s. Basado en Roughgarden, Algorithms Illuminated, cap. 18.
+
+

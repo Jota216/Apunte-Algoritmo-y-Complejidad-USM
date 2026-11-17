@@ -1,0 +1,267 @@
+Programación Dinámica
+Alineamiento de secuencias
+Prof. Raquel Pezoa Algoritmos y Complejidad -- INF221
+UTFSM, Casa Central
+
+Referencia
+Tim Roughgarden Algorithms Illuminated, Omnibus Edition (2022) Capítulo 17: Advanced Dynamic Programming
+INF221 · Algoritmos y Complejidad 2
+
+Alineamiento de secuencias
+ Entrada: dos cadenas sobre el alfabeto  = {A, C , G , T }.  Ejemplo: X = AGGGCT e Y = AGGCA.  Objetivo: determinar qué tan similares son las dos secuencias.
+AGGGCT AGG-CA
+Insertamos espacios (gaps) para comparar símbolos columna a columna.
+INF221 · Algoritmos y Complejidad 3
+
+¿Por qué es útil? (I)
+Bioinformática
+Comparar ADN, ARN o proteínas; identificar mutaciones, homologías y relaciones evolutivas.
+Procesamiento de lenguaje natural
+Comparar palabras o frases; corrección ortográfica y aplicaciones de traducción. acomodacion - acomodación
+INF221 · Algoritmos y Complejidad 4
+
+¿Por qué es útil? (II)
+Comparación de documentos
+Encontrar similitudes entre textos, aun con omisiones o inserciones.
+Reconocimiento de voz y música
+Alinear transcripciones, señales de audio y partituras cuando existen desfases. Idea común: encontrar una correspondencia de costo mínimo.
+INF221 · Algoritmos y Complejidad 5
+
+¿Cómo evaluamos una alineación?
+
+X AGG G C T Y AGG - C A Costo 0 0 0 gap 0 T ,A
+
+ x,y : penalización al enfrentar símbolos x e y .  gap: penalización por enfrentar un símbolo con un espacio.
+
+Costo total =
+
+penalización de la columna.
+
+columnas
+
+Buscamos la alineación de menor costo.
+
+INF221 · Algoritmos y Complejidad 6
+
+Problema: alineamiento de secuencias
+Entrada: cadenas X , Y sobre  = {A, C , G , T }; penalizaciones x,y y gap  0. Salida: una alineación de X e Y cuya penalización total sea mínima.
+Puntaje Needleman-Wunsch (NW)
+La mínima penalización posible entre las dos cadenas. Un puntaje pequeño indica mayor similitud bajo las penalizaciones elegidas.
+INF221 · Algoritmos y Complejidad 7
+
+Pregunta: ¿cuál es el puntaje NW?
+
+X = AGTACG
+ Costo por gap: gap = 1.  Costo por símbolos diferentes: 2.  Costo por símbolos iguales: 0.
+
+Y = ACATAG
+
+a) 3 b) 4 c) 5 d) 6
+
+INF221 · Algoritmos y Complejidad 8
+
+Pregunta: comparemos alineaciones
+
+Alineación A
+A-GTACG ACATA-G 1+2+1=4
+
+Alineación B
+AG-TACG ACATA-G 1+2+1=4
+
+¿Podemos conseguir un costo menor que 4?
+
+INF221 · Algoritmos y Complejidad 9
+
+Subestructura óptima: última columna
+Sea X = x1 · · · xm e Y = y1 · · · yn.
+
+xm yn
+Caso 1
+Dos símbolos
+
+xm -
+Caso 2 Gap en Y
+
+- yn
+Caso 3 Gap en X
+
+Toda alineación termina en uno de estos tres casos.
+
+INF221 · Algoritmos y Complejidad 10
+
+Tres posibilidades
+1. Símbolo-símbolo: xm frente a yn (coincidan o no). 2. Símbolo-gap: xm frente a un espacio; queda por alinear x1 . . . xm-1 con todo Y . 3. Gap-símbolo: un espacio frente a yn; queda por alinear todo X con y1 . . . yn-1.
+¿Qué subproblema queda en cada caso?
+INF221 · Algoritmos y Complejidad 11
+
+Caso 1: alinear los símbolos finales
+
+Definimos Pi,j como la penalización mínima de alinear los primeros i símbolos de X con los primeros j símbolos de Y .
+
+X  xm
+
+Y
+
+yn
+
+Pm-1,n-1
+
++
+
+xm ,yn
+
+alineamiento óptimo de los prefijos penalización de alinear xm,yn
+
+X  = x1 · · · xm-1,
+
+Y  = y1 · · · yn-1.
+
+INF221 · Algoritmos y Complejidad 12
+
+Casos 2 y 3: insertar un gap
+
+Caso 2: gap en Y
+
+X : x1 · · · xm-1
+
+xm
+
+Y:
+
+y1 · · · yn
+
+-
+
+Pm-1,n
+
+Caso 3: gap en X
+
+X:
+
+x1 · · · xm
+
+-
+
+Y : y1 · · · yn-1
+
+yn
+
+Pm,n-1
+
+Pm-1,n + gap
+
+Pm,n-1 + gap
+
+Se alinean los primeros m - 1 símbolos de X con todo Y .
+
+Se alinean todos los símbolos de X con los primeros n - 1 de Y .
+
+En ambos casos, los prefijos deben alinearse óptimamente.
+
+INF221 · Algoritmos y Complejidad 13
+
+Lema: subestructura óptima
+Un alineamiento óptimo de X = x1 · · · xm e Y = y1 · · · yn tiene una de estas formas: 1. Alineamiento óptimo de Xm-1 e Yn-1, seguido de (xm, yn). 2. Alineamiento óptimo de Xm-1 e Yn, seguido de (xm, gap). 3. Alineamiento óptimo de Xm e Yn-1, seguido de (gap, yn).
+INF221 · Algoritmos y Complejidad 14
+
+Corolario: recurrencia NW
+
+Definimos Pi,j como el costo mínimo de alinear los primeros i símbolos de X y los primeros j de Y .
+ Pi-1,j-1 + xi ,yj Pi,j = m´in Pi-1,j + gap
+Pi,j-1 + gap
+
+Pi,0 = i gap,
+
+P0,j = j gap.
+
+Para i = 1, . . . , m y j = 1, . . . , n.
+
+INF221 · Algoritmos y Complejidad 15
+
+¿Cuáles son los subproblemas?
+Pi ,j
+ Primeros i símbolos de X .  Primeros j símbolos de Y .  Valor guardado: mínima penalización para alinear esos prefijos.
+Matriz de tamaño (m + 1) × (n + 1). Como en Knapsack, necesitamos dos índices para identificar cada subproblema.
+INF221 · Algoritmos y Complejidad 16
+
+Algoritmo de programación dinámica
+
+Needleman-Wunsch: bottom-up
+
+A[0][0] = 0 para i = 1..m:
+A[i][0] = i * para j = 1..n:
+A[0][j] = j *
+
+// ambas vacías
+
+gap
+
+// Y vacía
+
+gap
+
+// X vacía
+
+para i = 1..m: para j = 1..n: A[i][j] = min( A[i-1][j-1] + alpha(x[i],y[j]), A[i-1][j] + gap, A[i][j-1] + gap)
+
+retornar A[m][n]
+
+INF221 · Algoritmos y Complejidad 17
+
+Algoritmo de programación dinámica
+
+Input: Secuencias X = x1, . . . , xm, Y = y1, . . . , yn, penalizaciones xi ,yj y gap. Output: Penalización mínima de alinear X e Y .
+
+A  arreglo bidimensional de (m + 1) × (n + 1)
+
+// Caso base 1: j = 0
+
+for i = 0 to m do
+
+A[i ][0]  i · gap
+
+end for
+
+// Caso base 2: i = 0
+
+for j = 0 to n do
+
+A[0][j]  j · gap
+
+end for
+
+// Resolver todos los subproblemas
+
+for i = 1 to m do
+
+for j = 1 to n do  A[i - 1][j - 1] + xi ,yj
+A[i ][j]  m´in  A[i - 1][j] + gap A[i ][j - 1] + gap
+
+(Caso 1) (Caso 2) (Caso 3)
+
+end for
+
+end for
+
+return A[m][n]
+
+INF221 · Algoritmos y Complejidad 18
+
+Teorema: complejidad de NW
+ Se calculan (m + 1)(n + 1) entradas de la matriz.  Cada entrada requiere O(1) operaciones.  Tiempo total: O(mn).  Espacio para la matriz: O(mn).
+T (m, n) = O(mn)
+La matriz completa permite reconstruir posteriormente una alineación óptima.
+INF221 · Algoritmos y Complejidad 19
+
+Reconstrucción: ¿qué decisión se tomó?
+Partimos en A[m][n] y retrocedemos según el caso que alcanzó el mínimo: 1. Diagonal (i - 1, j - 1): agregar (xi , yj ). 2. Arriba (i - 1, j): agregar (xi , gap). 3. Izquierda (i, j - 1): agregar (gap, yj ). En caso de empate, cualquiera de las decisiones óptimas sirve. Las columnas se obtienen en orden inverso.
+INF221 · Algoritmos y Complejidad 20
+
+Reconstrucción: casos base y costo
+ Si i = 0 y quedan símbolos de Y , alinearlos con gaps en X .  Si j = 0 y quedan símbolos de X , alinearlos con gaps en Y .  Invertir las columnas recuperadas para obtener la alineación final.
+Tiempo de reconstrucción = O(m + n).
+Resultado
+El algoritmo calcula el puntaje NW en O(mn) y permite recuperar una alineación óptima en O(m + n) adicional.
+INF221 · Algoritmos y Complejidad 21
+
+

@@ -37,13 +37,16 @@ Este documento es el registro central y vivo del proyecto de orquestación para 
 |---|---|---|
 | `01_mwis.pdf` | Programación Dinámica en grafos camino (MWIS) | 1. MWIS Memoizado (Top-down)<br>2. MWIS Tabulado (Bottom-up)<br>3. Reconstrucción del conjunto óptimo |
 | `02-Alg-Problemas.pdf` | Conceptos de algoritmos y ordenamiento | Selection Sort, MergeSort, HeapSort |
-| `03-Inv-Ciclos.pdf` | Invariantes de ciclos y multiplicación | 4. Exponenciación/Multiplicación Naive<br>5. Algoritmo Russian Peasant (Multiplicación Rusa) |
-| `04-Inv-Selection-updated.pdf` | Demostración e invariantes de Selection Sort | 6. Selection Sort funcional en C++ |
+| `03-alin-sec-updated.pdf` *(Nuevo)* | Alineamiento de Secuencias (Needleman-Wunsch) | 4. Needleman-Wunsch DP 2D<br>5. Reconstrucción de Alineamiento con Gaps |
+| `03-Inv-Ciclos.pdf` | Invariantes de ciclos y multiplicación | 6. Exponenciación/Multiplicación Naive<br>7. Algoritmo Russian Peasant (Multiplicación Rusa) |
+| `04-bellman-ford.pdf` *(Nuevo)* | Bellman-Ford como Programación Dinámica | 8. Bellman-Ford DP (Presupuesto de aristas)<br>9. Detección de Ciclos Negativos |
+| `04-Inv-Selection-updated.pdf` | Demostración e invariantes de Selection Sort | 10. Selection Sort funcional en C++ |
+| `05-arboles-busqueda.pdf` *(Nuevo)* | Árboles de Búsqueda Binaria Óptimos (OBST) | 11. Optimal BST DP de Intervalos<br>12. Reconstrucción de Árbol vía Raíces |
 | `05-Asintotic-Analysis.pdf` & `Propiedades_Notacion_Asintotica.pdf` | Notación asintótica O, Omega, Theta, o, omega | Propiedades algebraicas y tablas de crecimiento |
 | `06-TDAs-updated.pdf` | Tipos de Datos Abstractos y STL en C++ | Vector, List, Deque, Stack, Queue, Priority Queue, Set, Map, Hash tables |
-| `13-backtracking.pdf` & `13-ejercicio-backtracking.pdf` | Fundamentos Backtracking (Elegir, Explorar, Deshacer) | 7. Generación de Subconjuntos de tamaño k (`generarSubconjuntosK`) |
-| `14-backtracking.pdf` | Backtracking, Conjunto Potencia y Permutaciones | 8. Generación de Subconjuntos (Bitmask `1 << n`)<br>9. Generación de Subconjuntos Recursivo<br>10. Generación de Permutaciones con arreglo `usados` |
-| `15-ejercicio-tsp.pdf` & `15-tsp-knapsack.pdf` | Optimización y Podas con Backtracking | 11. TSP con Backtracking y Poda por mejor cota<br>12. Knapsack 0/1 con Backtracking y Poda<br>13. Permutaciones con `std::next_permutation` |
+| `13-backtracking.pdf` & `13-ejercicio-backtracking.pdf` | Fundamentos Backtracking (Elegir, Explorar, Deshacer) | 13. Generación de Subconjuntos de tamaño k (`generarSubconjuntosK`) |
+| `14-backtracking.pdf` | Backtracking, Conjunto Potencia y Permutaciones | 14. Generación de Subconjuntos (Bitmask `1 << n`)<br>15. Generación de Subconjuntos Recursivo<br>16. Generación de Permutaciones con arreglo `usados` |
+| `15-ejercicio-tsp.pdf` & `15-tsp-knapsack.pdf` | Optimización y Podas con Backtracking | 17. TSP con Backtracking y Poda por mejor cota<br>18. Knapsack 0/1 con Backtracking y Poda<br>19. Permutaciones con `std::next_permutation` |
 
 ### 3.2 Listados de Ejercicios (`Listado1` a `Listado4`) -> Alimenta Apunte 2 (32 ejercicios con solución oficial .cpp)
 - **Listado 1 (TDAs, Pilas, Colas, Deques, Listas, Hash):**
@@ -82,53 +85,69 @@ Este documento es el registro central y vivo del proyecto de orquestación para 
   30. `LostMap` (Árbol Recubridor Mínimo con Kruskal / Prim)
   31. `Shopaholic` (Greedy: ordenamiento descendente y tomar cada tercer elemento)
   32. `SquarePegInARoundHole` (Greedy matching de terrenos circulares y clavijas cuadradas/redondas)
+- **Listado 5 (Programación Dinámica Avanzada y Bellman-Ford - Nuevo):**
+  33. `HauntedGraveyard` (Bellman-Ford en grilla 2D con portales y detección de ciclos negativos)
+  34. `IncreasingSubsequence` (Longest Increasing Subsequence / LIS con DP y reconstrucción)
+  35. `Knapsack` (Mochila 0/1 clásica con reconstrucción de objetos seleccionados)
+  36. `PresidentialElections` (Knapsack de mínimo costo de votos para mayoría de delegados)
+  37. `RestauranOrders` (Mochila ilimitada / Coin Change con detección de ambigüedad e imposibilidad)
+  38. `SingleSoruceShortesPathNegativeWeights` (Bellman-Ford con propagación de ciclo negativo a `-Infinity`)
+  39. `SpidermansWorkout` (DP de alturas min-max con saltos de escalada y reconstrucción U/D)
 
 ### 3.3 Certámenes Anteriores (`Certamenes/`) -> Alimenta Apunte 2 (29 ejercicios resueltos íntegramente por el agente)
 - **Certamen 2024-02 (Torneo 2024 - 10 problemas):**
-  33. `C2_2024_02_P_A`: El oso negro (Mochila 0/1 con nombres con espacios) `[resuelto por el agente]`
-  34. `C2_2024_02_P_B`: Escaleras para salvar el ramo (DP caminos saltos 1, 2, 3) `[resuelto por el agente]`
-  35. `C2_2024_02_P_C`: Sebastián Tramposo (Greedy / menor permutación alfabética) `[resuelto por el agente]`
-  36. `C2_2024_02_P_D`: Anti-Hacking (Backtracking permutaciones sin letras adyacentes iguales) `[resuelto por el agente]`
-  37. `C2_2024_02_P_E`: Juego del Destino (Max Spanning Tree - Min Spanning Tree con Kruskal) `[resuelto por el agente]`
-  38. `C2_2024_02_P_F`: Viaje Intergaláctico (Greedy / DP recarga de combustible de ida y vuelta) `[resuelto por el agente]`
-  39. `C2_2024_02_P_G`: Uno más (Diagonalización de Cantor para strings binarios) `[resuelto por el agente]`
-  40. `C2_2024_02_P_H`: Juez de Gato (Simulación tablero 3x3) `[resuelto por el agente]`
-  41. `C2_2024_02_P_I`: Plagio (Normalización de cadenas y reemplazo de subcadena "jose") `[resuelto por el agente]`
-  42. `C2_2024_02_P_J`: Calle Mágica (0-1 BFS / Saltos gratuitos por coincidencia de carácter) `[resuelto por el agente]`
+  40. `C2_2024_02_P_A`: El oso negro (Mochila 0/1 con nombres con espacios) `[resuelto por el agente]`
+  41. `C2_2024_02_P_B`: Escaleras para salvar el ramo (DP caminos saltos 1, 2, 3) `[resuelto por el agente]`
+  42. `C2_2024_02_P_C`: Sebastián Tramposo (Greedy / menor permutación alfabética) `[resuelto por el agente]`
+  43. `C2_2024_02_P_D`: Anti-Hacking (Backtracking permutaciones sin letras adyacentes iguales) `[resuelto por el agente]`
+  44. `C2_2024_02_P_E`: Juego del Destino (Max Spanning Tree - Min Spanning Tree con Kruskal) `[resuelto por el agente]`
+  45. `C2_2024_02_P_F`: Viaje Intergaláctico (Greedy / DP recarga de combustible de ida y vuelta) `[resuelto por el agente]`
+  46. `C2_2024_02_P_G`: Uno más (Diagonalización de Cantor para strings binarios) `[resuelto por el agente]`
+  47. `C2_2024_02_P_H`: Juez de Gato (Simulación tablero 3x3) `[resuelto por el agente]`
+  48. `C2_2024_02_P_I`: Plagio (Normalización de cadenas y reemplazo de subcadena "jose") `[resuelto por el agente]`
+  49. `C2_2024_02_P_J`: Calle Mágica (0-1 BFS / Saltos gratuitos por coincidencia de carácter) `[resuelto por el agente]`
 - **Certamen 2025-01 (5 problemas):**
-  43. `C2_2025_01_P_A`: Flujos Parametrizados en Grafos (Agrupamiento con `map<double, vector<int>>`) `[resuelto por el agente]`
-  44. `C2_2025_01_P_B`: Red de la Resistencia (Kruskal Spanning Forest acíclico) `[resuelto por el agente]`
-  45. `C2_2025_01_P_C`: Roberto El Mago (Simulación de grafo funcional y ciclos de transformaciones) `[resuelto por el agente]`
-  46. `C2_2025_01_P_D`: Construyendo Antenas Telefónicas (MWIS en grafo camino O(N) DP) `[resuelto por el agente]`
-  47. `C2_2025_01_P_E`: ParenTalk (Longitud máxima de subcadena contigua de paréntesis balanceados) `[resuelto por el agente]`
+  50. `C2_2025_01_P_A`: Flujos Parametrizados en Grafos (Agrupamiento con `map<double, vector<int>>`) `[resuelto por el agente]`
+  51. `C2_2025_01_P_B`: Red de la Resistencia (Kruskal Spanning Forest acíclico) `[resuelto por el agente]`
+  52. `C2_2025_01_P_C`: Roberto El Mago (Simulación de grafo funcional y ciclos de transformaciones) `[resuelto por el agente]`
+  53. `C2_2025_01_P_D`: Construyendo Antenas Telefónicas (MWIS en grafo camino O(N) DP) `[resuelto por el agente]`
+  54. `C2_2025_01_P_E`: ParenTalk (Longitud máxima de subcadena contigua de paréntesis balanceados) `[resuelto por el agente]`
 - **Certamen 2025-02 (9 problemas):**
-  48. `C2_2025_02_P_A`: Slimes (Simulación voraz / absorción de slimes en pasillo) `[resuelto por el agente]`
-  49. `C2_2025_02_P_B`: Programación de Hechizos (Greedy Smith's Rule / Comparador w_i / p_i) `[resuelto por el agente]`
-  50. `C2_2025_02_P_C`: Log Pose (Navegación en grafo / componentes o BFS) `[resuelto por el agente]`
-  51. `C2_2025_02_P_D`: Torneo de Tenis de Mesa UTFSM (Greedy: ordenar y agrupar con diff <= D) `[resuelto por el agente]`
-  52. `C2_2025_02_P_E`: Championship (Backtracking con podas / DP memoizada para secuencia de K problemas) `[resuelto por el agente]`
-  53. `C2_2025_02_P_F`: Huevito Rey (DP o greedy de optimización de compras/recursos) `[resuelto por el agente]`
-  54. `C2_2025_02_P_G`: Convolucional (Matriz 2D y ventanas deslizantes) `[resuelto por el agente]`
-  55. `C2_2025_02_P_H`: SETeando Colores (Hash / bitmasks / conteo de tríos) `[resuelto por el agente]`
-  56. `C2_2025_02_P_I`: Alquimia (DP / combinatoria de transformaciones) `[resuelto por el agente]`
+  55. `C2_2025_02_P_A`: Slimes (Simulación voraz / absorción de slimes en pasillo) `[resuelto por el agente]`
+  56. `C2_2025_02_P_B`: Programación de Hechizos (Greedy Smith's Rule / Comparador w_i / p_i) `[resuelto por el agente]`
+  57. `C2_2025_02_P_C`: Log Pose (Navegación en grafo / componentes o BFS) `[resuelto por el agente]`
+  58. `C2_2025_02_P_D`: Torneo de Tenis de Mesa UTFSM (Greedy: ordenar y agrupar con diff <= D) `[resuelto por el agente]`
+  59. `C2_2025_02_P_E`: Championship (Backtracking con podas / DP memoizada para secuencia de K problemas) `[resuelto por el agente]`
+  60. `C2_2025_02_P_F`: Huevito Rey (DP o greedy de optimización de compras/recursos) `[resuelto por el agente]`
+  61. `C2_2025_02_P_G`: Convolucional (Matriz 2D y ventanas deslizantes) `[resuelto por el agente]`
+  62. `C2_2025_02_P_H`: SETeando Colores (Hash / bitmasks / conteo de tríos) `[resuelto por el agente]`
+  63. `C2_2025_02_P_I`: Alquimia (DP / combinatoria de transformaciones) `[resuelto por el agente]`
 - **Certamen 2026-01 (5 problemas):**
-  57. `C2_2026_01_P_A`: Jaime vs Bastián (Teoría de Juegos / Minimax / Paridad) `[resuelto por el agente]`
-  58. `C2_2026_01_P_B`: La Guardia de la Noche en Casa Central (Backtracking / Subconjuntos de tamaño K con incompatibilidad) `[resuelto por el agente]`
-  59. `C2_2026_01_P_C`: La Cadena de los Rumores (Grafo ponderado dirigido: camino máximo / detección de ciclos con Bellman-Ford/SPFA o Floyd-Warshall) `[resuelto por el agente]`
-  60. `C2_2026_01_P_D`: El Registro Oficial (Estructura de datos / map de eventos de fútbol) `[resuelto por el agente]`
-  61. `C2_2026_01_P_E`: El Mandaloriano y las Operaciones (Scheduling de dos agentes / greedy / knapsack) `[resuelto por el agente]`
+  64. `C2_2026_01_P_A`: Jaime vs Bastián (Teoría de Juegos / Minimax / Paridad) `[resuelto por el agente]`
+  65. `C2_2026_01_P_B`: La Guardia de la Noche en Casa Central (Backtracking / Subconjuntos de tamaño K con incompatibilidad) `[resuelto por el agente]`
+  66. `C2_2026_01_P_C`: La Cadena de los Rumores (Grafo ponderado dirigido: camino máximo / detección de ciclos con Bellman-Ford/SPFA o Floyd-Warshall) `[resuelto por el agente]`
+  67. `C2_2026_01_P_D`: El Registro Oficial (Estructura de datos / map de eventos de fútbol) `[resuelto por el agente]`
+  68. `C2_2026_01_P_E`: El Mandaloriano y las Operaciones (Scheduling de dos agentes / greedy / knapsack) `[resuelto por el agente]`
 
-Total ejercicios en Apunte 2: **61 problemas** (32 de listados con código oficial adaptado + 29 de certámenes resueltos íntegramente por el agente).
+Total ejercicios en Apunte 2: **68 problemas** (39 de listados con código oficial adaptado + 29 de certámenes resueltos íntegramente por el agente).
+
+### 3.4 Apunte Especializado 4 (`apunte_4_greedy_dp.pdf` - Nuevo)
+Documento focalizado en Algoritmos Greedy y Programación Dinámica (DP):
+- Metodología de discriminación rápida en examen (Greedy vs. DP).
+- Patrones canónicos de Greedy con plantillas C++.
+- Patrones canónicos de DP con plantillas C++ (1D, Knapsack, Strings, Grillas 2D, Intervalos y reconstrucción).
+- Ejemplos resueltos paso a paso: Idea -> Definición Formal -> Código C++ -> Errores comunes.
 
 ---
 
-## 4. ESTADO DE LOS SUBAGENTES
+## 4. ESTADO DE LOS SUBAGENTES (FASE 3)
 
 | Subagente | Asignación | Estado | Páginas Estimadas | Notas |
 |---|---|---|---|---|
-| **Subagente 1** | `apunte_1_algoritmos.pdf` | **TERMINADO** (`eb81696b`) | 6 págs | Diapositivas 01 a 15. 22 algoritmos en C++ funcional, complejidad, invariantes formales, demostraciones y anexo asintótico. Totalmente verificado. |
-| **Subagente 2** | `apunte_2_ejercicios.pdf` | **TERMINADO** (`c63917a0`) | 16 págs | 61 problemas completos (32 de listados 1-4 + 29 de certámenes resueltos por el agente). Índice temático al inicio, código C++ comentado, análisis asintótico y maquetación a 2 columnas. Totalmente verificado. |
-| **Subagente 3** | `apunte_3_cpp.pdf` | **TERMINADO** (`40e3b508`) | 9 págs | C++ cheat sheet exhaustivo: Fast I/O, 11 contenedores STL, 7 familias de algoritmos STL, 29 patrones competitivos y checklist de examen. Totalmente verificado. |
+| **Subagente 1** | `apunte_1_algoritmos.pdf` | **TERMINADO (Fase 3)** (`88211ca3`) | 9 págs | Actualizado con Needleman-Wunsch (Clase 03), Bellman-Ford DP (Clase 04) y Optimal BST (Clase 05). Total 27 algoritmos + fundamentos y demostraciones. Verificado. |
+| **Subagente 2** | `apunte_2_ejercicios.pdf` | **TERMINADO (Fase 3)** (`d4ace090`) | 19 págs | Actualizado con los 7 ejercicios de Listado 5 (total 68 problemas completos: 39 listados + 29 certámenes). Índice en pág 1 actualizado, maquetación compacta a 2 columnas. Verificado y compilado. |
+| **Subagente 3** | `apunte_3_cpp.pdf` | **TERMINADO (Fase 3)** (`b95fbc48`) | 10 págs | Incorporación de patrones DP con ambigüedad/imposibilidad, Bellman-Ford con propagación `-Infinity`, DP de intervalos (OBST/MCM), Needleman-Wunsch con traceback y DP min-max (Spiderman). Verificado y compilado. |
+| **Subagente 4** | `apunte_4_greedy_dp.pdf` | **TERMINADO (Fase 3)** (`9f1ec4e6`) | 8 págs | Creación desde cero de apunte especializado en Greedy y DP (Brújula de decisión 8D, metodología formal, plantillas de patrones, 8 ejemplos paso a paso con código y checklist de supervivencia anti-bugs). Verificado y compilado. |
 
 ---
 
@@ -146,7 +165,10 @@ Total ejercicios en Apunte 2: **61 problemas** (32 de listados con código ofici
 4. **Manejo de nombres con espacios y lectura en problemas como "El oso negro":**
    - *Causa:* En C2 2024-02 Problema A, el nombre del alimento tiene espacios antes de los dos enteros (VC e ISO).
    - *Solución:* Se documenta el patrón idiomático de C++ para parsear líneas con `getline(cin, line)` y `stringstream` extrayendo tokens finales en reversa o leyendo con regex.
+5. **Auditoría e Incorporación de Material de Fase 3:**
+   - *Causa:* Incorporación de 3 nuevos temas de cátedra (`03-alin-sec-updated.pdf`, `04-bellman-ford.pdf`, `05-arboles-busqueda.pdf`) y 7 nuevos problemas en `Listado5/`.
+   - *Solución:* Se extrajeron a `extracted_references/`, se actualizaron los apuntes 1, 2 y 3, y se creó el nuevo `apunte_4_greedy_dp.pdf` de 8 páginas dedicado a guiar al alumno desde la idea conceptual hasta el código C++ sin errores.
 
 ---
 
-*Última actualización: 2026-11-02 (Fase 2 Completada: Consolidación, Auditoría y Verificación Visual Exitosa)*
+*Última actualización: 2026-11-17 (Fase 3 Completada: Actualización y Consolidación de 4 Apuntes en PDF)*

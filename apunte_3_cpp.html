@@ -1091,30 +1091,46 @@ if ((int)topo_order.size() != n) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.5 Bellman-Ford y Detección de Ciclos Negativos</span>
+      <span>3.5 Bellman-Ford con Propagación de Ciclo Negativo (-Infinity)</span>
       <span class="badge">O(V &bull; E)</span>
     </div>
-    <p class="desc">Caminos mínimos con aristas de peso negativo y detección de ciclos alcanzables (Problema C: Rumores C2_2026_01):</p>
+    <p class="desc">Caminos mínimos con aristas de peso negativo y propagación de componentes infectadas a <code>-Infinity</code> (<code>SingleSoruceShortesPath...</code> Listado 5 y C2_2026_01 Problema C):</p>
 <pre class="code">struct EdgeBF { int u, v; long long w; };
-vector&lt;long long&gt; dist(n, INF64);
-dist[src] = 0;
+const long long INF = 1e18; // Usar 1e9 o 1e18 según rango
+int n, m;
+vector&lt;EdgeBF&gt; edges;
+vector&lt;long long&gt; dist(n, INF);
+vector&lt;bool&gt; neg(n, false);
 
-// Relajar aristas exactamente V - 1 veces:
-for (int i = 0; i < n - 1; ++i) {
-    for (const auto& e : edges) {
-        if (dist[e.u] < INF64 && dist[e.u] + e.w < dist[e.v]) {
-            dist[e.v] = dist[e.u] + e.w;
+void bellmanFord(int src) {
+    dist.assign(n, INF);
+    neg.assign(n, false);
+    dist[src] = 0;
+
+    // Fase 1: V - 1 relajaciones estándar calculando distancias mínimas
+    for (int i = 0; i &lt; n - 1; ++i) {
+        for (const auto&amp; e : edges) {
+            if (dist[e.u] != INF &amp;&amp; dist[e.u] + e.w &lt; dist[e.v]) {
+                dist[e.v] = dist[e.u] + e.w;
+                if (dist[e.v] &lt; -INF) dist[e.v] = -INF; // Prevenir underflow
+            }
+        }
+    }
+
+    // Fase 2: V - 1 pasadas adicionales propagando ciclo negativo a alcanzables
+    for (int i = 0; i &lt; n - 1; ++i) {
+        for (const auto&amp; e : edges) {
+            if (dist[e.u] != INF &amp;&amp; (neg[e.u] || dist[e.u] + e.w &lt; dist[e.v])) {
+                neg[e.v] = true;
+                dist[e.v] = -INF;
+            }
         }
     }
 }
-
-// 1 pasada adicional para detectar ciclos negativos:
-bool has_neg_cycle = false;
-for (const auto& e : edges) {
-    if (dist[e.u] < INF64 && dist[e.u] + e.w < dist[e.v]) {
-        has_neg_cycle = true; // e.v está en o es alcanzable desde un ciclo negativo
-    }
-}</pre>
+// Respuesta por nodo de consulta v:
+// if (neg[v]) cout &lt;&lt; "-Infinity\n";
+// else if (dist[v] == INF) cout &lt;&lt; "Impossible\n";
+// else cout &lt;&lt; dist[v] &lt;&lt; "\n";</pre>
   </div>
 
   <div class="card">
@@ -1383,7 +1399,185 @@ for (int i = n; i >= 1; --i) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.16 Backtracking: Subconjuntos de Tamaño K</span>
+      <span>3.16 DP Mochila Ilimitada: Detección de Ambigüedad e Imposibilidad (Centinelas)</span>
+      <span class="badge">O(N &bull; W)</span>
+    </div>
+    <p class="desc">Mochila ilimitada / Monedas distinguiendo soluciones <strong>Única</strong>, <strong>Ambigua</strong> o <strong>Imposible</strong> (<code>RestaurantOrders</code> Listado 5):</p>
+<pre class="code">const int IMPOSSIBLE = -2, AMBIGUOUS = -1;
+int MAX_W = 30000;
+vector&lt;int&gt; dp(MAX_W + 1, IMPOSSIBLE);
+dp[0] = 0; // Base: suma 0 es factible unívocamente
+
+// Transición Unbounded Knapsack (bucle exterior por ítem, interior x creciente):
+for (int i = 0; i &lt; n; ++i) {
+    int p = cost[i], id = i + 1; // ID 1-based del ítem
+    for (int x = p; x &lt;= MAX_W; ++x) {
+        if (dp[x - p] != IMPOSSIBLE) {
+            if (dp[x - p] == AMBIGUOUS) {
+                dp[x] = AMBIGUOUS; // Antecesor ambiguo contagia ambigüedad
+            } else if (dp[x] == IMPOSSIBLE) {
+                dp[x] = id;        // Primera combinación única válida hallada
+            } else {
+                dp[x] = AMBIGUOUS; // Múltiples combinaciones distintas hacia x
+            }
+        }
+    }
+}
+
+// Reconstrucción determinista voraz de la orden en O(S) por consulta:
+void responderOrden(int s, const vector&lt;int&gt;&amp; cost) {
+    if (dp[s] == IMPOSSIBLE)      cout &lt;&lt; "Impossible\n";
+    else if (dp[s] == AMBIGUOUS)  cout &lt;&lt; "Ambiguous\n";
+    else {
+        vector&lt;int&gt; items;
+        while (s &gt; 0) {
+            int id = dp[s];
+            items.push_back(id);
+            s -= cost[id - 1]; // Retroceder restando el costo exacto
+        }
+        sort(items.begin(), items.end());
+        for (int i = 0; i &lt; (int)items.size(); ++i)
+            cout &lt;&lt; items[i] &lt;&lt; (i + 1 == (int)items.size() ? "" : " ");
+        cout &lt;&lt; "\n";
+    }
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.17 DP Alineamiento Global (Needleman-Wunsch) y Traceback</span>
+      <span class="badge">O(M &bull; N)</span>
+    </div>
+    <p class="desc">Alineamiento de secuencias con penalización por mismatch $\alpha_{sub}$ y por gap $\alpha_{gap}$ (Clase 03):</p>
+<pre class="code">void needlemanWunsch(const string&amp; X, const string&amp; Y, int gap, int mismatch) {
+    int m = X.size(), n = Y.size();
+    vector&lt;vector&lt;int&gt;&gt; dp(m + 1, vector&lt;int&gt;(n + 1, 0));
+
+    // Casos base: alinear prefijo contra string vacío requiere i o j gaps:
+    for (int i = 0; i &lt;= m; ++i) dp[i][0] = i * gap;
+    for (int j = 0; j &lt;= n; ++j) dp[0][j] = j * gap;
+
+    for (int i = 1; i &lt;= m; ++i) {
+        for (int j = 1; j &lt;= n; ++j) {
+            int match_cost = (X[i - 1] == Y[j - 1] ? 0 : mismatch);
+            dp[i][j] = min({dp[i - 1][j - 1] + match_cost, // Diagonal (match / mismatch)
+                            dp[i - 1][j] + gap,             // Gap en Y (arriba)
+                            dp[i][j - 1] + gap});           // Gap en X (izquierda)
+        }
+    }
+
+    // Reconstrucción Traceback desde (m, n) hasta (0, 0) en O(m + n):
+    string ax = "", ay = "";
+    int i = m, j = n;
+    while (i &gt; 0 || j &gt; 0) {
+        int match_cost = (i &gt; 0 &amp;&amp; j &gt; 0) ? (X[i - 1] == Y[j - 1] ? 0 : mismatch) : 1e9;
+        if (i &gt; 0 &amp;&amp; j &gt; 0 &amp;&amp; dp[i][j] == dp[i - 1][j - 1] + match_cost) {
+            ax += X[i - 1]; ay += Y[j - 1]; i--; j--;
+        } else if (i &gt; 0 &amp;&amp; dp[i][j] == dp[i - 1][j] + gap) {
+            ax += X[i - 1]; ay += '-'; i--;
+        } else {
+            ax += '-'; ay += Y[j - 1]; j--;
+        }
+    }
+    reverse(ax.begin(), ax.end());
+    reverse(ay.begin(), ay.end());
+    // ax y ay contienen las secuencias alineadas óptimamente
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.18 DP de Intervalos (Interval DP: OBST y Matrix Chain)</span>
+      <span class="badge">O(N^3) Tiempo / O(N^2) Espacio</span>
+    </div>
+    <p class="desc">Estructura canónica de 3 bucles para intervalos contiguos $[i, j]$ (Clase 05 Árboles Óptimos y MCM):</p>
+<pre class="code">// Optimal Binary Search Tree (OBST) con frecuencias p[0..n-1]:
+int n;
+vector&lt;double&gt; p(n), pref(n + 1, 0.0);
+for (int i = 0; i &lt; n; ++i) pref[i + 1] = pref[i] + p[i]; // Prefix sums para O(1)
+
+vector&lt;vector&lt;double&gt;&gt; dp(n + 2, vector&lt;double&gt;(n + 2, 0.0));
+vector&lt;vector&lt;int&gt;&gt; root(n + 1, vector&lt;int&gt;(n + 1, -1));
+
+// Patrón Canónico de 3 Bucles de Interval DP:
+for (int len = 1; len &lt;= n; ++len) {       // 1. Longitud del intervalo
+    for (int i = 0; i &lt;= n - len; ++i) { // 2. Extremo izquierdo
+        int j = i + len - 1;             // Extremo derecho
+        dp[i][j] = 1e18;
+        double sum_p = pref[j + 1] - pref[i]; // Suma de frecuencias en [i, j]
+
+        for (int k = i; k &lt;= j; ++k) {   // 3. Pivote o raíz r
+            double left_c  = (k &gt; i) ? dp[i][k - 1] : 0.0;
+            double right_c = (k &lt; j) ? dp[k + 1][j] : 0.0;
+            double total_c = sum_p + left_c + right_c;
+
+            if (total_c &lt; dp[i][j]) {
+                dp[i][j] = total_c;
+                root[i][j] = k; // Almacena raíz elegida para reconstrucción
+            }
+        }
+    }
+}
+
+// Reconstrucción del Árbol Binario Óptimo en O(N):
+void buildTree(int i, int j, int parent = -1, string dir = "root") {
+    if (i &gt; j) return;
+    int r = root[i][j];
+    // Nodo r es hijo (dir) de parent
+    buildTree(i, r - 1, r, "izq");
+    buildTree(r + 1, j, r, "der");
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.19 DP Min-Max de Alturas con Saltos de Escalada y Reconstrucción</span>
+      <span class="badge">O(M &bull; H_MAX)</span>
+    </div>
+    <p class="desc">Minimizar la altura pico alcanzada sujeta a no descender de 0 y terminar en 0 (<code>SpidermansWorkout</code> Listado 5):</p>
+<pre class="code">const int INF = 1e9 + 7;
+int m;
+vector&lt;int&gt; d; // Distancias de cada paso d[i]
+int memo[45][1005]; // memo[paso][altura_actual]
+
+int solve(int i, int h) {
+    if (i == m) return (h == 0) ? 0 : INF; // Debe finalizar a nivel de suelo
+    if (memo[i][h] != -1) return memo[i][h];
+
+    int res_up = INF, res_down = INF;
+    if (h + d[i] &lt;= 1000) { // Subir: pico es el máximo entre nueva altura y el futuro
+        res_up = max(h + d[i], solve(i + 1, h + d[i]));
+    }
+    if (h - d[i] &gt;= 0) {    // Bajar: restringido a nunca quedar bajo nivel de suelo
+        res_down = max(h - d[i], solve(i + 1, h - d[i]));
+    }
+    return memo[i][h] = min(res_up, res_down);
+}
+
+// Reconstrucción evaluando deterministamente la mejor opción en cada paso:
+string reconstruirTrayectoria() {
+    memset(memo, -1, sizeof(memo));
+    if (solve(0, 0) &gt;= INF) return "IMPOSSIBLE";
+    string path = "";
+    int h = 0;
+    for (int i = 0; i &lt; m; ++i) {
+        int res_up = INF;
+        if (h + d[i] &lt;= 1000) res_up = max(h + d[i], solve(i + 1, h + d[i]));
+        if (res_up == memo[i][h]) {
+            path += 'U';
+            h += d[i];
+        } else {
+            path += 'D';
+            h -= d[i];
+        }
+    }
+    return path;
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>3.20 Backtracking: Subconjuntos de Tamaño K</span>
       <span class="badge">Clase 13 y 14</span>
     </div>
     <p class="desc">Patrón Elegir &rarr; Explorar &rarr; Deshacer (La Guardia de la Noche C2_2026_01):</p>
@@ -1407,7 +1601,7 @@ void generarSubconjuntosK(int idx, int k, const vector&lt;int&gt;& elems) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.17 Backtracking: TSP Exacto con Podas</span>
+      <span>3.21 Backtracking: TSP Exacto con Podas</span>
       <span class="badge">Clase 15</span>
     </div>
     <p class="desc">Búsqueda exhaustiva del Ciclo Hamiltoniano Óptimo podando ramas con costo $ge$ mejor actual:</p>
@@ -1438,7 +1632,7 @@ void tsp(int u, int count, long long current_cost) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.18 Movimientos en Grilla 2D (Grid Traversal)</span>
+      <span>3.22 Movimientos en Grilla 2D (Grid Traversal)</span>
       <span class="badge">dx / dy</span>
     </div>
     <p class="desc">Vectores de desplazamiento y función de validación de bordes:</p>
@@ -1470,7 +1664,7 @@ for (int d = 0; d < 4; ++d) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.19 Manipulación de Bits y Bitmasks</span>
+      <span>3.23 Manipulación de Bits y Bitmasks</span>
       <span class="badge">Bitwise</span>
     </div>
     <p class="desc">Representación de subconjuntos de $N le 30$ elementos ($1 ll N$ estados):</p>
@@ -1499,7 +1693,7 @@ bool esPot2 = (x > 0) && ((x & (x - 1)) == 0);</pre>
 
   <div class="card">
     <div class="card-title">
-      <span>3.20 Compresión de Coordenadas</span>
+      <span>3.24 Compresión de Coordenadas</span>
       <span class="badge">Técnica Vital</span>
     </div>
     <p class="desc">Reduce valores grandes y dispersos (ej. $x in [-10^9, 10^9]$) al rango $[0, K-1]$ continuo:</p>
@@ -1517,7 +1711,7 @@ auto getID = [&](long long val) -> int {
 
   <div class="card">
     <div class="card-title">
-      <span>3.21 Plantilla: Búsqueda Binaria sobre la Respuesta</span>
+      <span>3.25 Plantilla: Búsqueda Binaria sobre la Respuesta</span>
       <span class="badge">Monotonía</span>
     </div>
     <p class="desc">Para problemas de optimización donde el predicado <code>check(x)</code> es monótono:</p>
@@ -1541,7 +1735,7 @@ while (lo <= hi) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.22 Dos Punteros y Ventana Deslizante</span>
+      <span>3.26 Dos Punteros y Ventana Deslizante</span>
       <span class="badge">O(N)</span>
     </div>
     <p class="desc"><span class="highlight">1. Dos punteros opuestos (Suma de pares en vector ordenado):</span></p>
@@ -1567,7 +1761,7 @@ for (int r = 0; r < n; ++r) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.23 Tipos Numéricos, Overflow y Aritmética Modular</span>
+      <span>3.27 Tipos Numéricos, Overflow y Aritmética Modular</span>
       <span class="badge">Prevención WA</span>
     </div>
     <table class="ctable">
@@ -1607,7 +1801,7 @@ long long inv(long long n) { return power(n, MOD - 2); }
 
   <div class="card">
     <div class="card-title">
-      <span>3.24 Criba de Eratóstenes y Factorización O(log N)</span>
+      <span>3.28 Criba de Eratóstenes y Factorización O(log N)</span>
       <span class="badge">Teoría Números</span>
     </div>
     <p class="desc">Precalcula el Menor Factor Primo (SPF = Smallest Prime Factor) en $O(N log log N)$:</p>
@@ -1637,7 +1831,7 @@ vector&lt;int&gt; getFactors(int x) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.25 String Hashing Polinomial en O(1)</span>
+      <span>3.29 String Hashing Polinomial en O(1)</span>
       <span class="badge">Subcadenas</span>
     </div>
     <p class="desc">Compara subcadenas en tiempo $O(1)$ tras preprocesamiento $O(N)$ con hash rodante:</p>
@@ -1664,7 +1858,7 @@ vector&lt;int&gt; getFactors(int x) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.26 KMP (Knuth-Morris-Pratt) y Función Prefijo &pi;</span>
+      <span>3.30 KMP (Knuth-Morris-Pratt) y Función Prefijo &pi;</span>
       <span class="badge">Matching O(N + M)</span>
     </div>
     <p class="desc">Calcula el prefijo más largo que también es sufijo para cada posición:</p>
@@ -1686,7 +1880,7 @@ vector&lt;int&gt; getFactors(int x) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.27 Primitivas de Geometría Computacional 2D</span>
+      <span>3.31 Primitivas de Geometría Computacional 2D</span>
       <span class="badge">Geometría</span>
     </div>
     <p class="desc">Vectores 2D, producto cruz y orientación de giros en el plano:</p>
@@ -1707,7 +1901,7 @@ long long distSq(Point a, Point b) { return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y
 
   <div class="card">
     <div class="card-title">
-      <span>3.28 Teoría de Juegos: Juego de Nim y Sprague-Grundy</span>
+      <span>3.32 Teoría de Juegos: Juego de Nim y Sprague-Grundy</span>
       <span class="badge">Jaime vs Bastián C2_2026_01</span>
     </div>
     <p class="desc">En juegos imparciales con regla normal de juego (último jugador en mover gana):</p>
@@ -1726,7 +1920,7 @@ if (xor_sum != 0) {
 
   <div class="card">
     <div class="card-title">
-      <span>3.29 Imprimir __int128_t en C++</span>
+      <span>3.33 Imprimir __int128_t en C++</span>
       <span class="badge">IO 128-bits</span>
     </div>
     <p class="desc"><code>cin</code> y <code>cout</code> no soportan <code>__int128_t</code> por defecto. Usar función recursiva:</p>

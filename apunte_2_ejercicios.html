@@ -233,14 +233,14 @@
     <h1>Compendio de Ejercicios Resueltos de Listados y Certámenes</h1>
     <div class="subtitle">INF-221 Algoritmos y Complejidad | Universidad Técnica Federico Santa María</div>
     <div class="meta-bar">
-      <span><strong>Contenido:</strong> 61 Problemas Completos (32 Listados 1-4 + 29 Certámenes 2024-02 a 2026-01)</span>
+      <span><strong>Contenido:</strong> 68 Problemas Completos (39 Listados 1-5 + 29 Certámenes 2024-02 a 2026-01)</span>
       <span><strong>Edición Examen:</strong> Código C++ con Fast I/O, Análisis Asintótico y Soluciones Explicadas</span>
     </div>
   </div>
 
   <!-- ÍNDICE GENERAL TEMÁTICO -->
   <div class="toc-section">
-    <div class="toc-title">Índice General Temático (61 Problemas Resueltos)</div>
+    <div class="toc-title">Índice General Temático (68 Problemas Resueltos)</div>
     <div class="toc-grid">
       <div class="toc-group">
         <div class="toc-group-title">TEMA 1 (16 probs)</div>
@@ -451,7 +451,7 @@
         </div>
       </div>
       <div class="toc-group">
-        <div class="toc-group-title">TEMA 5 (6 probs)</div>
+        <div class="toc-group-title">TEMA 5 (11 probs)</div>
         <div class="toc-item">
           <span class="toc-item-title">#50 El oso negro</span>
           <span class="toc-item-origin">Certamen 2024-02 #A*</span>
@@ -476,9 +476,29 @@
           <span class="toc-item-title">#55 Alquimia</span>
           <span class="toc-item-origin">Certamen 2025-02 #I*</span>
         </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#62 Increasing Subsequence</span>
+          <span class="toc-item-origin">Listado 5 #E</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#63 Knapsack</span>
+          <span class="toc-item-origin">Listado 5 #A</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#64 Presidential Elections</span>
+          <span class="toc-item-origin">Listado 5 #C</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#65 Restaurant Orders</span>
+          <span class="toc-item-origin">Listado 5 #B</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#66 Spiderman's Workout</span>
+          <span class="toc-item-origin">Listado 5 #D</span>
+        </div>
       </div>
       <div class="toc-group">
-        <div class="toc-group-title">TEMA 6 (6 probs)</div>
+        <div class="toc-group-title">TEMA 6 (8 probs)</div>
         <div class="toc-item">
           <span class="toc-item-title">#56 Lost Map</span>
           <span class="toc-item-origin">Listado 4 #6</span>
@@ -502,6 +522,14 @@
         <div class="toc-item">
           <span class="toc-item-title">#61 La Cadena de los Rumores</span>
           <span class="toc-item-origin">Certamen 2026-01 #C*</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#67 Haunted Graveyard</span>
+          <span class="toc-item-origin">Listado 5 #F</span>
+        </div>
+        <div class="toc-item">
+          <span class="toc-item-title">#68 SSSP Negative Weights</span>
+          <span class="toc-item-origin">Listado 5 #G</span>
         </div>
       </div>
     </div>
@@ -3668,6 +3696,389 @@ int main() {
 }</code></pre>
       </div>
     </div>
+    <div class="exercise-card" id="L5_E">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#62</span>
+          <span class="ex-title">Increasing Subsequence</span>
+        </div>
+        <span class="ex-badge ">Listado 5 #E</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Se da una secuencia de n enteros (1 &lt;= n &lt;= 200, valores en [0, 10^8]). Encontrar la longitud máxima de una subsecuencia estrictamente creciente (LIS) y reconstruir los valores de la subsecuencia que sea lexicográficamente menor. Múltiples casos de prueba terminados en n = 0.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica Top-Down con Memoización `memo[i][prev_i]` + Reconstrucción Voraz Lexicográfica. Se calcula el tamaño de la LIS óptima; para reconstruir, se itera seleccionando en cada paso el menor valor a[j] que satisfaga `1 + resolver(j+1, j) == faltan` para asegurar el orden lexicográfico mínimo.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n^2) por caso</span>
+          <span><strong>Espacio:</strong> O(n^2)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int n;
+int a[205];
+int memo[205][205];
+
+int resolver(int i, int prev_i) {
+    if (i == n + 1) return 0;
+    if (memo[i][prev_i] != -1) return memo[i][prev_i];
+
+    // Opcion 1: No incluir a[i]
+    int res = resolver(i + 1, prev_i);
+    // Opcion 2: Incluir a[i] si es estrictamente mayor que el anterior
+    if (prev_i == 0 || a[i] &gt; a[prev_i]) {
+        res = max(res, 1 + resolver(i + 1, i));
+    }
+    return memo[i][prev_i] = res;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    while (cin &gt;&gt; n &amp;&amp; n != 0) {
+        for (int i = 1; i &lt;= n; ++i) cin &gt;&gt; a[i];
+        memset(memo, -1, sizeof(memo));
+        int faltan = resolver(1, 0);
+        cout &lt;&lt; faltan;
+
+        int prev_i = 0;
+        // Reconstruccion voraz: elegir siempre el menor a[j] lexicografico valido
+        while (faltan &gt; 0) {
+            int mejor_j = -1;
+            for (int j = prev_i + 1; j &lt;= n; ++j) {
+                if (prev_i == 0 || a[j] &gt; a[prev_i]) {
+                    if (1 + resolver(j + 1, j) == faltan) {
+                        if (mejor_j == -1 || a[j] &lt; a[mejor_j]) {
+                            mejor_j = j;
+                        }
+                    }
+                }
+            }
+            cout &lt;&lt; " " &lt;&lt; a[mejor_j];
+            prev_i = mejor_j;
+            faltan--;
+        }
+        cout &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L5_A">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#63</span>
+          <span class="ex-title">Knapsack</span>
+        </div>
+        <span class="ex-badge ">Listado 5 #A</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Mochila 0/1 clásica con capacidad entera C (1 &lt;= C &lt;= 2000) y n objetos (1 &lt;= n &lt;= 2000), cada uno con valor v_i y peso w_i (1 &lt;= v_i, w_i &lt;= 10000). Seleccionar un subconjunto de objetos de valor total máximo sin exceder la capacidad C. Imprimir el conteo de objetos elegidos y sus índices (0-based).
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica Tabulada 2D `dp[i][w]` + Traceback. Tabla de tamaño (n+1) x (C+1) donde cada estado evalúa incluir o excluir el objeto i-1. Luego se reconstruye la solución óptima desde (n, C) hacia atrás comprobando si el valor difiere de la fila anterior.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * C) por caso</span>
+          <span><strong>Espacio:</strong> O(n * C)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int C, n;
+    while (cin &gt;&gt; C &gt;&gt; n) {
+        vector&lt;int&gt; val(n), wt(n);
+        for (int i = 0; i &lt; n; ++i) cin &gt;&gt; val[i] &gt;&gt; wt[i];
+
+        // dp[i][w] = maximo valor usando subconjunto de los primeros i objetos con peso w
+        vector&lt;vector&lt;int&gt;&gt; dp(n + 1, vector&lt;int&gt;(C + 1, 0));
+        for (int i = 1; i &lt;= n; ++i) {
+            int v = val[i - 1], w_item = wt[i - 1];
+            for (int w = 0; w &lt;= C; ++w) {
+                dp[i][w] = dp[i - 1][w];
+                if (w &gt;= w_item) {
+                    dp[i][w] = max(dp[i][w], dp[i - 1][w - w_item] + v);
+                }
+            }
+        }
+
+        // Reconstruccion de indices elegidos mediante traceback desde dp[n][C]
+        vector&lt;int&gt; chosen;
+        int curr_w = C;
+        for (int i = n; i &gt;= 1; --i) {
+            if (dp[i][curr_w] != dp[i - 1][curr_w]) {
+                chosen.push_back(i - 1);
+                curr_w -= wt[i - 1];
+            }
+        }
+
+        cout &lt;&lt; chosen.size() &lt;&lt; "\n";
+        for (size_t i = 0; i &lt; chosen.size(); ++i) {
+            cout &lt;&lt; chosen[i] &lt;&lt; (i + 1 == chosen.size() ? "" : " ");
+        }
+        cout &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L5_C">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#64</span>
+          <span class="ex-title">Presidential Elections</span>
+        </div>
+        <span class="ex-badge ">Listado 5 #C</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> En Marecia hay S estados. Cada estado otorga d_i delegados (total &lt;= 2016) y tiene c_i votantes del partido Constituents, f_i del partido Federals y u_i indecisos. Un candidato gana todos los d_i delegados de un estado si obtiene mayoría estricta de votos (&gt; total/2; empates favorecen a Federals). Hallar el mínimo de indecisos a convencer en total para que Constituents alcance la mayoría estricta nacional de delegados (&gt; delegados_totales/2), o imprimir 'impossible'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Reducción a Knapsack 0/1 de Costo Mínimo. Cada estado ganable representa un ítem con ganancia de d_i delegados y costo `meta - c_i` votos. `dp[j]` mantiene el mínimo de votos necesarios para acumular exactamente j delegados, iterando j en reversa. La solución es el mínimo `dp[j]` para `j &gt;= delegados_necesarios`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(S * D_total)</span>
+          <span><strong>Espacio:</strong> O(D_total)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+const int INF = 1e9 + 7;
+int dp[2025]; // Maximo 2016 delegados en total
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int S;
+    if (!(cin &gt;&gt; S)) return 0;
+
+    for (int j = 1; j &lt; 2025; ++j) dp[j] = INF;
+    dp[0] = 0;
+
+    int delegados_totales = 0;
+    for (int i = 0; i &lt; S; ++i) {
+        int d, c, f, u;
+        cin &gt;&gt; d &gt;&gt; c &gt;&gt; f &gt;&gt; u;
+        delegados_totales += d;
+
+        int total_estado = c + f + u;
+        int meta = (total_estado / 2) + 1; // Mayoria estricta requerida
+
+        int costo = -1;
+        if (c &gt;= meta) {
+            costo = 0; // Ya se gana el estado sin persuadir
+        } else if (c + u &gt;= meta) {
+            costo = meta - c; // Minimo de indecisos necesarios
+        }
+
+        // Knapsack 0/1 inverso: minimizar votos para obtener j delegados
+        if (costo != -1) {
+            for (int j = delegados_totales; j &gt;= d; --j) {
+                if (dp[j - d] != INF) {
+                    dp[j] = min(dp[j], dp[j - d] + costo);
+                }
+            }
+        }
+    }
+
+    int delegados_necesarios = (delegados_totales / 2) + 1;
+    int respuesta = INF;
+    for (int j = delegados_necesarios; j &lt;= delegados_totales; ++j) {
+        respuesta = min(respuesta, dp[j]);
+    }
+
+    if (respuesta == INF) cout &lt;&lt; "impossible\n";
+    else cout &lt;&lt; respuesta &lt;&lt; "\n";
+
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L5_B">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#65</span>
+          <span class="ex-title">Restaurant Orders</span>
+        </div>
+        <span class="ex-badge ">Listado 5 #B</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Menú con n platos (n &lt;= 100, precios c_i &lt;= 1000). Se reciben m pedidos (m &lt;= 1000) con costos totales s_j &lt;= 30000. Para cada orden, determinar si la cuenta se puede pagar exactamente con una combinación de platos: si es única, imprimir los números de platos en orden ascendente; si hay múltiples, imprimir 'Ambiguous'; si no se puede pagar, imprimir 'Impossible'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Unbounded Knapsack / Monedas con Detección de Ambigüedad. Arreglo `dp[x]` codificado: `-2` (imposible), `-1` (ambiguo) o `id_plato` (1-based) para solución única. Para cada plato se relajan montos crecientemente; si un monto ya era alcanzable, se marca ambiguo. La reconstrucción iterativa sigue los punteros de `dp[s]`.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * MAX_S + m * (MAX_S / min_c))</span>
+          <span><strong>Espacio:</strong> O(MAX_S)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin &gt;&gt; n)) return 0;
+    vector&lt;int&gt; carta(n);
+    for (int i = 0; i &lt; n; ++i) cin &gt;&gt; carta[i];
+
+    int m;
+    cin &gt;&gt; m;
+    vector&lt;int&gt; orden(m);
+    for (int i = 0; i &lt; m; ++i) cin &gt;&gt; orden[i];
+
+    const int MAX_MONTO = 30000;
+    // dp[x]: -2 = imposible, -1 = ambiguo, &gt;= 0 = plato_id unico
+    vector&lt;int&gt; dp(MAX_MONTO + 1, -2);
+    dp[0] = 0;
+
+    for (int i = 0; i &lt; n; ++i) {
+        int precio = carta[i];
+        int num_plato = i + 1;
+        for (int x = precio; x &lt;= MAX_MONTO; ++x) {
+            if (dp[x - precio] != -2) {
+                if (dp[x - precio] == -1) {
+                    dp[x] = -1; // Antecesor ambiguo propaga ambiguedad
+                } else if (dp[x] == -2) {
+                    dp[x] = num_plato; // Primera combinacion valida encontrada
+                } else {
+                    dp[x] = -1; // Segunda combinacion distinta -&gt; ambiguo
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i &lt; m; ++i) {
+        int s = orden[i];
+        if (dp[s] == -2) {
+            cout &lt;&lt; "Impossible\n";
+        } else if (dp[s] == -1) {
+            cout &lt;&lt; "Ambiguous\n";
+        } else {
+            vector&lt;int&gt; respuesta;
+            while (s &gt; 0) {
+                int plato_usado = dp[s];
+                respuesta.push_back(plato_usado);
+                s -= carta[plato_usado - 1];
+            }
+            sort(respuesta.begin(), respuesta.end());
+            for (size_t j = 0; j &lt; respuesta.size(); ++j) {
+                cout &lt;&lt; respuesta[j] &lt;&lt; (j + 1 == respuesta.size() ? "" : " ");
+            }
+            cout &lt;&lt; "\n";
+        }
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L5_D">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#66</span>
+          <span class="ex-title">Spiderman's Workout</span>
+        </div>
+        <span class="ex-badge ">Listado 5 #D</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Spiderman entrena escalando una secuencia de M distancias d_1, ..., d_M (M &lt;= 40, suma &lt;= 1000). Debe comenzar a nivel del suelo (altura 0) y terminar exactamente en altura 0. Nunca puede estar a una altura negativa ni superar 1000 m. Hallar la secuencia de subidas ('U') y bajadas ('D') que minimice la altura máxima alcanzada durante todo el entrenamiento, o imprimir 'IMPOSSIBLE'.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Programación Dinámica Min-Max con Memoización `memo[i][h]` + Reconstrucción. El estado (i, h) retorna la menor altura pico requerida para terminar en 0 desde el paso i estando en altura h. En cada paso se evalúa subir y bajar con `max(h_nuevo, resolver_futuro)` y se toma el mínimo; luego se reconstruye la trayectoria óptima.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(M * H_MAX) por caso</span>
+          <span><strong>Espacio:</strong> O(M * H_MAX)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+const int INF = 1e9 + 7;
+int M;
+int d[45];
+int memo[45][1005];
+
+int resolver(int i, int h) {
+    if (i == M) return (h == 0 ? 0 : INF);
+    if (memo[i][h] != -1) return memo[i][h];
+
+    int res_subir = INF;
+    if (h + d[i] &lt;= 1000) {
+        res_subir = max(h + d[i], resolver(i + 1, h + d[i]));
+    }
+
+    int res_bajar = INF;
+    if (h - d[i] &gt;= 0) {
+        res_bajar = max(h - d[i], resolver(i + 1, h - d[i]));
+    }
+
+    return memo[i][h] = min(res_subir, res_bajar);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int N;
+    if (!(cin &gt;&gt; N)) return 0;
+    while (N--) {
+        cin &gt;&gt; M;
+        for (int j = 0; j &lt; M; ++j) cin &gt;&gt; d[j];
+
+        memset(memo, -1, sizeof(memo));
+        int res = resolver(0, 0);
+
+        if (res &gt;= INF) {
+            cout &lt;&lt; "IMPOSSIBLE\n";
+        } else {
+            int h = 0;
+            for (int k = 0; k &lt; M; ++k) {
+                int res_subir = INF;
+                if (h + d[k] &lt;= 1000) {
+                    res_subir = max(h + d[k], resolver(k + 1, h + d[k]));
+                }
+                if (res_subir == memo[k][h]) {
+                    cout &lt;&lt; 'U';
+                    h += d[k];
+                } else {
+                    cout &lt;&lt; 'D';
+                    h -= d[k];
+                }
+            }
+            cout &lt;&lt; "\n";
+        }
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
     <div class="theme-header">
       <h2>TEMA 6: Grafos, Árboles Recubridores (MST) y Conectividad</h2>
       <div class="desc">Representación de grafos, recorridos (BFS/DFS), caminos más cortos (Bellman-Ford, Floyd-Warshall) y árboles recubridores mínimos/máximos (Kruskal/Prim).</div>
@@ -4087,6 +4498,184 @@ int main() {
         cout &lt;&lt; "\n";
     }
 
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L5_F">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#67</span>
+          <span class="ex-title">Haunted Graveyard</span>
+        </div>
+        <span class="ex-badge ">Listado 5 #F</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Cuadrícula de W x H celdas (1 &lt;= W, H &lt;= 30). Entrada en (0,0) y salida en (W-1, H-1). Hay celdas con lápidas (bloqueadas) y E agujeros embrujados (teletransportan unidireccionalmente a otra celda en tiempo T, con -10000 &lt;= T &lt;= 10000). Al alcanzar la salida, John escapa inmediatamente (sin aristas salientes). Hallar el tiempo mínimo para escapar: si puede viajar en el tiempo indefinidamente hacia atrás sin pasar por la salida, imprimir 'Never'; si no puede alcanzar la salida, 'Impossible'; si no, el tiempo mínimo.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Bellman-Ford en Cuadrícula 2D con Detección de Ciclos Negativos. Cada celda de pasto tiene 4 aristas de peso +1 a vecinos transitables; cada agujero embrujado reemplaza sus salidas por un único arco dirigido de peso T. Se realizan V = W * H relajaciones. Si en la pasada V alguna celda alcanzable aún puede reducir su distancia, existe un ciclo temporal negativo alcanzable ('Never').
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O((W * H)^2) por caso</span>
+          <span><strong>Espacio:</strong> O(W * H)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cstring&gt;
+using namespace std;
+
+const int INF = 1e9;
+int W, H;
+int mapa[35][35]; // 0: pasto, -1: lapida, 1: portal embrujado
+int dist[35][35];
+int destX[35][35], destY[35][35], tiempo[35][35];
+
+bool BellmanFord(int V) {
+    bool ciclo_negativo = false;
+    for (int i = 0; i &lt; V; i++) {
+        for (int x = 0; x &lt; W; x++) {
+            for (int y = 0; y &lt; H; y++) {
+                if (dist[x][y] == INF) continue; // Inalcanzable
+                if (mapa[x][y] == -1) continue;  // Obstaculo
+                if (x == W - 1 &amp;&amp; y == H - 1) continue; // Salida: abandona el cementerio
+
+                if (mapa[x][y] == 1) { // Portal embrujado con tiempo T
+                    int nx = destX[x][y], ny = destY[x][y], t = tiempo[x][y];
+                    if (dist[nx][ny] &gt; dist[x][y] + t) {
+                        dist[nx][ny] = dist[x][y] + t;
+                        if (i == V - 1) ciclo_negativo = true;
+                    }
+                } else { // Celda normal de pasto (aristas en 4 direcciones de peso 1)
+                    int dx[] = {1, -1, 0, 0}, dy[] = {0, 0, 1, -1};
+                    for (int j = 0; j &lt; 4; j++) {
+                        int nx = x + dx[j], ny = y + dy[j];
+                        if (nx &gt;= 0 &amp;&amp; nx &lt; W &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; H &amp;&amp; mapa[nx][ny] != -1) {
+                            if (dist[nx][ny] &gt; dist[x][y] + 1) {
+                                dist[nx][ny] = dist[x][y] + 1;
+                                if (i == V - 1) ciclo_negativo = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return ciclo_negativo;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    while (cin &gt;&gt; W &gt;&gt; H &amp;&amp; (W != 0 || H != 0)) {
+        int V = W * H;
+        memset(mapa, 0, sizeof(mapa));
+        for (int x = 0; x &lt; W; x++)
+            for (int y = 0; y &lt; H; y++) dist[x][y] = INF;
+        dist[0][0] = 0;
+
+        int G; cin &gt;&gt; G;
+        for (int i = 0; i &lt; G; i++) {
+            int gx, gy; cin &gt;&gt; gx &gt;&gt; gy;
+            mapa[gx][gy] = -1;
+        }
+
+        int E; cin &gt;&gt; E;
+        for (int i = 0; i &lt; E; i++) {
+            int x1, y1, x2, y2, t;
+            cin &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2 &gt;&gt; t;
+            mapa[x1][y1] = 1;
+            destX[x1][y1] = x2; destY[x1][y1] = y2; tiempo[x1][y1] = t;
+        }
+
+        bool neg_cycle = BellmanFord(V);
+        if (neg_cycle) cout &lt;&lt; "Never\n";
+        else if (dist[W - 1][H - 1] == INF) cout &lt;&lt; "Impossible\n";
+        else cout &lt;&lt; dist[W - 1][H - 1] &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+    <div class="exercise-card" id="L5_G">
+      <div class="ex-header">
+        <div class="ex-title-wrap">
+          <span class="ex-num">#68</span>
+          <span class="ex-title">Single Source Shortest Path, Negative Weights</span>
+        </div>
+        <span class="ex-badge ">Listado 5 #G</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-info">
+          <strong>Problema:</strong> Dado un grafo dirigido con n nodos (1 &lt;= n &lt;= 1000) y m aristas (0 &lt;= m &lt;= 5000) con pesos potencialmente negativos (-2000 &lt;= w &lt;= 2000), responder q consultas de distancia mínima desde la fuente s hasta un nodo destino v. Si v es inalcanzable, imprimir 'Impossible'; si el camino puede ser arbitrariamente corto por ciclos negativos alcanzables, imprimir '-Infinity'; en otro caso, imprimir la distancia mínima. Casos terminan en 0 0 0 0.
+        </div>
+        <div class="ex-info">
+          <strong>Técnica:</strong> Bellman-Ford en 2 Fases (Cálculo de Distancias + Propagación de Ciclo Negativo). Fase 1: n-1 iteraciones de relajación de aristas calculando distancias mínimas acotadas. Fase 2: n-1 iteraciones adicionales donde si un nodo predecesor es alcanzable y puede relajarse o ya está infectado por un ciclo negativo, propaga `neg[v] = true` a todos los nodos alcanzables aguas abajo.
+        </div>
+        <div class="ex-meta-row">
+          <span><strong>Tiempo:</strong> O(n * m) por caso</span>
+          <span><strong>Espacio:</strong> O(n + m)</span>
+        </div>
+        <pre class="ex-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+const int INF = 1e9;
+int U[5005], V[5005], W[5005];
+int dist[1005];
+bool neg[1005];
+int n, m;
+
+void BellmanFord(int s) {
+    for (int i = 0; i &lt; n; ++i) {
+        dist[i] = INF;
+        neg[i] = false;
+    }
+    dist[s] = 0;
+
+    // Fase 1: Calcular distancias minimas normales (n - 1 iteraciones)
+    for (int i = 0; i &lt; n - 1; ++i) {
+        for (int j = 0; j &lt; m; ++j) {
+            if (dist[U[j]] != INF &amp;&amp; dist[U[j]] + W[j] &lt; dist[V[j]]) {
+                dist[V[j]] = dist[U[j]] + W[j];
+                if (dist[V[j]] &lt; -INF) dist[V[j]] = -INF;
+            }
+        }
+    }
+
+    // Fase 2: Detectar y propagar ciclos negativos alcanzables (n - 1 iteraciones)
+    for (int i = 0; i &lt; n - 1; ++i) {
+        for (int j = 0; j &lt; m; ++j) {
+            if (dist[U[j]] != INF &amp;&amp; (neg[U[j]] || dist[U[j]] + W[j] &lt; dist[V[j]])) {
+                neg[V[j]] = true;
+            }
+        }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int q, s;
+    bool primero = true;
+    while (cin &gt;&gt; n &gt;&gt; m &gt;&gt; q &gt;&gt; s &amp;&amp; (n != 0 || m != 0 || q != 0 || s != 0)) {
+        for (int i = 0; i &lt; m; ++i) cin &gt;&gt; U[i] &gt;&gt; V[i] &gt;&gt; W[i];
+
+        BellmanFord(s);
+
+        if (!primero) cout &lt;&lt; "\n";
+        primero = false;
+
+        for (int i = 0; i &lt; q; ++i) {
+            int v; cin &gt;&gt; v;
+            if (neg[v]) cout &lt;&lt; "-Infinity\n";
+            else if (dist[v] == INF) cout &lt;&lt; "Impossible\n";
+            else cout &lt;&lt; dist[v] &lt;&lt; "\n";
+        }
+    }
     return 0;
 }</code></pre>
       </div>
